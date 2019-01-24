@@ -8,6 +8,7 @@ import { SigninComponent } from './signin/signin.component';
 import { routing } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ListviewComponent } from './listview/listview.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HomeComponent,
     SigninComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    ListviewComponent
   ],
   imports: [
     BrowserModule,

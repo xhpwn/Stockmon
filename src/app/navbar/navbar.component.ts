@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   constructor() {
-    let loggedin : boolean = false;
    }
 
   ngOnInit() {
+    let loggedin : boolean = true;
   }
 
 }
