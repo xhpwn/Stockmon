@@ -23,10 +23,12 @@
           Account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Dashboard</a>
+          <a routerLink="/dashboard" class="dropdown-item">Dashboard</a>
           <a class="dropdown-item" href="#">Preferences</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Logout</a>
+          <div *ngIf="!loggedin" class="dropdown-divider"></div>
+          <a routerLink="/signin" *ngIf="!loggedin" class="dropdown-item">Login</a>
+          <div *ngIf="loggedin" class="dropdown-divider"></div>
+          <a *ngIf="loggedin" class="dropdown-item" href="#">Logout</a>
         </div>
       </li>
     </ul>
