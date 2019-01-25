@@ -1,11 +1,7 @@
-<div style="width: 40%;">
-  <canvas
-      baseChart
-      [chartType]="'line'"
-      [datasets]="chartData"
-      [labels]="chartLabels"
-      [options]="chartOptions"
-      [legend]="true"
-      (chartClick)="onChartClick($event)">
-  </canvas>
+<div class="page">
+    <div class="card" style="width: 18rem;">
+        <ul *ngFor="let each of heroes" class="list-group list-group-flush">
+          <li class="list-group-item">{{ each.name }}</li>
+        </ul>
+      </div>
 </div>

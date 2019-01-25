@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -33,7 +32,6 @@ import { NewsComponent } from './news/news.component';
   ],
   imports: [
     BrowserModule,
-    ChartsModule,
     routing
   ],
   providers: [],
