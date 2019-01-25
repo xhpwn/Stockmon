@@ -9,6 +9,11 @@ import { routing } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListviewComponent } from './listview/listview.component';
+import { StocksComponent } from './stocks/stocks.component';
+import { CryptoComponent } from './crypto/crypto.component';
+import { ForexComponent } from './forex/forex.component';
+import { PreferencesComponent } from './preferences/preferences.component';
+import { NewsComponent } from './news/news.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +23,12 @@ import { ListviewComponent } from './listview/listview.component';
     SigninComponent,
     RegisterComponent,
     DashboardComponent,
-    ListviewComponent
+    ListviewComponent,
+    StocksComponent,
+    CryptoComponent,
+    ForexComponent,
+    PreferencesComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
