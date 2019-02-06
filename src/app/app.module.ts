@@ -15,6 +15,7 @@ import { CryptoComponent } from './crypto/crypto.component';
 import { ForexComponent } from './forex/forex.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { NewsComponent } from './news/news.component';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NewsComponent } from './news/news.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    routing
+    routing,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
