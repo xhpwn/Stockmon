@@ -6,9 +6,7 @@ import { AuthData } from "./auth-data.model";
 
 export class AuthService {
 
-    constructor(private http: Http) {
-
-    }
+    constructor(private http: Http) {}
 
     createUser(name: string, email: string, password: string) {
         const authData: AuthData = { name: name, email: email, password: password };
@@ -18,4 +16,13 @@ export class AuthService {
                 console.log(response);
             })
     }
+
+    signin(email: string, password: string) {
+        const authData: AuthData = { name: 'Test user', email: email, password: password };
+        this.http.post("http://localhost:3000/api/user/signin", authData)
+            .subscribe(response => {
+                console.log(response);
+            });
+    }
+
 }
