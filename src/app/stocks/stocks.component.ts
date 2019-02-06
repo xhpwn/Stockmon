@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authservice';
+import { StockService } from '../stockservice';
 
 @Component({
   selector: 'app-stocks',
@@ -8,10 +9,10 @@ import { AuthService } from '../authservice';
 })
 export class StocksComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  constructor(public stockService: StockService) { }
 
   ngOnInit() {
-    this.authService.getStocks();
+    this.stockService.getInfocus();
   }
 
 }

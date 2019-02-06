@@ -25,11 +25,4 @@ export class AuthService {
             });
     }
 
-    getStocks() {
-        this.http.get("https://api.iextrading.com/1.0/stock/market/list/infocus")
-            .subscribe(response => {
-                console.log(response);
-            })
-    }
-
 }
