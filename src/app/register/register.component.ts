@@ -15,6 +15,9 @@ export class RegisterComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    if (form.value.password !== form.value.password2) {
+      return;
+    }
     console.log(form.value);
     this.authService.createUser(form.value.name, form.value.email, form.value.password);
   }
