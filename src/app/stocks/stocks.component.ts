@@ -9,10 +9,17 @@ import { StockService } from '../stockservice';
 })
 export class StocksComponent implements OnInit {
 
+  inFocus;
+
   constructor(public stockService: StockService) { }
 
   ngOnInit() {
-    this.stockService.getInfocus();
+    this.stockService.getInfocus()
+      .subscribe(data => {
+        this.inFocus = data
+        this.inFocus = JSON.parse(this.inFocus._body);
+        console.log(this.inFocus[0]);
+    });
   }
 
 }

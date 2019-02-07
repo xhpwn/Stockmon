@@ -6,6 +6,12 @@ import { AuthData } from "./auth-data.model";
 
 export class AuthService {
 
+    private token: string;
+
+    getToken() {
+        return this.token;
+    }
+
     constructor(private http: Http) {}
 
     createUser(name: string, email: string, password: string) {

@@ -6,13 +6,12 @@ import { AuthData } from "./auth-data.model";
 
 export class StockService {
 
+    stocksList;
+
     constructor(private http: Http) {}
 
     getInfocus() {
-        this.http.get("http://localhost:3000/api/stocks/getinfocus")
-        .subscribe(response => {
-            console.log(response);
-        })
+        return this.http.get("http://localhost:3000/api/stocks/getinfocus");
     }
 
 }
