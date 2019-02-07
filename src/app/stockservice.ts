@@ -9,7 +9,7 @@ export class StockService {
     constructor(private http: Http) {}
 
     getInfocus() {
-        this.http.get("https://api.iextrading.com/1.0/stock/market/list/infocus")
+        this.http.get("http://localhost:3000/api/stocks/getinfocus")
         .subscribe(response => {
             console.log(response);
         })
