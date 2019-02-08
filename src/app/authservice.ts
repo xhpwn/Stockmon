@@ -6,10 +6,15 @@ import { AuthData } from "./auth-data.model";
 
 export class AuthService {
 
-    private token: string;
+    token: string;
+    name: string;
 
     getToken() {
         return this.token;
+    }
+
+    getName() {
+        return this.name;
     }
 
     constructor(private http: Http) {}
@@ -27,7 +32,9 @@ export class AuthService {
         const authData: AuthData = { name: 'Test user', email: email, password: password };
         this.http.post("http://localhost:3000/api/user/signin", authData)
             .subscribe(response => {
+                let data = JSON.stringify(response);
                 console.log(response);
+                this.name = (JSON.parse(JSON.parse(data)._body)).name;
             });
     }
 

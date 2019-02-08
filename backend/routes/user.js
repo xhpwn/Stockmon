@@ -39,7 +39,8 @@ router.post("/signin", async (req, res, next) => {
     "Z{D-_$mk:m#WAlywFR?'TR*09s'5a`Czz$pG&#oo#x%d4|f&GNi2+,zN3?~ zL80,)pdu:Wy\{Ntm%Jk[6nQcM-fYe/.C9@6k!iig5I'B-WYh^xtybS;b;Nv#H$tw_?Q", 
     { expiresIn: "1h"} );
     res.status(200).json({
-    token: token
+    token: token,
+    name: user.name
     });
     }
     catch (err) {

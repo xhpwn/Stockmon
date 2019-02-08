@@ -6,8 +6,6 @@ import { AuthData } from "./auth-data.model";
 
 export class StockService {
 
-    stocksList;
-
     constructor(private http: Http) {}
 
     getInfocus() {
