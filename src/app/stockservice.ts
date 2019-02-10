@@ -20,4 +20,8 @@ export class StockService {
     return this.http.get("http://localhost:3000/api/stocks/getlosers");
   }
 
+  getTest() {
+    return this.http.get("http://localhost:3000/api/stocks/test");
+  }
+
 }

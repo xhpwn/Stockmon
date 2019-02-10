@@ -37,6 +37,16 @@ router.get("/getlosers", (req, res, next) => {
     });
 });
 
+router.get("/test", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/aapl/chart/1y")
+    .then(response => {
+      res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 
 
 module.exports = router;

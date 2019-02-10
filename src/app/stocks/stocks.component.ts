@@ -12,6 +12,7 @@ export class StocksComponent implements OnInit {
   inFocus;
   gainers;
   losers;
+  test;
 
   constructor(public stockService: StockService) { }
 
@@ -33,6 +34,12 @@ export class StocksComponent implements OnInit {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers[0]);
+      });
+      this.stockService.getTest()
+      .subscribe(data => {
+        this.test = data;
+        this.test = JSON.parse(this.test._body);
+        console.log(this.test);
       });
   }
 }
