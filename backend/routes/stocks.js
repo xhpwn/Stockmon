@@ -17,5 +17,26 @@ router.get("/getinfocus", (req, res, next) => {
     });
 });
 
+router.get("/getgainers", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/market/list/gainers")
+    .then(response => {
+      res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/getlosers", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/market/list/losers")
+    .then(response => {
+      res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+
 
 module.exports = router;

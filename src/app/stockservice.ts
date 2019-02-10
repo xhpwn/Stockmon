@@ -6,10 +6,18 @@ import { AuthData } from "./auth-data.model";
 
 export class StockService {
 
-    constructor(private http: Http) {}
+  constructor(private http: Http) {}
 
-    getInfocus() {
-        return this.http.get("http://localhost:3000/api/stocks/getinfocus");
-    }
+  getInfocus() {
+    return this.http.get("http://localhost:3000/api/stocks/getinfocus");
+  }
+
+  getGainers() {
+    return this.http.get("http://localhost:3000/api/stocks/getgainers");
+  }
+
+  getLosers() {
+    return this.http.get("http://localhost:3000/api/stocks/getlosers");
+  }
 
 }
