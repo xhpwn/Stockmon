@@ -5,7 +5,7 @@ import { StockService } from '../stockservice';
 @Component({
   selector: 'app-stocks',
   templateUrl: './stocks.component.html',
-  styleUrls: ['./stocks.component.css']
+  styleUrls: ['./stocks.component.css'],
 })
 export class StocksComponent implements OnInit {
 
@@ -13,8 +13,46 @@ export class StocksComponent implements OnInit {
   gainers;
   losers;
   test;
+  dataSource: Object;
+  constructor(public stockService: StockService) { 
 
-  constructor(public stockService: StockService) { }
+    this.dataSource = {
+      chart: {
+        "caption": "Total footfall in Bakersfield Central",
+        "subCaption": "Last week",
+        "xAxisName": "Day",
+        "yAxisName": "No. of Visitors",
+        "theme": "fusion"
+      },
+      // Chart Data
+      "data": [{
+          "label": "Venezuela",
+          "value": "290"
+      }, {
+          "label": "Saudi",
+          "value": "260"
+      }, {
+          "label": "Canada",
+          "value": "180"
+      }, {
+          "label": "Iran",
+          "value": "140"
+      }, {
+          "label": "Russia",
+          "value": "115"
+      }, {
+          "label": "UAE",
+          "value": "100"
+      }, {
+          "label": "US",
+          "value": "30"
+      }, {
+          "label": "China",
+          "value": "30"
+      }]
+  };
+
+  }
 
   ngOnInit() {
     this.stockService.getInfocus()
