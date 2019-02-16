@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Testability } from '@angular/core';
 import { AuthService } from '../authservice';
 import { StockService } from '../stockservice';
 
@@ -13,17 +13,27 @@ export class StocksComponent implements OnInit {
   gainers;
   losers;
   test;
+  x = this.test.value;
   dataSource: Object;
+  
   constructor(public stockService: StockService) { 
 
     this.dataSource = {
       chart: {
-        "caption": "Total footfall in Bakersfield Central",
+        "caption": "AAPL",
         "subCaption": "Last week",
-        "xAxisName": "Day",
-        "yAxisName": "No. of Visitors",
-        "theme": "fusion"
+        "xAxisName": "Date",
+        "yAxisName": "$(USD)",
+        paletteColors : "#0372AB",
+        "theme": "ocean"
       },
+
+     // "data": this.test.date;
+     /* x.array.forEach(function (key,value){
+        
+      }
+        
+      });*/
       // Chart Data
       "data": [{
           "label": "Venezuela",
