@@ -40,11 +40,13 @@
     [dataSource]="dataSource">
 </fusioncharts> 
 </div> -->
-<button (click)="setTime('1y')"></button>
+<button (click)="setTime('LIVE')"></button>
 <button (click)="setTime('1m')"></button>
 <button (click)="setTime('1d')"></button>
+<button (click)="setTime('1y')"></button>
 <button (click)="setTime('5y')"></button>
 
-<div *ngIf="selectedStock != null">
+<div *ngIf="selectedStock != null && selectedTime=='1y'">
+    XXX
         <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
-        </div>
+</div>
