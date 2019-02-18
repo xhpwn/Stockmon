@@ -19,6 +19,7 @@ import { ForexComponent } from './forex/forex.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { NewsComponent } from './news/news.component';
 import { HttpModule } from '@angular/http';
+import { ChartComponent } from './chart/chart.component';
 
 
 FusionChartsModule.fcRoot(FusionCharts,Line);
@@ -36,7 +37,8 @@ FusionChartsModule.fcRoot(FusionCharts,Line);
     CryptoComponent,
     ForexComponent,
     PreferencesComponent,
-    NewsComponent
+    NewsComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,

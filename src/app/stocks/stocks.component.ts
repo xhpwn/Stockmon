@@ -8,12 +8,13 @@ import { StockService } from '../stockservice';
   styleUrls: ['./stocks.component.css'],
 })
 export class StocksComponent implements OnInit {
-
+  selectedStock: Object;
   inFocus;
   gainers;
   losers;
   test;
   dataSource: Object;
+  selectedTime = "1y";
   constructor(public stockService: StockService) { 
 
     this.dataSource = {
@@ -80,4 +81,11 @@ export class StocksComponent implements OnInit {
         console.log(this.test);
       });
   }
+
+  onSelect(stock: Object):void {
+    this.selectedStock = stock;
+} 
+ setTime(time: string):void {
+  this.selectedTime = time;
+}
 }
