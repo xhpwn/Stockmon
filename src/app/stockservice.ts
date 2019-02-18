@@ -23,5 +23,11 @@ export class StockService {
   getTest() {
     return this.http.get("http://localhost:3000/api/stocks/test");
   }
+  
+  getChartData(symbol: string, timeFrame: string) {
+    let query = "http://localhost:3000/api/stocks/getChartData?symbol=" + symbol + "&time=" + timeFrame;
+    return this.http.get(query);
+}
+  
 
 }

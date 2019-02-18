@@ -16,7 +16,7 @@ export class StocksComponent implements OnInit {
   dataSource: Object;
   selectedTime = "1y";
   constructor(public stockService: StockService) { 
-
+/*
     this.dataSource = {
       chart: {
         "caption": "Total footfall in Bakersfield Central",
@@ -51,7 +51,7 @@ export class StocksComponent implements OnInit {
           "label": "China",
           "value": "30"
       }]
-  };
+    };*/
 
   }
 
@@ -80,6 +80,12 @@ export class StocksComponent implements OnInit {
         this.test = JSON.parse(this.test._body);
         console.log(this.test);
       });
+      this.stockService.getChartData("aapl", "1y")
+      .subscribe(data => {
+        this.test = data;
+        this.test = JSON.parse(this.test._body);
+        console.log(this.test);
+});
   }
 
   onSelect(stock: Object):void {
