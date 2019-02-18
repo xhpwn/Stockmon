@@ -2,6 +2,7 @@ const express = require('express');
 const https = require('https');
 const axios = require('axios');
 const json = require('circular-json');
+const url = require('url');
 
 const User = require('../models/user');
 
@@ -41,6 +42,23 @@ router.get("/test", (req, res, next) => {
   axios.get("https://api.iextrading.com/1.0/stock/aapl/chart/1y")
     .then(response => {
       res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/getchartdata", (req, res, next) => {
+  let data = new Array();
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol +  "/chart/" + req.query.time;
+  axios.get(url)
+    .then(response => {
+      response.data.forEach(element => {
+        let obj = { "label" : element.date, "value" : element.close }
+        data.push(obj)
+      });
+      console.log(data);
+      res.status(200).send(json.stringify(data));
     })
     .catch(err => {
       console.log(err);
