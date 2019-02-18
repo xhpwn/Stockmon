@@ -57,7 +57,6 @@ router.get("/getchartdata", (req, res, next) => {
         let obj = { "label" : element.date, "value" : element.close }
         data.push(obj)
       });
-      console.log(data);
       res.status(200).send(json.stringify(data));
     })
     .catch(err => {

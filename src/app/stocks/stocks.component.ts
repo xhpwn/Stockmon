@@ -35,7 +35,7 @@ export class StocksComponent implements OnInit {
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers[0]);
       });
-      this.stockService.getTest()
+    this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
