@@ -40,7 +40,8 @@ router.post("/signin", async (req, res, next) => {
     { expiresIn: "1h"} );
     res.status(200).json({
     token: token,
-    name: user.name
+    name: user.name,
+    userId: user._id
     });
     }
     catch (err) {
