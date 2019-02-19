@@ -8,13 +8,9 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-/* THINGS TO THINK ABOUT: 
-    1. What if the user is trying to add the same stock?
-    2. Should I send a message back to user if the stock was successfully added to the list?
-*/
 router.post("/addstock", (req, res, next) => {
-  console.log(req.body.email)
-  console.log(req.body.company)
+  // console.log(req.body.email)
+  // console.log(req.body.company)
   User.find({ "email": req.body.email }, function (err, obj) {
     if (err) {
       res.send(err)
@@ -23,7 +19,7 @@ router.post("/addstock", (req, res, next) => {
       // console.log(obj)
       var updatedStocks = obj[0].stocks
       let index = updatedStocks.indexOf(req.body.company)
-      console.log("index = " + index)
+      // console.log("index = " + index)
       if (index === -1) {
         updatedStocks.push(req.body.company)
         User.updateOne({ "email": req.body.email }, { $set: { "stocks": updatedStocks } })
@@ -101,11 +97,11 @@ router.get("/test", (req, res, next) => {
 
 router.get("/getchartdata", (req, res, next) => {
   let data = new Array();
-  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol +  "/chart/" + req.query.time;
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/chart/" + req.query.time;
   axios.get(url)
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "label" : element.date, "value" : element.close }
+        let obj = { "label": element.date, "value": element.close }
         data.push(obj)
       });
       res.status(200).send(json.stringify(data));
