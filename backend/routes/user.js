@@ -31,6 +31,7 @@ router.post("/register", (req, res, next) => {
 
 router.post("/signin", async (req, res, next) => {
     try {
+<<<<<<< HEAD
         let user = await User.findOne({ email: req.body.email });
         if (!user)
             return res.status(401).send("Auth Failed");
@@ -47,6 +48,20 @@ router.post("/signin", async (req, res, next) => {
             token: token,
             name: user.name
         });
+=======
+    let user = await User.findOne({email: req.body.email});
+    if (!user) return res.status(401).send("Auth Failed");
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(401).send("Auth Failed");
+    const token = jwt.sign({email: user.email, userId: user._id}, 
+    "Z{D-_$mk:m#WAlywFR?'TR*09s'5a`Czz$pG&#oo#x%d4|f&GNi2+,zN3?~ zL80,)pdu:Wy\{Ntm%Jk[6nQcM-fYe/.C9@6k!iig5I'B-WYh^xtybS;b;Nv#H$tw_?Q", 
+    { expiresIn: "1h"} );
+    res.status(200).json({
+    token: token,
+    name: user.name,
+    userId: user._id
+    });
+>>>>>>> 2d8fa25239889d49bb39a6e401e70d1885499331
     }
     catch (err) {
         res.status(401).send("Auth Failed");
