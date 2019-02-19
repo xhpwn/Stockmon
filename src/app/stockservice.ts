@@ -6,7 +6,7 @@ import { AuthData } from "./auth-data.model";
 
 export class StockService {
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   getInfocus() {
     return this.http.get("http://localhost:3000/api/stocks/getinfocus");
@@ -22,6 +22,10 @@ export class StockService {
 
   getTest() {
     return this.http.get("http://localhost:3000/api/stocks/test");
+  }
+
+  getLogo(company: string) {
+    return this.http.get("http://localhost:3000/api/stocks/getlogo?company=" + company);
   }
 
   getChartData(symbol: string, timeFrame: string) {

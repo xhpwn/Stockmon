@@ -67,5 +67,7 @@
 </div>
 
 <div *ngIf="show == 4">
-    <img src="https://storage.googleapis.com/iex/api/logos/AAPL.png">
+    <input name="name" [(ngModel)]='company' id="compName">
+    <button id="logoButton" (click)="getLogo()">Get Logo</button>
+    <img src="">
 </div>

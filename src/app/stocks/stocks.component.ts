@@ -9,14 +9,29 @@ import { StockService } from '../stockservice';
 })
 export class StocksComponent implements OnInit {
 
+  company: string
+
   show = 1;
 
   inFocus;
   gainers;
   losers;
   test;
+  logoUrl
 
   constructor(public stockService: StockService) { }
+
+  getLogo() {
+    // console.log("inside getLogo()")
+    // let comp = document.getElementById("compName").innerText
+    console.log(this.company)
+    this.stockService.getLogo(this.company)
+      .subscribe(data => {
+        this.logoUrl = data
+        this.logoUrl = JSON.parse(this.logoUrl._body)
+        console.log(this.logoUrl)
+      })
+  }
 
   ngOnInit() {
     this.stockService.getInfocus()
