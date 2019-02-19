@@ -9,6 +9,8 @@ import { StockService } from '../stockservice';
 })
 export class StocksComponent implements OnInit {
 
+  show = 1;
+
   inFocus;
   gainers;
   losers;
@@ -35,11 +37,10 @@ export class StocksComponent implements OnInit {
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers[0]);
       });
-      this.stockService.getTest()
-      .subscribe(data => {
-        this.test = data;
-        this.test = JSON.parse(this.test._body);
-        console.log(this.test);
-      });
   }
+
+  showSelector(selector) {
+    this.show = selector;
+  }
+
 }
