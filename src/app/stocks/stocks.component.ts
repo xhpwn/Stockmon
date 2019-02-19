@@ -14,9 +14,9 @@ export class StocksComponent implements OnInit {
   inFocus;
   gainers;
   losers;
-  test;
+  following;
 
-  constructor(public stockService: StockService) { }
+  constructor(public stockService: StockService, private authService: AuthService) { }
 
   ngOnInit() {
     this.stockService.getInfocus()
@@ -36,6 +36,12 @@ export class StocksComponent implements OnInit {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers[0]);
+      });
+      this.stockService.getFollowingList(this.authService.getUserId())
+        .subscribe(data => {
+          this.following = data;
+        this.following = JSON.parse(this.following._body);
+        console.log(this.following);
       });
   }
 

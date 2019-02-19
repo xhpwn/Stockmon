@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { AuthData } from "./auth-data.model";
+import { AuthService } from "./authservice";
 
 @Injectable({ providedIn: "root" })
 
@@ -27,6 +28,11 @@ export class StockService {
   getChartData(symbol: string, timeFrame: string) {
     let query = "http://localhost:3000/api/stocks/getChartData?symbol=" + symbol + "&time=" + timeFrame;
     return this.http.get(query);
+  }
+
+  getFollowingList(userid) {
+    const body = { 'id' : userid };
+    return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
   }
 
 }
