@@ -8,7 +8,31 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-router.post("/addstock", (req, res, next) => {
+router.post("/addFollowingStock", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/" + req.body.company + "/company")
+    .then(response => {
+
+      User.findOne({ "email": req.body.email }, function (err, obj) {
+        console.log(obj)
+        var stockData = obj.stocks
+        let newEntry = {
+          "symbol": response.data.symbol,
+          "company": response.data.companyName
+        }
+        stockData.push(newEntry)
+
+        User.updateOne({ "email": req.body.email }, { $set: { "stocks": stockData } })
+          .then(
+            res.status(200).send(JSON.stringify(obj))
+          )
+      })
+    })
+    .catch(err => {
+      res.send(err)
+    })
+});
+
+router.post("/removeFollowingStock", (req, res, next) => {
   // console.log(req.body.email)
   // console.log(req.body.company)
   User.find({ "email": req.body.email }, function (err, obj) {
@@ -16,41 +40,23 @@ router.post("/addstock", (req, res, next) => {
       res.send(err)
     }
     else {
-      // console.log(obj)
-      var updatedStocks = obj[0].stocks
-      let index = updatedStocks.indexOf(req.body.company)
-      // console.log("index = " + index)
-      if (index === -1) {
-        updatedStocks.push(req.body.company)
-        User.updateOne({ "email": req.body.email }, { $set: { "stocks": updatedStocks } })
-          .then(
-            res.status(200).send(updatedStocks.toString() + "\nStock has been successfully added")
-          )
-      } else {
-        res.status(200).send("You already follow this stock")
+      // console.log(obj[0].stocks[0])
+      var stockData = obj[0].stocks
+      var index = 0
+      for (i = 0; i < stockData.length; i++) {
+        var currentEntry = stockData[i]
+        if (currentEntry.symbol === req.body.company) {
+          index = i
+          break;
+        }
       }
-    }
-  })
-});
-
-router.post("/removestock", (req, res, next) => {
-  console.log(req.body.email)
-  console.log(req.body.company)
-  User.find({ "email": req.body.email }, function (err, obj) {
-    if (err) {
-      res.send(err)
-    }
-    else {
-      var updatedStocks = obj[0].stocks
-      let index = updatedStocks.indexOf(req.body.company)
-      updatedStocks.splice(index, 1)
-      User.updateOne({ "email": req.body.email }, { $set: { "stocks": updatedStocks } })
+      stockData.splice(index, 1)
+      User.updateOne({ "email": req.body.email }, { $set: { "stocks": stockData } })
         .then(
-          res.send("Your stock is removed")
+          res.send(stockData + "updated")
         )
-        .catch(err => {
-          res.send(err)
-        })
+      // let index = stockData.indexOf(req.body.company)
+      // console.log("index is " + index)
     }
   })
 });
