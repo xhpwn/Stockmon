@@ -25,10 +25,10 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a routerLink="/dashboard" class="dropdown-item">Dashboard</a>
           <a routerLink="/preferences" class="dropdown-item" href="#">Preferences</a>
-          <div *ngIf="!loggedin" class="dropdown-divider"></div>
-          <a routerLink="/signin" *ngIf="!loggedin" class="dropdown-item">Login</a>
-          <div *ngIf="loggedin" class="dropdown-divider"></div>
-          <a *ngIf="loggedin" class="dropdown-item" href="#">Logout</a>
+          <div *ngIf="!isLoggedIn" class="dropdown-divider"></div>
+          <a routerLink="/signin" *ngIf="!isLoggedIn" class="dropdown-item">Login</a>
+          <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+          <a *ngIf="isLoggedIn" class="dropdown-item" (click)="logout()">Logout</a>
         </div>
       </li>
     </ul>

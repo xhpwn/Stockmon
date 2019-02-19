@@ -19,6 +19,10 @@ export class SigninComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    this.authService.signin(form.value.email, form.value.password);
+    if (this.authService.getUserId() !== undefined) {
+      this.router.navigate(["/dashboard"]);
+    }
   }
 
 }

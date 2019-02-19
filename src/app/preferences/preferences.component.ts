@@ -11,7 +11,7 @@ export class PreferencesComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    console.log(this.authService.getUserId());
+      console.log(this.authService.getUserId());
   }
 
 }
