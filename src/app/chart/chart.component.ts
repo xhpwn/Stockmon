@@ -15,10 +15,6 @@ export class ChartComponent implements OnInit {
   test;
   newData = new Array();
   counter = 0;
-  flag20;
-  flag21;
-  flag22;
-  cooldown = 4;
 
 
   constructor(public stockService: StockService) {    
@@ -26,7 +22,8 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.stockService.getChartData("cron", "1y")
+
+   this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
    .subscribe(data => {
      this.test = data;
      this.test = JSON.parse(this.test._body);
@@ -36,40 +33,32 @@ export class ChartComponent implements OnInit {
       let temp = {
         "label": element.label, "value": element.value.toString()
       }
-      if(this.counter % 23 ==0 ){
+
+      if(this.time == "1m"){
+        if(this.counter % 2 ==0 ){         // <------------------------ Change 1m skips
+          this.newData.push(temp)
+        }
+        this.counter++;
+      }
+
+      if(this.time == "1y"){
+      if(this.counter % 23 ==0 ){         // <------------------------ Change 1y skips
         this.newData.push(temp)
       }
       this.counter++;
+    }
+
+
+    if(this.time == "5y"){
+      if(this.counter % 200 ==0 ){        // <------------------------ Change 5y skips
+        this.newData.push(temp)
+      }
+      this.counter++;
+    }
+
 /*
 this.flag20 = element.label.includes('-20');
-this.flag21 = element.label.includes('-21');
-this.flag22 = element.label.includes('-22');
 
-console.log(this.flag20);
-      
-      if(this.flag20){
-        this.newData.push(temp)
-        this.cooldown == 4;
-      }
-
-      if(this.flag21){
-        if(this.cooldown < 0)
-        {
-        this.newData.push(temp)
-        this.cooldown == 4;
-      }
-    }
-
-    if(this.flag22){
-      if(this.cooldown < 0)
-      {
-      this.newData.push(temp)
-      this.cooldown == 4;
-    }
-  }
-
-this.cooldown--;
-      /*
       if(this.flag20 == 0 && element.label.includes('-19')){
         this.newData.push(temp)
         this.flag20 = 1;
@@ -92,23 +81,20 @@ this.cooldown--;
 
    this.dataSource = {
      chart: {
-       "caption": "Stock data for cron" ,
+       "caption": "Stock data for " +this.stock["symbol"].toString(),
        "subCaption": " " + this.time,
        "xAxisName": "Time",
        "yAxisName": "$(USD)",
+       "lineColor": "#346474",
+       "bgcolor": "white",
+       "showAlternateHGridColor": 0,
+       "numberPrefix": "$",
        "theme": "gammel"
      },
      // Chart Data
 
      "data": this.newData
- /*
-      { label: "2018-02-20", value: 7.4145 },{ label: "2018-02-21", value: 7.18 },​​
-      { label: "2018-02-22", value: 7.2023 },​​{ label: "2018-02-23", value: 7.0113 },
-      { label: "2018-02-26", value: 7.7602 },​​{ label: "2018-02-27", value: 7.62 },​​
-      { label: "2018-02-28", value: 9.17 },​​{ label: "2018-03-01", value: 9.69 },​​
-      { label: "2018-03-02", value: 9.4 }, {label: "2018-03-05", value: 9.77 }
-     
-    }*/    
+  
  };
 }
 
