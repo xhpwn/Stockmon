@@ -8,6 +8,7 @@ export class AuthService {
 
     token: string;
     name: string;
+    userId: string;
 
     getToken() {
         return this.token;
@@ -15,6 +16,10 @@ export class AuthService {
 
     getName() {
         return this.name;
+    }
+
+    getUserId() {
+        return sessionStorage.userId;
     }
 
     constructor(private http: Http) {}
@@ -35,7 +40,19 @@ export class AuthService {
                 let data = JSON.stringify(response);
                 console.log(response);
                 this.name = (JSON.parse(JSON.parse(data)._body)).name;
+                this.userId = (JSON.parse(JSON.parse(data)._body)).userId;
+                sessionStorage.userId = this.userId;
             });
     }
-
+/*
+    getUserInfo(userId) {
+        const authData: AuthData = { name: 'Test user', email: email, password: password };
+        this.http.post("http://localhost:3000/api/user/signin", authData)
+            .subscribe(response => {
+                let data = JSON.stringify(response);
+                console.log(response);
+                this.name = (JSON.parse(JSON.parse(data)._body)).name;
+            });
+    }
+*/
 }

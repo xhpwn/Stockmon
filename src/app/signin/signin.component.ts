@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, SelectMultipleControlValueAccessor } from '@angular/forms';
 import { AuthService } from '../authservice';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,6 @@ export class SigninComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.authService.signin(form.value.email, form.value.password);
   }
 
 }
