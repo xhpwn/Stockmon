@@ -8,11 +8,37 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-router.post("/addFollowingStock", (req, res, next) => {
-  axios.get("https://api.iextrading.com/1.0/stock/" + req.body.company + "/company")
-    .then(response => {
+router.post("/getfollowing", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    console.log(obj)
+    let newData = new Array();
 
-      User.findOne({ "email": req.body.email }, function (err, obj) {
+    var stockData = obj.stocks
+    console.log(stockData);
+    stockData.forEach(element => {
+      let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
+      axios.get(url)
+        .then(response => {
+          console.log(response.data)
+
+          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data };
+          newData.push(temp);
+          if (stockData.length === 1) {
+            res.status(200).send(json.stringify(newData));
+          }
+          stockData = stockData.filter(function (each) {
+            return each != element
+          })
+          console.log(stockData);
+        })
+    })
+  })
+})
+
+router.post("/addFollowingStock", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company")
+    .then(response => {
+      User.findById(req.body.id, function (err, obj) {
         console.log(obj)
         var stockData = obj.stocks
         let newEntry = {
@@ -21,9 +47,9 @@ router.post("/addFollowingStock", (req, res, next) => {
         }
         stockData.push(newEntry)
 
-        User.updateOne({ "email": req.body.email }, { $set: { "stocks": stockData } })
+        User.findByIdAndUpdate(req.body.id, { $set: { "stocks": stockData } })
           .then(
-            res.status(200).send(JSON.stringify(obj))
+            res.status(200).send(JSON.stringify(obj.stocks))
           )
       })
     })
@@ -35,23 +61,23 @@ router.post("/addFollowingStock", (req, res, next) => {
 router.post("/removeFollowingStock", (req, res, next) => {
   // console.log(req.body.email)
   // console.log(req.body.company)
-  User.find({ "email": req.body.email }, function (err, obj) {
+  User.findById(req.body.id, function (err, obj) {
     if (err) {
       res.send(err)
     }
     else {
       // console.log(obj[0].stocks[0])
-      var stockData = obj[0].stocks
+      var stockData = obj.stocks
       var index = 0
       for (i = 0; i < stockData.length; i++) {
         var currentEntry = stockData[i]
-        if (currentEntry.symbol === req.body.company) {
+        if (currentEntry.symbol === req.body.symbol) {
           index = i
           break;
         }
       }
       stockData.splice(index, 1)
-      User.updateOne({ "email": req.body.email }, { $set: { "stocks": stockData } })
+      User.findByIdAndUpdate(req.body.id, { $set: { "stocks": stockData } })
         .then(
           res.send(stockData + "updated")
         )
