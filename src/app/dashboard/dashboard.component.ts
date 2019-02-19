@@ -18,7 +18,9 @@ export class DashboardComponent implements OnInit {
    }
 
   ngOnInit() {
+    setTimeout(() => console.log('Nav-ed'), 1000);
     this.name = this.authService.getName();
+    console.log(this.name);
     this.name = this.name.substr(0, this.name.indexOf(' '));
   }
 
