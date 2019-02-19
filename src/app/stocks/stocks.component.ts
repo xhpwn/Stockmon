@@ -16,42 +16,6 @@ export class StocksComponent implements OnInit {
   dataSource: Object;
   selectedTime = "1y";
   constructor(public stockService: StockService) { 
-/*
-    this.dataSource = {
-      chart: {
-        "caption": "Total footfall in Bakersfield Central",
-        "subCaption": "Last week",
-        "xAxisName": "Day",
-        "yAxisName": "No. of Visitors",
-        "theme": "fusion"
-      },
-      // Chart Data
-      "data": [{
-          "label": "Venezuela",
-          "value": "290"
-      }, {
-          "label": "Saudi",
-          "value": "260"
-      }, {
-          "label": "Canada",
-          "value": "180"
-      }, {
-          "label": "Iran",
-          "value": "140"
-      }, {
-          "label": "Russia",
-          "value": "115"
-      }, {
-          "label": "UAE",
-          "value": "100"
-      }, {
-          "label": "US",
-          "value": "30"
-      }, {
-          "label": "China",
-          "value": "30"
-      }]
-    };*/
 
   }
 
@@ -78,13 +42,14 @@ export class StocksComponent implements OnInit {
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
-        console.log(this.test);
+       // console.log(this.test);
       });
       this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
-        console.log(this.test);
+        
+      //  console.log(this.test);
 });
   }
 

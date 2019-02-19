@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import FusionCharts from 'fusioncharts/core';
-import Column2D from 'fusioncharts/viz/column2d';
 import Line from 'fusioncharts/viz/line';
-import { AppComponent } from './app.component';
+import Pie2D from 'fusioncharts/viz/pie2d';
+import { GoogleChartsModule } from 'angular-google-charts';import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { SigninComponent } from './signin/signin.component';
@@ -20,9 +20,12 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { NewsComponent } from './news/news.component';
 import { HttpModule } from '@angular/http';
 import { ChartComponent } from './chart/chart.component';
+import { PiechartComponent } from './piechart/piechart.component';
 
 
 FusionChartsModule.fcRoot(FusionCharts,Line);
+//FusionChartsModule.fcRoot(FusionCharts,Pie2D);
+
 
 @NgModule({
   declarations: [
@@ -38,11 +41,13 @@ FusionChartsModule.fcRoot(FusionCharts,Line);
     ForexComponent,
     PreferencesComponent,
     NewsComponent,
-    ChartComponent
+    ChartComponent,
+    PiechartComponent
   ],
   imports: [
     BrowserModule,
     FusionChartsModule,
+    GoogleChartsModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     routing,

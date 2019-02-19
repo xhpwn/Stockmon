@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.name = this.authService.getName();
     this.name = this.name.substr(0, this.name.indexOf(' '));
+
+
   }
 
 }

@@ -18,7 +18,6 @@ export class ChartComponent implements OnInit {
 
 
   constructor(public stockService: StockService) {    
-  console.log(this.time);
   }
 
   ngOnInit() {
@@ -27,11 +26,17 @@ export class ChartComponent implements OnInit {
    .subscribe(data => {
      this.test = data;
      this.test = JSON.parse(this.test._body);
-    // console.log(this.test);   
 
      this.test.forEach(element => {
       let temp = {
         "label": element.label, "value": element.value.toString()
+      }
+
+      if(this.time == "1d"){
+      //  if(this.counter % 2 ==0 ){         // <------------------------ LIVE goes to end
+          this.newData.push(temp)
+       // }
+        this.counter++;
       }
 
       if(this.time == "1m"){
@@ -50,34 +55,16 @@ export class ChartComponent implements OnInit {
 
 
     if(this.time == "5y"){
-      if(this.counter % 200 ==0 ){        // <------------------------ Change 5y skips
+      if(this.counter % 75 ==0 ){        // <------------------------ Change 5y skips
         this.newData.push(temp)
       }
       this.counter++;
     }
-
-/*
-this.flag20 = element.label.includes('-20');
-
-      if(this.flag20 == 0 && element.label.includes('-19')){
-        this.newData.push(temp)
-        this.flag20 = 1;
-      }
-       if(this.flag20 == 0  && element.label.includes('-20')){
-      this.newData.push(temp)
-      this.flag20 = 1;
-      }
-      if(this.flag20 == 0 && element.label.includes('-21')){
-      this.newData.push(temp)
-      this.flag20 = 1;
-      }
- */
-  //   this.flag20 = 0;
-  
+    
     });
+    console.log("EEE");
+    console.log(this.newData);
    });
-
-   console.log("MMMM");    
 
    this.dataSource = {
      chart: {
@@ -92,7 +79,6 @@ this.flag20 = element.label.includes('-20');
        "theme": "gammel"
      },
      // Chart Data
-
      "data": this.newData
   
  };
