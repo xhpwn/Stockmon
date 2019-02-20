@@ -10,39 +10,39 @@ const router = express.Router();
 
 router.post("/increaseshares", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    var portfolioData = obj.portfolio
-    var index = 0
+    var portfolioData = obj.portfolio;
+    var index = 0;
     for (i = 0; i < portfolioData.length; i++) {
       if (portfolioData[i].symbol === req.body.symbol) {
-        index = i
+        index = i;
         break;
       }
     }
-    portfolioData[index].shares += req.body.shares
+    portfolioData[index].shares += req.body.shares;
     User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
       .then(
         res.status(200).send(portfolioData)
       )
   })
-})
+});
 
 router.post("/decreaseshares", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    var portfolioData = obj.portfolio
-    var index = 0
+    var portfolioData = obj.portfolio;
+    var index = 0;
     for (i = 0; i < portfolioData.length; i++) {
       if (portfolioData[i].symbol === req.body.symbol) {
-        index = i
+        index = i;
         break;
       }
     }
-    portfolioData[index].shares -= req.body.shares
+    portfolioData[index].shares -= req.body.shares;
     User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
       .then(
         res.status(200).send(portfolioData)
       )
   })
-})
+});
 
 
 router.post("/getportfolio", (req, res, next) => {
@@ -93,21 +93,21 @@ router.post("/getportfolio", (req, res, next) => {
   //       })
   //   })
   // })
-})
+});
 
 router.post("/addportfolio", (req, res, next) => {
   let url = "https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company";
   axios.get(url)
     .then(response => {
-      console.log(response)
+      console.log(response);
       User.findById(req.body.id, function (err, obj) {
         var portfolioData = obj.portfolio;
         let newEntry = {
           "symbol": response.data.symbol,
           "company": response.data.companyName,
           "shares": req.body.shares
-        }
-        portfolioData.push(newEntry)
+        };
+        portfolioData.push(newEntry);
         // console.log(portfolioData)
         User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
           .then(
@@ -116,7 +116,7 @@ router.post("/addportfolio", (req, res, next) => {
       })
 
     })
-})
+});
 
 router.post("/removeportfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
@@ -124,24 +124,24 @@ router.post("/removeportfolio", (req, res, next) => {
       res.send(err)
     } else {
       // console.log(obj.portfolio)
-      var portfolioData = obj.portfolio
-      var index = 0
+      var portfolioData = obj.portfolio;
+      var index = 0;
       for (i = 0; i < portfolioData.length; i++) {
-        var currentEntry = portfolioData[i]
+        var currentEntry = portfolioData[i];
         if (currentEntry.symbol === req.body.symbol) {
-          index = i
+          index = i;
           break;
         }
       }
 
-      portfolioData.splice(index, 1)
+      portfolioData.splice(index, 1);
       User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
         .then(
           res.status(200).send(portfolioData)
         )
     }
   })
-})
+});
 
 router.post("/getfollowing", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
@@ -282,17 +282,17 @@ router.get("/getchartdata", (req, res, next) => {
     });
 });
 
-router.get("/getnews", (req, res, next) => {
-  //https://api.iextrading.com/1.0/stock/aapl/news
-  let newsData = [];
-  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/news/";
+router.get("/getdescription", (req, res, next) => {
+  //https://api.iextrading.com/1.0/stock/aapl/company
+  let descriptionData = [];
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/company/";
   axios.get(url)
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "Source": element.source, "Summary": element.summary };
-        newsData.push(obj)
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Description": element.description};
+        descriptionData.push(obj)
       });
-      res.status(200).send(json.stringify(newsData));
+      res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
       console.log(err);

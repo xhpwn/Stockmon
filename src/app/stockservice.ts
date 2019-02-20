@@ -35,8 +35,8 @@ export class StockService {
     return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
   }
 
-  getNews() {
-    return this.http.get("http://localhost:3000/api/stocks/getnews");
+  getDescription() {
+    return this.http.get("http://localhost:3000/api/stocks/getdescription");
   }
 
   getPrice(symbol : string) {
