@@ -16,6 +16,7 @@ export class StocksComponent implements OnInit {
   losers;
   following;
   description;
+  errorMessage = "";
 
   constructor(public stockService: StockService, private authService: AuthService) { }
 
@@ -54,6 +55,9 @@ export class StocksComponent implements OnInit {
         .subscribe(data => {
           console.log(data);
         });
+      if (this.following.length === undefined ) {
+        this.errorMessage = "Not following anything."
+      }
 
 
   }
