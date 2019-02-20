@@ -9,7 +9,7 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.get("/getlogo", (req, res, next) => {
-  axios.get("https://api.iextrading.com/1.0/stock/" + req.query.company + "/logo")
+  axios.get("https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/logo")
     .then(response => {
       res.status(200).send(json.stringify(response.data));
     })

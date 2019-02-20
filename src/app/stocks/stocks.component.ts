@@ -9,7 +9,7 @@ import { StockService } from '../stockservice';
 })
 export class StocksComponent implements OnInit {
 
-  company: string
+  symbol: string
 
   show = 1;
 
@@ -24,8 +24,8 @@ export class StocksComponent implements OnInit {
   getLogo() {
     // console.log("inside getLogo()")
     // let comp = document.getElementById("compName").innerText
-    console.log(this.company)
-    this.stockService.getLogo(this.company)
+    // console.log(this.symbol)
+    this.stockService.getLogo(this.symbol)
       .subscribe(data => {
         this.logoUrl = data
         this.logoUrl = JSON.parse(this.logoUrl._body)
