@@ -44,7 +44,7 @@ export class PreferencesComponent implements OnInit {
   }
 
   changeEmail(form: NgForm) {
-    if (!form.invalid) {
+    if (form.invalid) {
       return;
     }
     this.authService.changeEmail(form.value.newemail, form.value.password);

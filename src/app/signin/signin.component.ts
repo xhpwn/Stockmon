@@ -21,7 +21,7 @@ export class SigninComponent implements OnInit {
     }
     this.authService.signin(form.value.email, form.value.password);
     if (this.authService.getUserId() !== undefined) {
-      this.router.navigate(["/dashboard"]);
+      this.router.navigate(["/preferences"]);
     }
   }
 
