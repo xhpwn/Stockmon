@@ -51,6 +51,6 @@
 </div>
 
 
-<div *ngIf="selectedTime == '1d'">
-    getCurrentPrice
+<div *ngIf="selectedTime == '1d'" style="color:green; font-size: 40px">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
 </div>

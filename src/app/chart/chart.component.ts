@@ -15,12 +15,22 @@ export class ChartComponent implements OnInit {
   test;
   newData = new Array();
   counter = 0;
-
+  price;
 
   constructor(public stockService: StockService) {    
   }
 
   ngOnInit() {
+
+    this.stockService.getPrice(this.stock["symbol"])
+    .subscribe(data => {
+      this.price = data;
+      this.price = JSON.parse(this.price._body);
+      console.log("$$$");
+      console.log(data);
+
+      console.log(this.price);
+    })
 
    this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
    .subscribe(data => {
@@ -31,14 +41,14 @@ export class ChartComponent implements OnInit {
       let temp = {
         "label": element.label, "value": element.value.toString()
       }
-
+/*
       if(this.time == "1d"){
       //  if(this.counter % 2 ==0 ){         // <------------------------ LIVE goes to end
-          this.newData.push(temp)
+          this.newData.push(this.price)
        // }
         this.counter++;
       }
-
+*/
       if(this.time == "1m"){
         if(this.counter % 2 ==0 ){         // <------------------------ Change 1m skips
           this.newData.push(temp)

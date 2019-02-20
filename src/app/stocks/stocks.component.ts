@@ -60,6 +60,8 @@ this.stockService.getCurrentData("aapl","1y")
   onSelect(stock: Object):void {
     this.selectedStock = stock;
 } 
+
+
  setTime(time: string):void {
   this.selectedTime = time;
 }

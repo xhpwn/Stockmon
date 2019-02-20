@@ -1,6 +1,12 @@
+<div *ngIf="time != '1d'">
 <fusioncharts
 width="700"
 height="400"
 type="line"
 [dataSource]="dataSource">
 </fusioncharts> 
+</div>
+
+<div *ngIf="time == '1d'">
+${{price}}
+    </div>
