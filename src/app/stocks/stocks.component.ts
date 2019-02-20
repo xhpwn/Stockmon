@@ -15,6 +15,7 @@ export class StocksComponent implements OnInit {
   gainers;
   losers;
   following;
+  news;
 
   constructor(public stockService: StockService, private authService: AuthService) { }
 
@@ -42,6 +43,12 @@ export class StocksComponent implements OnInit {
           this.following = data;
         this.following = JSON.parse(this.following._body);
         console.log(this.following);
+      });
+    this.stockService.getNews()
+      .subscribe(data => {
+        this.news = data;
+        this.news = JSON.parse(this.news._body);
+        console.log(this.news[0]);
       });
   }
 
