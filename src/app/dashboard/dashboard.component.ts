@@ -3,6 +3,7 @@ import { Chart } from 'chart.js';
 import { ListviewComponent } from '../listview/listview.component';
 import { AuthService } from '../authservice';
 import { Subscription } from 'rxjs';
+import { DashboardService } from '../dashboardservice';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,8 +17,11 @@ export class DashboardComponent implements OnInit {
   loggedIn: boolean;
   name: String;
 
-  constructor(private authService : AuthService) {
-   }
+  inFocus;
+  portfolioList;
+
+  constructor(private authService: AuthService, public dashboardService: DashboardService) {
+  }
 
   ngOnInit() {
 
@@ -32,8 +36,13 @@ export class DashboardComponent implements OnInit {
         this.name = obsname;
       });
 
-
+    this.dashboardService.getPortfolio(this.authService.getUserId())
+      .subscribe(data => {
+        // console.log(data)
+        this.portfolioList = data;
+        this.portfolioList = JSON.parse(this.portfolioList._body);
+        console.log(this.portfolioList[0]);
+      });
   }
-
 }
 

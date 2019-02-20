@@ -2,6 +2,38 @@
     <h1 class="text-center mt-4">Please Login.</h1>
 </div>
 <div *ngIf="loggedIn">
-<h1 class="mt-4 text-center">Dashboard</h1>
-<h3 class="mt-4 text-center">Welcome, {{ name }}.</h3>
+    <h1 class="mt-4 text-center">Dashboard</h1>
+    <h3 class="mt-4 text-center">Welcome, {{ name }}.</h3>
+
+    <h1 class="mt-4 text-center">Portfolio</h1>
+    <table class="table table-dark col-sm-5 ml-5 mt-2">
+        <!-- <thead>
+            <tr>
+                <th class="pointer" (click)="showSelector(1)" scope="col">Top Stocks</th>
+                <th class="pointer" (click)="showSelector(2)" scope="col">Top Gains</th>
+                <th class="pointer" (click)="showSelector(3)" scope="col">Top Losses</th>
+                <th class="pointer" (click)="showSelector(4)" scope="col">Following</th>
+            </tr>
+        </thead> -->
+    </table>
+    <div>
+        <table class="table table-dark col-sm-5 ml-5 mt-2">
+            <thead>
+                <tr>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Shares</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let each of portfolioList">
+                <tr class="rows">
+                    <th scope="row">{{ each.symbol }}</th>
+                    <td>{{ each.companyName }}</td>
+                    <td>${{ each.delayedPrice }}</td>
+                    <td>${{ each.shares }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

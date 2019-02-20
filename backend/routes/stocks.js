@@ -50,7 +50,6 @@ router.post("/getportfolio", (req, res, next) => {
     let newData = [];
 
     var portfolioData = obj.portfolio;
-    // console.log(portfolioData);
     portfolioData.forEach(element => {
       let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
       axios.get(url)
@@ -65,10 +64,35 @@ router.post("/getportfolio", (req, res, next) => {
           portfolioData = portfolioData.filter(function (each) {
             return each !== element
           });
-          console.log(portfolioData);
+          // console.log(portfolioData);
         })
     })
   })
+
+  // User.findById(req.body.id, function (err, obj) {
+  //   console.log(obj);
+  //   let newData = [];
+
+  //   var stockData = obj.stocks;
+  //   console.log(stockData);
+  //   stockData.forEach(element => {
+  //     let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
+  //     axios.get(url)
+  //       .then(response => {
+  //         console.log(response.data);
+
+  //         let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data };
+  //         newData.push(temp);
+  //         if (stockData.length === 1) {
+  //           res.status(200).send(json.stringify(newData));
+  //         }
+  //         stockData = stockData.filter(function (each) {
+  //           return each !== element
+  //         });
+  //         console.log(stockData);
+  //       })
+  //   })
+  // })
 })
 
 router.post("/addportfolio", (req, res, next) => {

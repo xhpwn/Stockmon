@@ -7,7 +7,7 @@ import { AuthService } from "./authservice";
 
 export class StockService {
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   getInfocus() {
     return this.http.get("http://localhost:3000/api/stocks/getinfocus");
@@ -31,7 +31,7 @@ export class StockService {
   }
 
   getFollowingList(userid) {
-    const body = { 'id' : userid };
+    const body = { 'id': userid };
     return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
   }
 
