@@ -73,6 +73,7 @@ export class AuthService {
     changeEmail(newEmail: string, password: string) {
         let temp = this.getUserId();
         let body = { userid: temp, email: newEmail, password: password };
+        console.log(body);
         this.http.post("http://localhost:3000/api/user/updateemail", body)
             .subscribe(response => {
                 console.log(response);
@@ -95,15 +96,4 @@ export class AuthService {
         this.isLoginSubject.next(false);
     }
 
-/*
-    getUserInfo(userId) {
-        const authData: AuthData = { name: 'Test user', email: email, password: password };
-        this.http.post("http://localhost:3000/api/user/signin", authData)
-            .subscribe(response => {
-                let data = JSON.stringify(response);
-                console.log(response);
-                this.name = (JSON.parse(JSON.parse(data)._body)).name;
-            });
-    }
-*/
 }

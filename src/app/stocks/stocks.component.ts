@@ -50,6 +50,12 @@ export class StocksComponent implements OnInit {
         this.news = JSON.parse(this.news._body);
         console.log(this.news[0]);
       });
+      this.stockService.getPrice("aapl")
+        .subscribe(data => {
+          console.log(data);
+        });
+
+
   }
 
   showSelector(selector) {

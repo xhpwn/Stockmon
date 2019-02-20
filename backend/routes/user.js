@@ -51,6 +51,7 @@ router.post("/signin", async (req, res, next) => {
 
 router.post("/updateemail", async (req, res, next) => {
     try {
+        console.log("Reached")
         let user = await User.findById(req.body.userid);
         if (!user) return res.status(401).send("Auth Failed 1");
         const validPassword = await bcrypt.compare(req.body.password, user.password);
