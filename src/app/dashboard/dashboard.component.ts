@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ListviewComponent } from '../listview/listview.component';
 import { AuthService } from '../authservice';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,18 +11,28 @@ import { AuthService } from '../authservice';
 })
 export class DashboardComponent implements OnInit {
 
-  name: string;
+  private nameSubs: Subscription;
+  private loginSubs: Subscription;
+  loggedIn: boolean;
+  name: String;
 
   constructor(private authService : AuthService) {
-    let loggedin : boolean = true;
-    let data : String[] = ['Apple', 'Microsoft'];
    }
 
   ngOnInit() {
-    setTimeout(() => console.log('Nav-ed'), 1000);
-    this.name = this.authService.getName();
-    console.log(this.name);
-    this.name = this.name.substr(0, this.name.indexOf(' '));
+
+    this.loginSubs = this.authService.getAuthStatusListener().subscribe(
+      loggedin => {
+        this.loggedIn = loggedin;
+      }
+    );
+
+    this.nameSubs = this.authService.getNameListener().subscribe(
+      obsname => {
+        this.name = obsname;
+      });
+
+
   }
 
 }
