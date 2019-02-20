@@ -232,6 +232,7 @@ router.get("/getinfocus", (req, res, next) => {
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display top performing stocks!");
       console.log(err);
     });
 });
@@ -247,6 +248,7 @@ router.get("/getgainers", (req, res, next) => {
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display the stock gainers!");
       console.log(err);
     });
 });
@@ -262,6 +264,7 @@ router.get("/getlosers", (req, res, next) => {
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display the stock losers!");
       console.log(err);
     });
 });
@@ -278,6 +281,7 @@ router.get("/getchartdata", (req, res, next) => {
       res.status(200).send(json.stringify(data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display chart data!");
       console.log(err);
     });
 });
@@ -295,6 +299,7 @@ router.get("/getdescription", (req, res, next) => {
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display description of stock!");
       console.log(err);
     });
 });
@@ -308,6 +313,7 @@ router.get("/getPrice", (req, res, next) => {
         })
       .catch(err => {
         //console.log(err);
+        res.status(404).send("Cannot display price of stock!");
       });
 });
 
