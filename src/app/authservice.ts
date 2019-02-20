@@ -78,7 +78,7 @@ export class AuthService {
                 console.log(response);
             });
     }
-    
+
     getInfo() {
         let temp = this.getUserId();
         let body = { userid: temp };
