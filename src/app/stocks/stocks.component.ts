@@ -46,8 +46,8 @@ export class StocksComponent implements OnInit {
       });
     this.stockService.getNews()
       .subscribe(data => {
-        this.losers = data;
-        this.losers = JSON.parse(this.losers._body);
+        this.news = data;
+        this.news = JSON.parse(this.news._body);
         console.log(this.news[0]);
       });
   }
