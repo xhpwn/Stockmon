@@ -88,8 +88,13 @@ router.post("/removeFollowingStock", (req, res, next) => {
 });
 
 router.get("/getinfocus", (req, res, next) => {
+  let infocusData = new Array();
   axios.get("https://api.iextrading.com/1.0/stock/market/list/infocus")
     .then(response => {
+      response.data.forEach(element => {
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        infocusData.push(obj)
+      });
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
@@ -98,8 +103,13 @@ router.get("/getinfocus", (req, res, next) => {
 });
 
 router.get("/getgainers", (req, res, next) => {
+  let gainersData = new Array();
   axios.get("https://api.iextrading.com/1.0/stock/market/list/gainers")
     .then(response => {
+      response.data.forEach(element => {
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        gainersData.push(obj)
+      });
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
@@ -108,18 +118,13 @@ router.get("/getgainers", (req, res, next) => {
 });
 
 router.get("/getlosers", (req, res, next) => {
+  let losersData = new Array();
   axios.get("https://api.iextrading.com/1.0/stock/market/list/losers")
     .then(response => {
-      res.status(200).send(json.stringify(response.data));
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-router.get("/test", (req, res, next) => {
-  axios.get("https://api.iextrading.com/1.0/stock/aapl/chart/1y")
-    .then(response => {
+      response.data.forEach(element => {
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        losersData.push(obj)
+      });
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
@@ -133,10 +138,37 @@ router.get("/getchartdata", (req, res, next) => {
   axios.get(url)
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "label": element.date, "value": element.close }
+        let obj = { "label": element.date, "value": element.close };
         data.push(obj)
       });
       res.status(200).send(json.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/getnews", (req, res, next) => {
+  //https://api.iextrading.com/1.0/stock/aapl/news
+  let newsData = new Array();
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/news/";
+  axios.get(url)
+    .then(response => {
+      response.data.forEach(element => {
+        let obj = { "Source": element.source, "Summary": element.summary };
+        newsData.push(obj)
+      });
+      res.status(200).send(json.stringify(newsData));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/test", (req, res, next) => {
+  axios.get("https://api.iextrading.com/1.0/stock/aapl/chart/1y")
+    .then(response => {
+      res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
       console.log(err);
