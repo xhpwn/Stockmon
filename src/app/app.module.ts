@@ -1,11 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FusionChartsModule } from 'angular-fusioncharts';
-import FusionCharts from 'fusioncharts/core';
-import Line from 'fusioncharts/viz/line';
-import Pie2D from 'fusioncharts/viz/pie2d';
-import { GoogleChartsModule } from 'angular-google-charts';import { AppComponent } from './app.component';
+import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { SigninComponent } from './signin/signin.component';
@@ -22,9 +18,19 @@ import { HttpModule } from '@angular/http';
 import { ChartComponent } from './chart/chart.component';
 import { PiechartComponent } from './piechart/piechart.component';
 
+import { FusionChartsModule } from 'angular-fusioncharts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
-FusionChartsModule.fcRoot(FusionCharts,Line);
-//FusionChartsModule.fcRoot(FusionCharts,Pie2D);
+// Load FusionCharts
+import * as FusionCharts from 'fusioncharts';
+// Load Charts module
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+// Load fusion theme
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+
+// Add dependencies to FusionChartsModule
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
+
 
 
 @NgModule({
@@ -47,11 +53,11 @@ FusionChartsModule.fcRoot(FusionCharts,Line);
   imports: [
     BrowserModule,
     FusionChartsModule,
-    GoogleChartsModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     routing,
-    HttpModule
+    HttpModule,
+    Ng2GoogleChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

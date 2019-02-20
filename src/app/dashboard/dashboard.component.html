@@ -6,9 +6,9 @@
 <h1 class="mt-4 text-center">Dashboard</h1>
 <h3 class="mt-2 text-center">Welcome, {{ name }}</h3>
 
-
-<!--
-<div>
-<app-piechart></app-piechart>
-</div>-->
-
+<fusioncharts 
+    width="600" 
+    height="400"
+    type="pie3d"
+    [dataSource]=dataSource >
+</fusioncharts>
