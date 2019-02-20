@@ -8,6 +8,42 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+router.post("/increaseshares", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    var portfolioData = obj.portfolio
+    var index = 0
+    for (i = 0; i < portfolioData.length; i++) {
+      if (portfolioData[i].symbol === req.body.symbol) {
+        index = i
+        break;
+      }
+    }
+    portfolioData[index].shares += req.body.shares
+    User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
+      .then(
+        res.status(200).send(portfolioData)
+      )
+  })
+})
+
+router.post("/decreaseshares", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    var portfolioData = obj.portfolio
+    var index = 0
+    for (i = 0; i < portfolioData.length; i++) {
+      if (portfolioData[i].symbol === req.body.symbol) {
+        index = i
+        break;
+      }
+    }
+    portfolioData[index].shares -= req.body.shares
+    User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
+      .then(
+        res.status(200).send(portfolioData)
+      )
+  })
+})
+
 router.post("/addportfolio", (req, res, next) => {
   let url = "https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company";
   axios.get(url)
@@ -139,7 +175,7 @@ router.get("/getinfocus", (req, res, next) => {
   axios.get("https://api.iextrading.com/1.0/stock/market/list/infocus")
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice };
         infocusData.push(obj)
       });
       res.status(200).send(json.stringify(response.data));
@@ -154,7 +190,7 @@ router.get("/getgainers", (req, res, next) => {
   axios.get("https://api.iextrading.com/1.0/stock/market/list/gainers")
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice };
         gainersData.push(obj)
       });
       res.status(200).send(json.stringify(response.data));
@@ -169,7 +205,7 @@ router.get("/getlosers", (req, res, next) => {
   axios.get("https://api.iextrading.com/1.0/stock/market/list/losers")
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice};
+        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice };
         losersData.push(obj)
       });
       res.status(200).send(json.stringify(response.data));
