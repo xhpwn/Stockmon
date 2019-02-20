@@ -28,6 +28,11 @@ export class StockService {
     let query = "http://localhost:3000/api/stocks/getChartData?symbol=" + symbol + "&time=" + timeFrame;
     return this.http.get(query);
 }
-  
+/*
+  getCurrentPrice(symbol: string, timeFrame: string){
+    let query = "http://localhost:3000/api/stocks/getChartData?symbol=" + symbol + "&time=" + timeFrame;
+    return this.http.get(query);
 
+  }
+  */
 }

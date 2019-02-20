@@ -48,9 +48,13 @@ export class StocksComponent implements OnInit {
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
-        
-      //  console.log(this.test);
 });
+/*
+this.stockService.getCurrentData("aapl","1y")
+      .subscribe(data => {
+        this.test = data;
+        this.test = JSON.parse(this.test._body);
+});*/
   }
 
   onSelect(stock: Object):void {

@@ -33,11 +33,24 @@
         </tbody>
     </table>
 
-<button (click)="setTime('1d')" >LIVE</button>
-<button (click)="setTime('1m')" >1m</button>
-<button (click)="setTime('1y')">1y</button>
-<button (click)="setTime('5y')">5y</button>
+<button (click)="setTime('1d')" >Current</button>
+<button (click)="setTime('1m')" >Month</button>
+<button (click)="setTime('1y')">Year</button>
+<button (click)="setTime('5y')">5 Years</button>
 
-<div *ngIf="selectedStock != null">
+<div *ngIf="selectedStock != null && selectedTime == '1m'">
         <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="selectedStock != null && selectedTime == '1y'">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="selectedStock != null && selectedTime == '5y'">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+
+<div *ngIf="selectedTime == '1d'">
+    getCurrentPrice
 </div>
