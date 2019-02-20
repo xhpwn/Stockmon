@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authservice';
 import { Subscription } from 'rxjs';
+import { Form, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-preferences',
@@ -40,6 +41,13 @@ export class PreferencesComponent implements OnInit {
             console.log(this.userData);
         });
 
+  }
+
+  changeEmail(form: NgForm) {
+    if (!form.invalid) {
+      return;
+    }
+    this.authService.changeEmail(form.value.newemail, form.value.password);
   }
 
 }

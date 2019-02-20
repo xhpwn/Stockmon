@@ -165,14 +165,16 @@ router.get("/getnews", (req, res, next) => {
     });
 });
 
-router.get("/test", (req, res, next) => {
-  axios.get("https://api.iextrading.com/1.0/stock/aapl/chart/1y")
-    .then(response => {
-      res.status(200).send(json.stringify(response.data));
-    })
-    .catch(err => {
-      console.log(err);
-    });
+router.get("/getPrice", (req, res, next) => {
+  console.log(req.query.symbol);
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/price";
+      axios.get(url)
+        .then(response => {
+          res.status(200).send(json.stringify(response.data));
+        })
+      .catch(err => {
+        //console.log(err);
+      });
 });
 
 
