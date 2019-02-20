@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PiechartComponent implements OnInit {
   dataSource;
+  userStockNames;
+  userStockValues;
+
+
   constructor() { }
 
   ngOnInit() {
@@ -14,30 +18,34 @@ export class PiechartComponent implements OnInit {
 this.dataSource = {
 
   "chart": {
-    "caption": "Split of Visitors by Age Group",
-    "subCaption": "Last year",
+    "caption": "$USER'S portfolio",
+    "subCaption": "Stocks",
     "use3DLighting": "0",
     "showPercentValues": "1",
-    "decimals": "1",
+    "decimals": "2",
     "useDataPlotColorForLabels": "1",
     "theme": "fusion"
 },
 "data": [
     {
-        "label": "Teenage",
+        "label": "AMZN",
         "value": "1250400"
     },
     {
-        "label": "Adult",
+        "label": "AAPL",
         "value": "1463300"
     },
     {
-        "label": "Mid-age",
+        "label": "FB",
         "value": "1050700"
     },
     {
-        "label": "Senior",
+        "label": "LEE",
         "value": "491000"
+    },
+    {
+        "label": "XXX",
+        "value": "42000"
     }
 ]
 }
