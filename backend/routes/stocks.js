@@ -44,6 +44,33 @@ router.post("/decreaseshares", (req, res, next) => {
   })
 })
 
+
+router.post("/getportfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    let newData = [];
+
+    var portfolioData = obj.portfolio;
+    // console.log(portfolioData);
+    portfolioData.forEach(element => {
+      let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
+      axios.get(url)
+        .then(response => {
+          // console.log(response.data);
+
+          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data, "shares": element.shares };
+          newData.push(temp);
+          if (portfolioData.length === 1) {
+            res.status(200).send(json.stringify(newData));
+          }
+          portfolioData = portfolioData.filter(function (each) {
+            return each !== element
+          });
+          console.log(portfolioData);
+        })
+    })
+  })
+})
+
 router.post("/addportfolio", (req, res, next) => {
   let url = "https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company";
   axios.get(url)
@@ -53,14 +80,14 @@ router.post("/addportfolio", (req, res, next) => {
         var portfolioData = obj.portfolio;
         let newEntry = {
           "symbol": response.data.symbol,
-          "companyName": response.data.companyName,
+          "company": response.data.companyName,
           "shares": req.body.shares
         }
         portfolioData.push(newEntry)
         // console.log(portfolioData)
         User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
           .then(
-            res.status(400).send(portfolioData)
+            res.status(200).send(portfolioData)
           )
       })
 
