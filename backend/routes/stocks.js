@@ -313,7 +313,7 @@ router.get("/getPrice", (req, res, next) => {
         })
       .catch(err => {
         //console.log(err);
-        res.status(404).send("Cannot display price of stock!");
+        //res.status(404).send("Cannot display price of stock!");
       });
 });
 
