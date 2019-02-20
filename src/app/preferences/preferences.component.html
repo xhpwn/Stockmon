@@ -1,1 +1,10 @@
+<div *ngIf="!loggedIn">
+    <h1 class="text-center mt-4">Please Login.</h1>
+</div>
+<div *ngIf="loggedIn">
 <h1 class="mt-4 text-center">Preferences</h1>
+<h3 class="mt-4 text-center">Welcome, {{ name }}.</h3>
+<div class="text-center">
+    <h3>{{email}}</h3>
+</div>
+</div>
