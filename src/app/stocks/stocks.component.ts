@@ -22,6 +22,11 @@ export class StocksComponent implements OnInit {
   losers;
   following;
   description;
+  inFocusErrorMessage = "";
+  gainerErrorMessage = "";
+  loserErrorMessage = "";
+  followingErrorMessage = "";
+  descriptionErrorMessage = "";
 
   ngOnInit() {
     this.stockService.getInfocus()
@@ -30,32 +35,45 @@ export class StocksComponent implements OnInit {
         this.inFocus = JSON.parse(this.inFocus._body);
         console.log(this.inFocus);
       });
+    if (this.inFocus.length === undefined) {
+      this.inFocusErrorMessage = "The top-performing stocks could not be displayed.";
+    }
     this.stockService.getGainers()
       .subscribe(data => {
         this.gainers = data;
         this.gainers = JSON.parse(this.gainers._body);
         console.log(this.gainers);
       });
+    if (this.gainers.length === undefined) {
+      this.gainerErrorMessage = "The stock gainers could not be displayed.";
+    }
     this.stockService.getLosers()
       .subscribe(data => {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers);
       });
+    if (this.losers.length === undefined) {
+      this.loserErrorMessage = "The stock losers could not be displayed.";
+    }
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
           this.following = data;
         this.following = JSON.parse(this.following._body);
         console.log(this.following);
       });
+      if (this.following.length === undefined) {
+        this.followingErrorMessage = "You are not following anything.";
+      }
     this.stockService.getDescription()
       .subscribe(data => {
       this.description = data;
         this.description = JSON.parse(this.description._body);
         console.log(this.description[0]);
       });
-      
-      
+    if (this.description.length === undefined) {
+      this.descriptionErrorMessage = "The stock description could not be displayed.";
+    }
       this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
         this.test = data;
