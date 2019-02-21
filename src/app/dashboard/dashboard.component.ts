@@ -41,7 +41,6 @@ export class DashboardComponent implements OnInit {
     }]
 }
 
-  name: string;
   
   private nameSubs: Subscription;
   private loginSubs: Subscription;
