@@ -11,7 +11,8 @@
     </thead>
 </table>
 <div *ngIf="show == 1">
-    <table class="table table-dark col-sm-5 ml-5 mt-2">
+  <div *ngIf="inFocusErrorMessage !== ''">{{ inFocusErrorMessage }}</div>
+  <table class="table table-dark col-sm-5 ml-5 mt-2">
         <thead>
             <tr>
                 <th scope="col">Symbol</th>
@@ -31,7 +32,8 @@
     </table>
 
 <div *ngIf="show == 2">
-    <table class="table table-dark col-sm-5 ml-5 mt-2">
+  <div *ngIf="gainerErrorMessage !== ''">{{ gainerErrorMessage }}</div>
+  <table class="table table-dark col-sm-5 ml-5 mt-2">
         <thead>
             <tr>
                 <th scope="col">Symbol</th>
@@ -52,7 +54,8 @@
 </div>
 
 <div *ngIf="show == 3">
-    <table class="table table-dark col-sm-5 ml-5 mt-2">
+  <div *ngIf="loserErrorMessage !== ''">{{ loserErrorMessage }}</div>
+  <table class="table table-dark col-sm-5 ml-5 mt-2">
         <thead>
             <tr>
                 <th scope="col">Symbol</th>
@@ -73,7 +76,8 @@
 </div>
 
 <div *ngIf="show == 4">
-    <table class="table table-dark col-sm-5 ml-5 mt-2">
+  <div *ngIf="followingErrorMessage !== ''">{{ followingErrorMessage }}</div>
+  <table class="table table-dark col-sm-5 ml-5 mt-2">
         <thead>
             <tr>
                 <th scope="col">Symbol</th>
@@ -113,4 +117,5 @@
 
 <div *ngIf="selectedTime == '1d'" style="color:green; font-size: 40px">
     <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
 </div>
