@@ -8,16 +8,20 @@ import { StockService } from '../stockservice';
   styleUrls: ['./stocks.component.css'],
 })
 export class StocksComponent implements OnInit {
+  
   selectedStock: Object;
-  inFocus;
-  gainers;
-  losers;
   test;
   dataSource: Object;
   selectedTime = "1y";
-  constructor(public stockService: StockService) { 
+  constructor(public stockService: StockService, private authService: AuthService) { }
 
-  }
+  show = 1;
+
+  inFocus;
+  gainers;
+  losers;
+  following;
+  description;
 
   ngOnInit() {
     this.stockService.getInfocus()
@@ -38,23 +42,26 @@ export class StocksComponent implements OnInit {
         this.losers = JSON.parse(this.losers._body);
         console.log(this.losers[0]);
       });
-      this.stockService.getTest()
-      .subscribe(data => {
-        this.test = data;
-        this.test = JSON.parse(this.test._body);
-       // console.log(this.test);
+      this.stockService.getFollowingList(this.authService.getUserId())
+        .subscribe(data => {
+          this.following = data;
+        this.following = JSON.parse(this.following._body);
+        console.log(this.following);
       });
+    this.stockService.getDescription()
+      .subscribe(data => {
+      this.description = data;
+        this.description = JSON.parse(this.description._body);
+        console.log(this.description[0]);
+      });
+      
+      
       this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
 });
-/*
-this.stockService.getCurrentData("aapl","1y")
-      .subscribe(data => {
-        this.test = data;
-        this.test = JSON.parse(this.test._body);
-});*/
+    
   }
 
   onSelect(stock: Object):void {

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../authservice';
+import { Subscription } from 'rxjs';
+import { Form, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-preferences',
@@ -6,10 +9,45 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./preferences.component.css']
 })
 export class PreferencesComponent implements OnInit {
+  private nameSubs: Subscription;
+  private loginSubs: Subscription;
+  userData
+  loggedIn: boolean;
+  name: String;
+  email: string;
 
-  constructor() { }
+  constructor(private authService : AuthService) {
+  }
 
   ngOnInit() {
+
+    this.loginSubs = this.authService.getAuthStatusListener().subscribe(
+      loggedin => {
+        this.loggedIn = loggedin;
+      }
+    );
+
+    this.nameSubs = this.authService.getNameListener().subscribe(
+      obsname => {
+        this.name = obsname;
+      });
+
+      //this.authService.changeEmail("saxena20@purdue.edu", "hello123");
+      this.authService.getInfo()
+        .subscribe(data => {
+            this.userData = JSON.parse(JSON.stringify(data));
+            this.userData = JSON.parse(this.userData._body);
+            this.email = this.userData.email;
+            console.log(this.userData);
+        });
+
+  }
+
+  changeEmail(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.authService.changeEmail(form.value.newemail, form.value.password);
   }
 
 }

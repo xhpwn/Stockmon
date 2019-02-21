@@ -3,6 +3,8 @@ import { Chart } from 'chart.js';
 import { ListviewComponent } from '../listview/listview.component';
 import { AuthService } from '../authservice';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { Subscription } from 'rxjs';
+import { DashboardService } from '../dashboardservice';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,17 +42,40 @@ export class DashboardComponent implements OnInit {
 }
 
   name: string;
+  
+  private nameSubs: Subscription;
+  private loginSubs: Subscription;
+  loggedIn: boolean;
+  name: String;
 
-  constructor(private authService : AuthService) {
-    let loggedin : boolean = true;
-    let data : String[] = ['Apple', 'Microsoft'];
-   }
+  inFocus;
+  portfolioList;
 
-  ngOnInit() {
-    this.name = this.authService.getName();
-
+  constructor(private authService: AuthService, public dashboardService: DashboardService) {
 
   }
 
+  ngOnInit() {
+
+    //Code from Avadhoot's merge //this.name = this.authService.getName();
+    this.loginSubs = this.authService.getAuthStatusListener().subscribe(
+      loggedin => {
+        this.loggedIn = loggedin;
+      }
+    );
+
+    this.nameSubs = this.authService.getNameListener().subscribe(
+      obsname => {
+        this.name = obsname;
+      });
+
+    this.dashboardService.getPortfolio(this.authService.getUserId())
+      .subscribe(data => {
+        // console.log(data)
+        this.portfolioList = data;
+        this.portfolioList = JSON.parse(this.portfolioList._body);
+        console.log(this.portfolioList[0]);
+      });
+  }
 }
 
