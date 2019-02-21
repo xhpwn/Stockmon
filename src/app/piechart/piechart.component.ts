@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { DashboardService } from '../dashboardservice';
 
 @Component({
   selector: 'app-piechart',
@@ -7,51 +8,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PiechartComponent implements OnInit {
   dataSource;
-  userStockNames;
-  userStockValues;
+  data;
+  eee;
+  piedata = new Array();
+  @Input() list:Object[];
+  constructor(private dashboardService: DashboardService) {}
 
-
-  constructor() { }
+  portfolioHandler(){
+    this.dashboardService.getPortfolio(localStorage.getItem("userId")
+).subscribe(
+    res => {
+        this.data = res;
+        this.data = JSON.parse(this.data._body);
+        this.eee = this.data;
+        return this.data;
+    }
+)
+  }
 
   ngOnInit() {
+  this.eee = this.portfolioHandler();
+ setTimeout(()=> this.loadChart(),500);
+ console.log(this.eee);
 
-this.dataSource = {
 
-  "chart": {
-    "caption": "$USER'S portfolio",
-    "subCaption": "Stocks",
-    "use3DLighting": "0",
-    "showPercentValues": "1",
-    "decimals": "2",
-    "useDataPlotColorForLabels": "1",
-    "theme": "fusion"
-},
-"data": [
-    {
-        "label": "AMZN",
-        "value": "1250400"
-    },
-    {
-        "label": "AAPL",
-        "value": "1463300"
-    },
-    {
-        "label": "FB",
-        "value": "1050700"
-    },
-    {
-        "label": "LEE",
-        "value": "491000"
-    },
-    {
-        "label": "XXX",
-        "value": "42000"
-    }
-]
-}
-
-;
 
   }
+loadChart(){
+
+    this.eee.forEach(element => {
+        let temp = {
+          "label": element.symbol, "value": element.equity
+        }
+        this.piedata.push(temp)
+    });
+    
+    this.dataSource = {
+    
+    
+      "chart": {
+        "caption": "$USER'S portfolio",
+        "subCaption": "Stocks",
+        "use3DLighting": "0",
+        "showPercentValues": "1",
+        "decimals": "2",
+        "useDataPlotColorForLabels": "1",
+        "theme": "fusion"
+    },
+    "data":this.piedata
+    };
+}
 
 }
