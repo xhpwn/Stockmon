@@ -1,4 +1,5 @@
 <h1 class="mt-4 text-center">Stocks</h1>
+
 <table class="table table-dark col-sm-5 ml-5 mt-2">
     <thead>
         <tr>
@@ -18,15 +19,16 @@
                 <th scope="col">Price</th>
             </tr>
         </thead>
-        <tbody *ngFor="let each of inFocus">
-            <tr class="rows">
-                <th scope="row">{{ each.symbol }}</th>
-                <td>{{ each.companyName }}</td>
-                <td>${{ each.delayedPrice }}</td>
-            </tr>
+        <tbody *ngFor="let each of inFocus"
+        [class.selected]="each === selectedStock"
+        (click)="onSelect(each)">
+        <tr>
+            <th scope="row">{{ each.symbol }}</th>
+            <td>{{ each.companyName }}</td>
+            <td>${{ each.delayedPrice }}</td>
+        </tr>
         </tbody>
     </table>
-</div>
 
 <div *ngIf="show == 2">
     <table class="table table-dark col-sm-5 ml-5 mt-2">
@@ -37,7 +39,9 @@
                 <th scope="col">Price</th>
             </tr>
         </thead>
-        <tbody *ngFor="let each of gainers">
+        <tbody *ngFor="let each of gainers"
+               [class.selected]="each === selectedStock"
+        (click)="onSelect(each)">
             <tr class="rows">
                 <th scope="row">{{ each.symbol }}</th>
                 <td>{{ each.companyName }}</td>
@@ -56,7 +60,9 @@
                 <th scope="col">Price</th>
             </tr>
         </thead>
-        <tbody *ngFor="let each of losers">
+        <tbody *ngFor="let each of losers"
+               [class.selected]="each === selectedStock"
+        (click)="onSelect(each)">
             <tr class="rows">
                 <th scope="row">{{ each.symbol }}</th>
                 <td>{{ each.companyName }}</td>
@@ -75,7 +81,9 @@
                 <th scope="col">Price</th>
             </tr>
         </thead>
-        <tbody *ngFor="let each of following">
+        <tbody *ngFor="let each of following"
+               [class.selected]="each === selectedStock"
+        (click)="onSelect(each)">
             <tr class="rows">
                 <th scope="row">{{ each.symbol }}</th>
                 <td>{{ each.companyName }}</td>
@@ -83,4 +91,26 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<button (click)="setTime('1d')" >Current</button>
+<button (click)="setTime('1m')" >Month</button>
+<button (click)="setTime('1y')">Year</button>
+<button (click)="setTime('5y')">5 Years</button>
+
+<div *ngIf="selectedStock != null && selectedTime == '1m'">
+        <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="selectedStock != null && selectedTime == '1y'">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="selectedStock != null && selectedTime == '5y'">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
+
+
+<div *ngIf="selectedTime == '1d'" style="color:green; font-size: 40px">
+    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
 </div>

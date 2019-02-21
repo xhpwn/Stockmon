@@ -1,3 +1,12 @@
+<!--
+<google-chart [type]="PieChart" [data]="myData" [title]="myTitle" [width]="50%" [height]="50%"></google-chart>
+
+-->
+<h1 class="mt-4 text-center">Dashboard</h1>
+<h3 class="mt-2 text-center">Welcome, {{ name }}</h3>
+
+<app-piechart></app-piechart>
+
 <div *ngIf="!loggedIn">
     <h1 class="text-center mt-4">Please Login.</h1>
 </div>

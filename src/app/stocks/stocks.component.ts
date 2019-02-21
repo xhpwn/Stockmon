@@ -5,9 +5,15 @@ import { StockService } from '../stockservice';
 @Component({
   selector: 'app-stocks',
   templateUrl: './stocks.component.html',
-  styleUrls: ['./stocks.component.css']
+  styleUrls: ['./stocks.component.css'],
 })
 export class StocksComponent implements OnInit {
+  
+  selectedStock: Object;
+  test;
+  dataSource: Object;
+  selectedTime = "1y";
+  constructor(public stockService: StockService, private authService: AuthService) { }
 
   show = 1;
 
@@ -16,8 +22,6 @@ export class StocksComponent implements OnInit {
   losers;
   following;
   description;
-
-  constructor(public stockService: StockService, private authService: AuthService) { }
 
   ngOnInit() {
     this.stockService.getInfocus()
@@ -46,20 +50,26 @@ export class StocksComponent implements OnInit {
       });
     this.stockService.getDescription()
       .subscribe(data => {
-        this.description = data;
+      this.description = data;
         this.description = JSON.parse(this.description._body);
         console.log(this.description[0]);
       });
-      this.stockService.getPrice("aapl")
-        .subscribe(data => {
-          console.log(data);
-        });
-
-
+      
+      
+      this.stockService.getChartData("aapl", "1y")
+      .subscribe(data => {
+        this.test = data;
+        this.test = JSON.parse(this.test._body);
+});
+    
   }
 
-  showSelector(selector) {
-    this.show = selector;
-  }
+  onSelect(stock: Object):void {
+    this.selectedStock = stock;
+} 
 
+
+ setTime(time: string):void {
+  this.selectedTime = time;
+}
 }

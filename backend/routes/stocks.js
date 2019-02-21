@@ -304,6 +304,22 @@ router.get("/getdescription", (req, res, next) => {
     });
 });
 
+router.get("/getchartdata", (req, res, next) => {
+  let data = new Array();
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol +  "/chart/" + req.query.time;
+  axios.get(url)
+    .then(response => {
+      response.data.forEach(element => {
+        let obj = { "label" : element.date, "value" : element.close }
+        data.push(obj)
+      });
+      res.status(200).send(json.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.get("/getPrice", (req, res, next) => {
   console.log(req.query.symbol);
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/price";
