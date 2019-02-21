@@ -28,19 +28,19 @@ export class StocksComponent implements OnInit {
       .subscribe(data => {
         this.inFocus = data;
         this.inFocus = JSON.parse(this.inFocus._body);
-        console.log(this.inFocus[0]);
+        console.log(this.inFocus);
       });
     this.stockService.getGainers()
       .subscribe(data => {
         this.gainers = data;
         this.gainers = JSON.parse(this.gainers._body);
-        console.log(this.gainers[0]);
+        console.log(this.gainers);
       });
     this.stockService.getLosers()
       .subscribe(data => {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
-        console.log(this.losers[0]);
+        console.log(this.losers);
       });
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
@@ -60,16 +60,20 @@ export class StocksComponent implements OnInit {
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
-});
+      });
     
-  }
+    } 
 
-  onSelect(stock: Object):void {
-    this.selectedStock = stock;
-} 
+      onSelect(stock: Object):void {
+        this.selectedStock = stock;
+    } 
 
 
- setTime(time: string):void {
-  this.selectedTime = time;
-}
+    setTime(time: string):void {
+      this.selectedTime = time;
+    }
+
+    showSelector(num) {
+      this.show = num;
+    }
 }

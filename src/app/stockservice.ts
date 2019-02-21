@@ -30,11 +30,6 @@ export class StockService {
     return this.http.get(query);
 }
 
-  getChartData(symbol: string, timeFrame: string) {
-    let query = "http://localhost:3000/api/stocks/getChartData?symbol=" + symbol + "&time=" + timeFrame;
-    return this.http.get(query);
-  }
-
   getFollowingList(userid) {
     const body = { 'id': userid };
     return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
@@ -48,3 +43,10 @@ export class StockService {
     let query = "http://localhost:3000/api/stocks/getPrice?symbol=" + symbol;
     return this.http.get(query);
   }
+
+  addToFollowingList(sym: string) {
+    let body = { "symbol" : sym,  }
+    let query = "http://localhost:3000/api/stocks/addFollowingStock";
+  }
+
+}
