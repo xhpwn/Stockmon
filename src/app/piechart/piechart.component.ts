@@ -47,7 +47,7 @@ loadChart(){
     
     
       "chart": {
-        "caption": "$USER'S portfolio",
+        "caption": localStorage.getItem("name") + "'s portfolio",
         "subCaption": "Stocks",
         "use3DLighting": "0",
         "showPercentValues": "1",
