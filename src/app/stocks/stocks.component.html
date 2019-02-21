@@ -3,14 +3,14 @@
 <div class="container">
 <div class="row">
 
-    <div class="col-md-5">
+    <div class="col-md-6">
 <table class="table table-dark mt-2">
     <thead>
         <tr>
-            <th class="pointer" (click)="showSelector(1)" scope="col">Top Stocks</th>
-            <th class="pointer" (click)="showSelector(2)" scope="col">Top Gains</th>
-            <th class="pointer" (click)="showSelector(3)" scope="col">Top Losses</th>
-            <th class="pointer" (click)="showSelector(4)" scope="col">Following</th>
+            <th class="pointer" (click)="showSelector(1); reloadStocks()" scope="col">Top Stocks</th>
+            <th class="pointer" (click)="showSelector(2); reloadStocks()" scope="col">Top Gains</th>
+            <th class="pointer" (click)="showSelector(3); reloadStocks()" scope="col">Top Losses</th>
+            <th class="pointer" (click)="showSelector(4); reloadStocks()" scope="col">Following</th>
         </tr>
     </thead>
 </table>
@@ -81,6 +81,7 @@
     </table>
 </div>
 
+<div *ngIf="following !== undefined && following.length !== 0">
 <div *ngIf="show == 4">
   <div *ngIf="followingErrorMessage !== ''">{{ followingErrorMessage }}</div>
   <table class="table table-dark mt-2">
@@ -89,22 +90,32 @@
                 <th scope="col">Symbol</th>
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
+                <th scope="col">Unfollow</th>
             </tr>
         </thead>
-        <tbody *ngFor="let each of following"
-               [class.selected]="each === selectedStock"
-        (click)="onSelect(each)">
-            <tr class="rows">
-                <th scope="row">{{ each.symbol }}</th>
-                <td>{{ each.companyName }}</td>
-                <td>${{ each.delayedPrice }}</td>
-            </tr>
-        </tbody>
+            <tbody *ngFor="let each of following"
+                [class.selected]="each === selectedStock"
+            (click)="onSelect(each)">
+                <tr class="rows">
+                    <th scope="row">{{ each.symbol }}</th>
+                    <td>{{ each.companyName }}</td>
+                    <td>${{ each.delayedPrice }}</td>
+                    <td class="text-center"><button (click)="unfollowStock(each.symbol); reloadStocks(); showSelector(4)" class="btn btn-danger">-</button></td>
+                </tr>
+            </tbody>
     </table>
 </div>
 </div>
+<div *ngIf="(following == undefined || following.length === 0)">
+        <div *ngIf="show == 4">
+            <h2 class="text-center">Follow some stocks first!</h2>
+            </div>
+    </div>
+</div>
 
-<div class="col-md-5 text-center">
+
+
+<div class="col-md-6 text-center">
 <button class="btn btn-danger mt-3 mr-2 mb-4" (click)="setTime('1d')" >Current</button>
 <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1m')" >Month</button>
 <button class="btn btn-success mt-3 mr-2 mb-4" (click)="setTime('1y')">Year</button>
@@ -125,6 +136,7 @@
 
 <div *ngIf="selectedTime == '1d'" style="color:green; font-size: 40px">
     <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+</div>
 </div>
 </div>
 </div>

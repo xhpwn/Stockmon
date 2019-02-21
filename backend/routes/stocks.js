@@ -99,7 +99,6 @@ router.post("/addportfolio", (req, res, next) => {
   let url = "https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company";
   axios.get(url)
     .then(response => {
-      console.log(response);
       User.findById(req.body.id, function (err, obj) {
         var portfolioData = obj.portfolio;
         let newEntry = {
@@ -145,16 +144,13 @@ router.post("/removeportfolio", (req, res, next) => {
 
 router.post("/getfollowing", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    console.log(obj);
     let newData = [];
 
     var stockData = obj.stocks;
-    console.log(stockData);
     stockData.forEach(element => {
       let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
       axios.get(url)
         .then(response => {
-          console.log(response.data);
 
           let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data };
           newData.push(temp);
@@ -164,7 +160,6 @@ router.post("/getfollowing", (req, res, next) => {
           stockData = stockData.filter(function (each) {
             return each !== element
           });
-          console.log(stockData);
         })
     })
   })
@@ -174,7 +169,6 @@ router.post("/addFollowingStock", (req, res, next) => {
   axios.get("https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company")
     .then(response => {
       User.findById(req.body.id, function (err, obj) {
-        console.log(obj);
         var stockData = obj.stocks;
         let newEntry = {
           "symbol": response.data.symbol,
@@ -210,7 +204,12 @@ router.post("/removeFollowingStock", (req, res, next) => {
           break;
         }
       }
-      stockData.splice(index, 1);
+      if (index == 0) {
+        stockData = new Array();
+      }
+      else {
+        stockData.splice(index, 1);
+      }
       User.findByIdAndUpdate(req.body.id, { $set: { "stocks": stockData } })
         .then(
           res.send(stockData + "updated")
@@ -321,7 +320,6 @@ router.get("/getchartdata", (req, res, next) => {
 });
 
 router.get("/getPrice", (req, res, next) => {
-  console.log(req.query.symbol);
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/price";
       axios.get(url)
         .then(response => {

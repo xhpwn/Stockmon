@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { AuthService } from '../authservice';
 import { StockService } from '../stockservice';
 
@@ -33,52 +33,61 @@ export class StocksComponent implements OnInit {
       .subscribe(data => {
         this.inFocus = data;
         this.inFocus = JSON.parse(this.inFocus._body);
-        console.log(this.inFocus);
+        //console.log(this.inFocus);
       });
-    if (this.inFocus.length === undefined) {
+      /*
+    if (this.inFocus.length === 0) {
       this.inFocusErrorMessage = "The top-performing stocks could not be displayed.";
-    }
+    }*/
     this.stockService.getGainers()
       .subscribe(data => {
         this.gainers = data;
         this.gainers = JSON.parse(this.gainers._body);
-        console.log(this.gainers);
+        //console.log(this.gainers);
       });
-    if (this.gainers.length === undefined) {
+      /*
+    if (this.gainers.length === 0) {
       this.gainerErrorMessage = "The stock gainers could not be displayed.";
-    }
+    }*/
     this.stockService.getLosers()
       .subscribe(data => {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
-        console.log(this.losers);
+        //console.log(this.losers);
       });
+      /*
     if (this.losers.length === undefined) {
       this.loserErrorMessage = "The stock losers could not be displayed.";
-    }
+    }*/
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
           this.following = data;
         this.following = JSON.parse(this.following._body);
-        console.log(this.following);
+        if (this.following == undefined || this.following.length == 0) {
+          this.following = new Array();
+        }
+        //console.log(this.following);
       });
+      /*
       if (this.following.length === undefined) {
         this.followingErrorMessage = "You are not following anything.";
-      }
+      }*/
     this.stockService.getDescription()
       .subscribe(data => {
       this.description = data;
         this.description = JSON.parse(this.description._body);
-        console.log(this.description[0]);
+        //console.log(this.description[0]);
       });
+      /*
     if (this.description.length === undefined) {
       this.descriptionErrorMessage = "The stock description could not be displayed.";
-    }
+    }*/
+    /*
       this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
         this.test = data;
         this.test = JSON.parse(this.test._body);
-      });
+      });*/
     
     } 
 
@@ -93,5 +102,29 @@ export class StocksComponent implements OnInit {
 
     showSelector(num) {
       this.show = num;
+      console.log(this.following.length)
     }
+
+    reloadStocks() {
+      this.stockService.getFollowingList(this.authService.getUserId())
+        .subscribe(data => {
+          this.following = data;
+        this.following = JSON.parse(this.following._body);
+        if (this.following == undefined || this.following.length == 0) {
+          this.following = new Array();
+        }
+        //console.log(this.following);
+      });
+      /*
+      if (this.following.length === undefined) {
+        this.followingErrorMessage = "You are not following anything.";
+      }*/
+    }
+
+    unfollowStock(symbol: string) {
+      this.stockService.removeFromFollowingList(symbol)
+        .subscribe(data => {
+        });
+    }
+
 }

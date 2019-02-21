@@ -23,7 +23,7 @@ export class SigninComponent implements OnInit {
     }
     this.authService.signin(form.value.email, form.value.password);
     if (this.authService.getUserId() !== undefined) {
-      this.router.navigate(["/preferences"]);
+      this.router.navigate(["/loggedhome"]);
     } else {
       this.errorMessage = "Login Failed. Please try again.";
     }

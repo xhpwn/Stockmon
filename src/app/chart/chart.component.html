@@ -1,14 +1,25 @@
 <div *ngIf="time != '1d'">
 <fusioncharts
-width="700"
+width="600"
 height="400"
 type="line"
 [dataSource]="dataSource">
 </fusioncharts> 
 </div>
 
-<div *ngIf="time == '1d'">
+<div class="text-center" *ngIf="time == '1d'">
 ${{price}}
     </div>
 
-<button class="btn btn-warning mt-4">Add to Following List</button>
+<button (click)="addToFollowing()" class="btn btn-warning mt-4 ml-4">Add to Following List</button>
+<h5 class="text-center ml-3 mt-3" *ngIf="followingResponse">Stock followed successfully.</h5>
+
+<div *ngIf="!selected">
+    <button (click)="onSelected()" class="btn btn-primary mt-4 ml-4">Add to portfolio</button>
+</div>
+
+<div *ngIf="selected">
+    <h6 class="mt-2">Number of stocks owned</h6>
+    <input [(ngModel)]="shares">
+    <button (click)="addToPortfolio()" class="btn btn-primary ml-4">Add</button>
+</div>

@@ -46,8 +46,24 @@ export class StockService {
   }
 
   addToFollowingList(sym: string) {
-    let body = { "symbol" : sym,  }
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId") }
     let query = "http://localhost:3000/api/stocks/addFollowingStock";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  addToPortfolioList(sym: string, shares: number) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
+    let query = "http://localhost:3000/api/stocks/addportfolio";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  removeFromFollowingList(sym: string) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId") }
+    let query = "http://localhost:3000/api/stocks/removeFollowingStock";
+    console.log(body);
+    return this.http.post(query, body);
   }
 
 }

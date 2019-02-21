@@ -27,6 +27,7 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 // Load fusion theme
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import { LoggedhomeComponent } from './loggedhome/loggedhome.component';
 
 // Add dependencies to FusionChartsModule
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -48,7 +49,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     PreferencesComponent,
     NewsComponent,
     ChartComponent,
-    PiechartComponent
+    PiechartComponent,
+    LoggedhomeComponent
   ],
   imports: [
     BrowserModule,

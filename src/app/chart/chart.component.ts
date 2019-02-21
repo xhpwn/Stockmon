@@ -16,6 +16,9 @@ export class ChartComponent implements OnInit {
   newData = new Array();
   counter = 0;
   price;
+  selected = false;
+  shares;
+  followingResponse = false;
 
   constructor(public stockService: StockService) {    
   }
@@ -93,5 +96,26 @@ export class ChartComponent implements OnInit {
   
  };
 }
+
+
+  addToFollowing() {
+    console.log(this.stock["symbol"])
+    this.stockService.addToFollowingList(this.stock["symbol"])
+      .subscribe(data => {
+        this.followingResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      });
+  }
+
+  addToPortfolio() {
+    console.log(this.stock["symbol"])
+    this.stockService.addToPortfolioList(this.stock["symbol"], this.shares)
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+
+  onSelected() {
+    this.selected = true;
+  }
 
 }
