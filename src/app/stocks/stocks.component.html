@@ -117,39 +117,48 @@
 
 <div class="col-md-6 text-center">
 <button class="btn btn-danger mt-3 mr-2 mb-4" (click)="setTime('1d')" >Current</button>
+<button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1w')" >Week</button>
 <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1m')" >Month</button>
 <button class="btn btn-success mt-3 mr-2 mb-4" (click)="setTime('1y')">Year</button>
 <button class="btn btn-warning mt-3 mr-2 mb-4" (click)="setTime('5y')">5 Years</button>
 
-<div *ngIf="selectedStock != null && selectedTime == '1m'">
-        <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+<div *ngIf="selectedStock != null && selectedTime == '1m' && week">
+    <app-chart [stock]="selectedStock" [time]="selectedTime" [isWeek]="week"></app-chart>
+</div>
+
+<div *ngIf="selectedStock != null && selectedTime == '1m' && !week">
+        <app-chart [stock]="selectedStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 <div *ngIf="selectedStock != null && selectedTime == '1y'">
-    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+    <app-chart [stock]="selectedStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 <div *ngIf="selectedStock != null && selectedTime == '5y'">
-    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+    <app-chart [stock]="selectedStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 
 <div *ngIf="selectedTime == '1d' && selectedStock != null" style="color:green; font-size: 40px">
-    <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
+    <app-chart [stock]="selectedStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 <!---------------------------------------------------------------------->
 
-<div *ngIf="oldStock != null && selectedTime == '1m'">
-    <app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+<div *ngIf="oldStock != null && selectedTime == '1m' && week">
+    <app-chart [stock]="oldStock" [time]="selectedTime" [isWeek]="week"></app-chart>
+</div>
+
+<div *ngIf="oldStock != null && selectedTime == '1m' && !week">
+    <app-chart [stock]="oldStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 <div *ngIf="oldStock != null && selectedTime == '1y'">
-<app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+<app-chart [stock]="oldStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 <div *ngIf="oldStock != null && selectedTime == '5y'">
-<app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+<app-chart [stock]="oldStock" [time]="selectedTime" [isWeek]="week"></app-chart>
 </div>
 
 

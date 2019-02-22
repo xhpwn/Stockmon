@@ -14,6 +14,7 @@ export class StocksComponent implements OnInit {
   test;
   dataSource: Object;
   selectedTime = "1y";
+  week = false;
   constructor(public stockService: StockService, private authService: AuthService) { }
 
   show = 1;
@@ -100,9 +101,15 @@ export class StocksComponent implements OnInit {
        
     } 
 
-
     setTime(time: string):void {
-      this.selectedTime = time;
+      if (time == "1w") {
+        this.week = true;
+        this.selectedTime = "1m";
+      }
+      else {
+        this.week = false;
+        this.selectedTime = time;
+      }
     }
 
     showSelector(num) {

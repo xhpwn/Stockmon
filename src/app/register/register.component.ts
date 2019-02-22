@@ -8,6 +8,8 @@ import { AuthService } from '../authservice';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  
+  registerResponse = false;
 
   constructor(public authService: AuthService) { }
 
@@ -19,7 +21,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
     console.log(form.value);
-    this.authService.createUser(form.value.name, form.value.email, form.value.password);
+    this.authService.createUser(form.value.name, form.value.email, form.value.password)
+    .subscribe(data => {
+      this.registerResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      console.log(this.registerResponse)
+    })
   }
 
 

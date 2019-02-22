@@ -10,6 +10,7 @@ import { StockService } from '../stockservice';
 export class ChartComponent implements OnInit {
   @Input() stock: Object;
   @Input() time: string;
+  @Input() isWeek: boolean;
 
   portfolioFail = false;
   dataSource;
@@ -21,8 +22,10 @@ export class ChartComponent implements OnInit {
   shares;
   followingResponse = false;
   portfolioResponse = false;
+  exchange;
   description;
   logoUrl;
+  weekData = new Array();
 
   constructor(public stockService: StockService) {    
   }
@@ -33,8 +36,14 @@ export class ChartComponent implements OnInit {
       .subscribe(data => {
         this.description = data;
       this.description = JSON.parse(this.description._body);
-      console.log(this.description.description)
       this.description = this.description.description;
+      })
+
+      this.stockService.getDescription(this.stock["symbol"])
+      .subscribe(data => {
+        this.exchange = data;
+      this.exchange = JSON.parse(this.exchange._body);
+      this.exchange = this.exchange.exchange;
       })
 
       this.stockService.getLogo(this.stock["symbol"])
@@ -42,17 +51,12 @@ export class ChartComponent implements OnInit {
         this.logoUrl = data;
       this.logoUrl = JSON.parse(this.logoUrl._body);
       this.logoUrl = this.logoUrl.url;
-      console.log(this.logoUrl)
       })
 
     this.stockService.getPrice(this.stock["symbol"])
     .subscribe(data => {
       this.price = data;
       this.price = JSON.parse(this.price._body);
-      console.log("$$$");
-      console.log(data);
-
-      console.log(this.price);
     })
 
    this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
@@ -93,30 +97,40 @@ export class ChartComponent implements OnInit {
       }
       this.counter++;
     }
+
+   
     
     });
-    console.log("EEE");
-    console.log(this.newData);
+    if (this.isWeek) {
+      this.weekData = this.newData.slice(this.newData.length - 7, this.newData.length);
+      console.log("EEEEEEENEW");
+      console.log(this.weekData);
+    }
    });
 
-   this.dataSource = {
-     chart: {
-       "caption": "Stock data for " +this.stock["symbol"].toString(),
-       "subCaption": " " + this.time,
-       "xAxisName": "Time",
-       "yAxisName": "$(USD)",
-       "lineColor": "#346474",
-       "bgcolor": "white",
-       "showAlternateHGridColor": 0,
-       "numberPrefix": "$",
-       "theme": "gammel"
-     },
-     // Chart Data
-     "data": this.newData
-  
- };
+   setTimeout(() => this.loadData(), 500);
+
+   
 }
 
+  loadData() {
+    this.dataSource = {
+      chart: {
+        "caption": "Stock data for " +this.stock["symbol"].toString(),
+        "subCaption": this.isWeek ? "1w" : this.time,
+        "xAxisName": "Time",
+        "yAxisName": "$(USD)",
+        "lineColor": "#346474",
+        "bgcolor": "white",
+        "showAlternateHGridColor": 0,
+        "numberPrefix": "$",
+        "theme": "gammel"
+      },
+      // Chart Data
+      "data": this.isWeek ? this.weekData : this.newData
+   
+  };
+  }
 
   addToFollowing() {
     console.log(this.stock["symbol"])
