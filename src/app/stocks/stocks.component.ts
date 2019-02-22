@@ -73,12 +73,6 @@ export class StocksComponent implements OnInit {
       if (this.following.length === undefined) {
         this.followingErrorMessage = "You are not following anything.";
       }*/
-    this.stockService.getDescription()
-      .subscribe(data => {
-      this.description = data;
-        this.description = JSON.parse(this.description._body);
-        //console.log(this.description[0]);
-      });
       /*
     if (this.description.length === undefined) {
       this.descriptionErrorMessage = "The stock description could not be displayed.";

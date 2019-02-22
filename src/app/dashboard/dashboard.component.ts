@@ -13,6 +13,9 @@ import { DashboardService } from '../dashboardservice';
 })
 export class DashboardComponent implements OnInit {
 
+  selectedStock: Object;
+  oldStock: Object;
+
   dataSource = {
     "chart": {
       "caption": "Recommended Portfolio Split",
@@ -76,5 +79,16 @@ export class DashboardComponent implements OnInit {
         console.log(this.portfolioList[0]);
       });
   }
-}
 
+  onSelect(stock: Object):void {
+
+    if(this.selectedStock != null){
+      this.oldStock = stock;
+      this.selectedStock = null;
+    }
+    else{
+     this.selectedStock = stock;
+     this.oldStock = null;
+    }
+  }
+}

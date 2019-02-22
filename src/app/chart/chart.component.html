@@ -1,6 +1,25 @@
+<div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{ stock.companyName }}
+              </button>
+            </h5>
+          </div>
+      
+          <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body text-center">
+                <img width="20%" src={{logoUrl}}/>
+                <p class="mt-2">{{ description }}</p>
+            </div>
+          </div>
+        </div>
+</div>
+
 <div *ngIf="time != '1d'">
 <fusioncharts
-width="600"
+width="100%"
 height="400"
 type="line"
 [dataSource]="dataSource">
@@ -8,6 +27,7 @@ type="line"
 </div>
 
 <div class="text-center" *ngIf="time == '1d'">
+  <h5 class="mt-5">Current Stock Price</h5>
 ${{price}}
     </div>
 
@@ -15,11 +35,13 @@ ${{price}}
 <h5 class="text-center ml-3 mt-3" *ngIf="followingResponse">Stock followed successfully.</h5>
 
 <div *ngIf="!selected">
-    <button (click)="onSelected()" class="btn btn-primary mt-4 ml-4">Add to portfolio</button>
+    <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
 </div>
 
-<div *ngIf="selected">
+<div *ngIf="selected && !portfolioResponse">
     <h6 class="mt-2">Number of stocks owned</h6>
     <input [(ngModel)]="shares">
     <button (click)="addToPortfolio()" class="btn btn-primary ml-4">Add</button>
 </div>
+
+<h5 class="text-center ml-3 mt-3" *ngIf="portfolioResponse">Stock added successfully.</h5>

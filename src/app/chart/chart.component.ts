@@ -19,11 +19,30 @@ export class ChartComponent implements OnInit {
   selected = false;
   shares;
   followingResponse = false;
+  portfolioResponse = false;
+  description;
+  logoUrl;
 
   constructor(public stockService: StockService) {    
   }
 
   ngOnInit() {
+
+    this.stockService.getDescription(this.stock["symbol"])
+      .subscribe(data => {
+        this.description = data;
+      this.description = JSON.parse(this.description._body);
+      console.log(this.description.description)
+      this.description = this.description.description;
+      })
+
+      this.stockService.getLogo(this.stock["symbol"])
+      .subscribe(data => {
+        this.logoUrl = data;
+      this.logoUrl = JSON.parse(this.logoUrl._body);
+      this.logoUrl = this.logoUrl.url;
+      console.log(this.logoUrl)
+      })
 
     this.stockService.getPrice(this.stock["symbol"])
     .subscribe(data => {
@@ -110,7 +129,7 @@ export class ChartComponent implements OnInit {
     console.log(this.stock["symbol"])
     this.stockService.addToPortfolioList(this.stock["symbol"], this.shares)
       .subscribe(data => {
-        console.log(data);
+        this.portfolioResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
       });
   }
 

@@ -36,8 +36,8 @@ export class StockService {
     return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
   }
 
-  getDescription() {
-    return this.http.get("http://localhost:3000/api/stocks/getdescription");
+  getDescription(symbol: string) {
+    return this.http.get("http://localhost:3000/api/stocks/getdescription?symbol=" + symbol);
   }
 
   getPrice(symbol: string) {
@@ -63,6 +63,16 @@ export class StockService {
     let body = { "symbol" : sym, "id" : localStorage.getItem("userId") }
     let query = "http://localhost:3000/api/stocks/removeFollowingStock";
     console.log(body);
+    return this.http.post(query, body);
+  }
+
+  getLogo(sym: string) {
+    return this.http.get("http://localhost:3000/api/stocks/getLogo?symbol=" + sym);
+  }
+
+  updatePortfolio(sym: string, shares) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
+    let query = "http://localhost:3000/api/stocks/updatePortfolio";
     return this.http.post(query, body);
   }
 

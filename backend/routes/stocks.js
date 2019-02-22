@@ -26,6 +26,24 @@ router.post("/increaseshares", (req, res, next) => {
   })
 });
 
+router.post("/updatePortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    var portfolioData = obj.portfolio;
+    var index = 0;
+    for (i = 0; i < portfolioData.length; i++) {
+      if (portfolioData[i].symbol === req.body.symbol) {
+        index = i;
+        break;
+      }
+    }
+    portfolioData[index].shares = req.body.shares;
+    User.findByIdAndUpdate(req.body.id, { $set: { "portfolio": portfolioData } })
+      .then(
+        res.status(200).send(portfolioData)
+      )
+  })
+});
+
 router.post("/decreaseshares", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
     var portfolioData = obj.portfolio;
@@ -286,15 +304,27 @@ router.get("/getchartdata", (req, res, next) => {
 });
 
 router.get("/getdescription", (req, res, next) => {
+  console.log(req.query.symbol)
   //https://api.iextrading.com/1.0/stock/aapl/company
   let descriptionData = [];
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/company/";
   axios.get(url)
     .then(response => {
-      response.data.forEach(element => {
-        let obj = { "Symbol": element.symbol, "Name": element.companyName, "Description": element.description};
-        descriptionData.push(obj)
-      });
+      res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      res.status(404).send("Cannot display description of stock!");
+      console.log(err);
+    });
+});
+
+router.get("/getLogo", (req, res, next) => {
+  console.log(req.query.symbol)
+  //https://api.iextrading.com/1.0/stock/aapl/logo
+  let descriptionData = [];
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/logo/";
+  axios.get(url)
+    .then(response => {
       res.status(200).send(json.stringify(response.data));
     })
     .catch(err => {
