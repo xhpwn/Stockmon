@@ -11,6 +11,7 @@ export class ChartComponent implements OnInit {
   @Input() stock: Object;
   @Input() time: string;
 
+  portfolioFail = false;
   dataSource;
   test;
   newData = new Array();
@@ -130,6 +131,7 @@ export class ChartComponent implements OnInit {
     this.stockService.addToPortfolioList(this.stock["symbol"], this.shares)
       .subscribe(data => {
         this.portfolioResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.portfolioFail = (JSON.parse(JSON.stringify(data)).statusText != "OK");
       });
   }
 

@@ -44,4 +44,5 @@ ${{price}}
     <button (click)="addToPortfolio()" class="btn btn-primary ml-4">Add</button>
 </div>
 
+<h5 class="text-center ml-3 mt-3" *ngIf="portfolioFail">Stock already exists in portfolio.</h5>
 <h5 class="text-center ml-3 mt-3" *ngIf="portfolioResponse">Stock added successfully.</h5>
