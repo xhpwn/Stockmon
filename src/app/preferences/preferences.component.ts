@@ -56,7 +56,7 @@ export class PreferencesComponent implements OnInit {
     this.authService.changeEmail(form.value.newemail, form.value.password)
 	    .subscribe(data => {
 	      this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-	      this.emailFail = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+	      this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
 	    });
 	  }
 	

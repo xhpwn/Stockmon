@@ -30,7 +30,7 @@ export class SigninComponent implements OnInit {
       return;
     }
     this.authService.signin(form.value.email, form.value.password);
-    setTimeout(() => this.loginRedirect(), 500);
+    setTimeout(() => this.loginRedirect(), 1000);
   }
 
   loginRedirect() {
