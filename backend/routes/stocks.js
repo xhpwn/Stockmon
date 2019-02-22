@@ -105,6 +105,8 @@ router.post("/addportfolio", (req, res, next) => {
             )
           // })
         })
+    } else {
+      res.send("This stock already exists in your Portfolio")
     }
   })
 });
@@ -190,6 +192,8 @@ router.post("/addFollowingStock", (req, res, next) => {
         .catch(err => {
           res.send(err)
         })
+    } else {
+      res.send("This stock already exists in your Following List")
     }
   })
 
