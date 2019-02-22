@@ -24,6 +24,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Shares</th>
+                    <th scope="col">Equity</th>
                 </tr>
             </thead>
             <tbody *ngFor="let each of portfolioList">
@@ -31,7 +32,8 @@
                     <th scope="row">{{ each.symbol }}</th>
                     <td>{{ each.companyName }}</td>
                     <td>${{ each.delayedPrice }}</td>
-                    <td>${{ each.shares }}</td>
+                    <td>{{ each.shares }}</td>
+                    <td>${{ each.equity }}</td>
                 </tr>
             </tbody>
         </table>

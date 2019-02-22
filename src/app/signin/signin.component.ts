@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  errorMessage: String;
-
   constructor(private router: Router, public authService : AuthService) { }
 
   ngOnInit() {
@@ -23,9 +21,7 @@ export class SigninComponent implements OnInit {
     }
     this.authService.signin(form.value.email, form.value.password);
     if (this.authService.getUserId() !== undefined) {
-      this.router.navigate(["/dashboard"]);
-    } else {
-      this.errorMessage = "Login Failed. Please try again."
+      this.router.navigate(["/preferences"]);
     }
   }
 

@@ -56,7 +56,7 @@ router.post("/getportfolio", (req, res, next) => {
         .then(response => {
           // console.log(response.data);
 
-          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data, "shares": element.shares };
+          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data, "shares": element.shares, "equity" : (element.shares * response.data).toFixed(2) };
           newData.push(temp);
           if (portfolioData.length === 1) {
             res.status(200).send(json.stringify(newData));
