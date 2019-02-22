@@ -9,12 +9,18 @@ import { Form, NgForm } from '@angular/forms';
   styleUrls: ['./preferences.component.css']
 })
 export class PreferencesComponent implements OnInit {
+  
   private nameSubs: Subscription;
   private loginSubs: Subscription;
   userData
   loggedIn: boolean;
   name: String;
   email: string;
+  emailResponse = false;
+  emailFail = false;
+  passwordResponse = false;
+  passwordFail = false;
+  error;
 
   constructor(private authService : AuthService) {
   }
@@ -47,7 +53,28 @@ export class PreferencesComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.authService.changeEmail(form.value.newemail, form.value.password);
+    this.authService.changeEmail(form.value.newemail, form.value.password)
+	    .subscribe(data => {
+	      this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+	      this.emailFail = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+	    });
+	  }
+	
+	  changePassword(form: NgForm) {
+	    if (form.invalid) {
+	      this.error = "Incorrect information, please re-enter";
+	      return;
+	    }
+	    if (form.value.newpassword !== form.value.newpassword2) {
+	      this.error = "Incorrect information, please re-enter";
+	      return;
+	    }
+	    this.error = "";
+	    this.authService.changePassword(form.value.oldpassword, form.value.newpassword)
+	    .subscribe(data => {
+	      this.passwordResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+	      this.passwordFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+	    });
   }
 
 }

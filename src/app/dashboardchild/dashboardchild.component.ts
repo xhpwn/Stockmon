@@ -13,6 +13,7 @@ export class DashboardchildComponent implements OnInit {
   shares;
   portfolioResponse = false;
   followingResponse = false;
+  removeResponse = false;
 
   constructor(private stockService: StockService) { }
 
@@ -39,5 +40,12 @@ export class DashboardchildComponent implements OnInit {
         this.followingResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
       });
   }
+  removeFromPortfolio() {
+    this.stockService.removePortfolio(this.stock["symbol"])
+      .subscribe(data => {
+        this.removeResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      })
+  }
+
 
 }
