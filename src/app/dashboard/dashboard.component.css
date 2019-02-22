@@ -45,3 +45,18 @@ a {
 .page {
   margin-left: 12%;
 }
+
+.pointer:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.rows:hover {
+  cursor: pointer;
+  background-color: greenyellow;
+  color: black;
+}
+.shown {
+  background-color: black;
+  color: red;
+}

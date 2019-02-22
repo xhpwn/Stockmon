@@ -7,7 +7,8 @@ import { AuthService } from "./authservice";
 
 export class StockService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+  }
 
   getInfocus() {
     return this.http.get("http://localhost:3000/api/stocks/getinfocus");
@@ -31,17 +32,48 @@ export class StockService {
   }
 
   getFollowingList(userid) {
-    const body = { 'id': userid };
+    const body = {'id': userid};
     return this.http.post("http://localhost:3000/api/stocks/getfollowing", body);
   }
 
-  getDescription() {
-    return this.http.get("http://localhost:3000/api/stocks/getdescription");
+  getDescription(symbol: string) {
+    return this.http.get("http://localhost:3000/api/stocks/getdescription?symbol=" + symbol);
   }
 
-  getPrice(symbol : string) {
+  getPrice(symbol: string) {
     let query = "http://localhost:3000/api/stocks/getPrice?symbol=" + symbol;
     return this.http.get(query);
+  }
+
+  addToFollowingList(sym: string) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId") }
+    let query = "http://localhost:3000/api/stocks/addFollowingStock";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  addToPortfolioList(sym: string, shares: number) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
+    let query = "http://localhost:3000/api/stocks/addportfolio";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  removeFromFollowingList(sym: string) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId") }
+    let query = "http://localhost:3000/api/stocks/removeFollowingStock";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  getLogo(sym: string) {
+    return this.http.get("http://localhost:3000/api/stocks/getLogo?symbol=" + sym);
+  }
+
+  updatePortfolio(sym: string, shares) {
+    let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
+    let query = "http://localhost:3000/api/stocks/updatePortfolio";
+    return this.http.post(query, body);
   }
 
 }

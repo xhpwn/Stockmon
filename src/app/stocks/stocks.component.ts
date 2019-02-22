@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { AuthService } from '../authservice';
 import { StockService } from '../stockservice';
 
 @Component({
   selector: 'app-stocks',
   templateUrl: './stocks.component.html',
-  styleUrls: ['./stocks.component.css']
+  styleUrls: ['./stocks.component.css'],
 })
 export class StocksComponent implements OnInit {
+  
+  selectedStock: Object;
+  oldStock:Object;
+  test;
+  dataSource: Object;
+  selectedTime = "1y";
+  constructor(public stockService: StockService, private authService: AuthService) { }
 
   show = 1;
 
@@ -16,56 +23,122 @@ export class StocksComponent implements OnInit {
   losers;
   following;
   description;
-  errorMessage = "";
-
-  constructor(public stockService: StockService, private authService: AuthService) { }
+  inFocusErrorMessage = "";
+  gainerErrorMessage = "";
+  loserErrorMessage = "";
+  followingErrorMessage = "";
+  descriptionErrorMessage = "";
 
   ngOnInit() {
     this.stockService.getInfocus()
       .subscribe(data => {
         this.inFocus = data;
         this.inFocus = JSON.parse(this.inFocus._body);
-        console.log(this.inFocus[0]);
+        //console.log(this.inFocus);
+        if (this.inFocus == undefined || this.inFocus.length == 0) {
+          this.inFocus = new Array();
+        }
       });
+      /*
+    if (this.inFocus.length === 0) {
+      this.inFocusErrorMessage = "The top-performing stocks could not be displayed.";
+    }*/
     this.stockService.getGainers()
       .subscribe(data => {
         this.gainers = data;
         this.gainers = JSON.parse(this.gainers._body);
-        console.log(this.gainers[0]);
+        //console.log(this.gainers);
+        if (this.gainers == undefined || this.gainers.length == 0) {
+          this.gainers = new Array();
+        }
       });
+      /*
+    if (this.gainers.length === 0) {
+      this.gainerErrorMessage = "The stock gainers could not be displayed.";
+    }*/
     this.stockService.getLosers()
       .subscribe(data => {
         this.losers = data;
         this.losers = JSON.parse(this.losers._body);
-        console.log(this.losers[0]);
+        //console.log(this.losers);
+        if (this.losers == undefined || this.losers.length == 0) {
+          this.losers = new Array();
+        }
       });
+      /*
+    if (this.losers.length === undefined) {
+      this.loserErrorMessage = "The stock losers could not be displayed.";
+    }*/
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
           this.following = data;
         this.following = JSON.parse(this.following._body);
-        console.log(this.following);
+        if (this.following == undefined || this.following.length == 0) {
+          this.following = new Array();
+        }
+        //console.log(this.following);
       });
-
+      /*
       if (this.following.length === undefined) {
-        this.errorMessage = "You are not following anything.";
-      }
-
-    this.stockService.getDescription()
+        this.followingErrorMessage = "You are not following anything.";
+      }*/
+      /*
+    if (this.description.length === undefined) {
+      this.descriptionErrorMessage = "The stock description could not be displayed.";
+    }*/
+    /*
+      this.stockService.getChartData("aapl", "1y")
       .subscribe(data => {
-        this.description = data;
-        this.description = JSON.parse(this.description._body);
-        console.log(this.description[0]);
-      });
-      this.stockService.getPrice("aapl")
+        this.test = data;
+        this.test = JSON.parse(this.test._body);
+      });*/
+    
+    } 
+
+      onSelect(stock: Object):void {
+
+       if(this.selectedStock != null){
+         this.oldStock = stock;
+         this.selectedStock = null;
+       }
+       else{
+        this.selectedStock = stock;
+        this.oldStock = null;
+       }
+      
+       
+    } 
+
+
+    setTime(time: string):void {
+      this.selectedTime = time;
+    }
+
+    showSelector(num) {
+      this.show = num;
+      console.log(this.following.length)
+    }
+
+    reloadStocks() {
+      this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
-          console.log(data);
+          this.following = data;
+        this.following = JSON.parse(this.following._body);
+        if (this.following == undefined || this.following.length == 0) {
+          this.following = new Array();
+        }
+        //console.log(this.following);
+      });
+      /*
+      if (this.following.length === undefined) {
+        this.followingErrorMessage = "You are not following anything.";
+      }*/
+    }
+
+    unfollowStock(symbol: string) {
+      this.stockService.removeFromFollowingList(symbol)
+        .subscribe(data => {
         });
-
-
-  }
-
-  showSelector(selector) {
-    this.show = selector;
-  }
+    }
 
 }

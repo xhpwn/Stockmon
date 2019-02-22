@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
@@ -16,6 +15,25 @@ import { ForexComponent } from './forex/forex.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { NewsComponent } from './news/news.component';
 import { HttpModule } from '@angular/http';
+import { ChartComponent } from './chart/chart.component';
+import { PiechartComponent } from './piechart/piechart.component';
+
+import { FusionChartsModule } from 'angular-fusioncharts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
+// Load FusionCharts
+import * as FusionCharts from 'fusioncharts';
+// Load Charts module
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+// Load fusion theme
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import { LoggedhomeComponent } from './loggedhome/loggedhome.component';
+import { DashboardchildComponent } from './dashboardchild/dashboardchild.component';
+
+// Add dependencies to FusionChartsModule
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
+
+
 
 @NgModule({
   declarations: [
@@ -30,14 +48,20 @@ import { HttpModule } from '@angular/http';
     CryptoComponent,
     ForexComponent,
     PreferencesComponent,
-    NewsComponent
+    NewsComponent,
+    ChartComponent,
+    PiechartComponent,
+    LoggedhomeComponent,
+    DashboardchildComponent
   ],
   imports: [
     BrowserModule,
+    FusionChartsModule,
     FormsModule,
     ReactiveFormsModule,
     routing,
-    HttpModule
+    HttpModule,
+    Ng2GoogleChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

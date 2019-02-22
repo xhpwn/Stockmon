@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StocksComponent } from './stocks/stocks.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { LoggedhomeComponent } from './loggedhome/loggedhome.component';
 
 const routes : Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,7 +15,8 @@ const routes : Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'stocks', component: StocksComponent },
-  { path: 'preferences', component: PreferencesComponent }
+  { path: 'preferences', component: PreferencesComponent },
+  { path: 'loggedhome', component: LoggedhomeComponent }
 ];
 
 export const routing = RouterModule.forRoot(routes);
