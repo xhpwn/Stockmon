@@ -134,9 +134,30 @@
 </div>
 
 
-<div *ngIf="selectedTime == '1d'" style="color:green; font-size: 40px">
+<div *ngIf="selectedTime == '1d' && selectedStock != null" style="color:green; font-size: 40px">
     <app-chart [stock]="selectedStock" [time]="selectedTime"></app-chart>
 </div>
+
+<!---------------------------------------------------------------------->
+
+<div *ngIf="oldStock != null && selectedTime == '1m'">
+    <app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="oldStock != null && selectedTime == '1y'">
+<app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="oldStock != null && selectedTime == '5y'">
+<app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+</div>
+
+
+<div *ngIf="selectedTime == '1d' && oldStock != null" style="color:green; font-size: 40px">
+<app-chart [stock]="oldStock" [time]="selectedTime"></app-chart>
+</div>
+
+
 </div>
 </div>
 </div>

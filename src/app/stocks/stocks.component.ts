@@ -10,6 +10,7 @@ import { StockService } from '../stockservice';
 export class StocksComponent implements OnInit {
   
   selectedStock: Object;
+  oldStock:Object;
   test;
   dataSource: Object;
   selectedTime = "1y";
@@ -92,7 +93,17 @@ export class StocksComponent implements OnInit {
     } 
 
       onSelect(stock: Object):void {
+
+       if(this.selectedStock != null){
+         this.oldStock = stock;
+         this.selectedStock = null;
+       }
+       else{
         this.selectedStock = stock;
+        this.oldStock = null;
+       }
+      
+       
     } 
 
 
