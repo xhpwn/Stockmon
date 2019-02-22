@@ -7,17 +7,20 @@
   <h5 class="text-center ml-3 mt-3" *ngIf="followingResponse">Stock followed successfully.</h5>
   
   <div *ngIf="!selected">
-      <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ">Edit portfolio count</button>
+      <button (click)="onSelected()" class="btn btn-primary mt-4 mb-2 ">Edit portfolio count</button>
   </div>
   
   <div *ngIf="selected && !portfolioResponse">
       <h6 class="mt-2">Edit number of shares</h6>
       <div>
-        <input class="mt-2 mb-5" [(ngModel)]="shares">
+        <input class="mt-2 mb-2" [(ngModel)]="shares">
         <button (click)="updatePortfolio()" class="btn btn-primary ml-2 mt-2 mb-3">Update</button>
       </div>
   </div>
   
-  <h5 class="text-center mt-3 mb-5" *ngIf="portfolioResponse">Information updated.</h5>
+  <h5 class="text-center mt-3 mb-2" *ngIf="portfolioResponse">Information updated.</h5>
+
+  <button *ngIf="!removeResponse" (click)="removeFromPortfolio()" class="btn btn-primary mb-5">Remove From Portfolio</button>
+  <h4 *ngIf="removeResponse" class="text-center">Stock removed from portfolio.</h4>
 
 </div>

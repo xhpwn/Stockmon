@@ -76,4 +76,9 @@ export class StockService {
     return this.http.post(query, body);
   }
 
+  removePortfolio(sym: string) {
+    let body = { "id": localStorage.getItem("userId"), "symbol": sym };
+    return this.http.post("http://localhost:3000/api/stocks/removeportfolio", body);
+  }
+
 }

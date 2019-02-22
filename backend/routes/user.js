@@ -68,6 +68,28 @@ router.post("/updateemail", async (req, res, next) => {
     }
 });
 
+router.post("/updatepassword", async (req, res, next) => {
+    try {
+        let user = await User.findById(req.body.userid);
+        if (!user) return res.status(401).send("Auth Failed 1");
+        const validPassword = await bcrypt.compare(req.body.oldPassword, user.password);
+        if (!validPassword) return res.status(401).send("Auth Failed 2");
+        bcrypt.hash(req.body.newPassword, 10)
+        .then(hash => {
+        User.findByIdAndUpdate(req.body.userid, { $set : { "password" : hash  }}, {returnOriginal:false})
+          .then(
+            res.status(200).send("Password successfully changed.")
+          )
+          .catch(err => {
+              console.log(err);
+          });
+        });
+    }
+    catch (err) {
+        res.status(401).send("Auth Failed");
+    }
+});
+
 router.post("/getinfo", async (req, res, next) => {
     try {
         let user = await User.findById(req.body.userid);

@@ -9,7 +9,7 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="!emailResponse">
             <form (submit)="changeEmail(emailForm)" #emailForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
                 <h4 class="h4 mb-3 font-weight-normal">Change email</h4>
                 <label for="newEmail" class="sr-only">New email</label>
@@ -19,17 +19,30 @@
                 <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Change</button>
             </form>
         </div>
-        <div class="col-md-6">
-                <form (submit)="onLogin(loginForm)" #loginForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
-                    <h4 class="h4 mb-3 font-weight-normal">Change password</h4>
-                    <label for="inputPassword" class="sr-only">Old Password</label>
-                    <input #passwordInput="ngModel" name="oldpassword" ngModel type="password" id="inputPassword" class="form-control" placeholder="Old Password" required>
-                    <label for="newPassword" class="sr-only">New Password</label>
-                    <input #passwordInput="ngModel" name="newpassword" ngModel type="password" id="inputPassword" class="form-control mt-2" placeholder="New Password" required>
-                    <label for="confirmPassword" class="sr-only">Confirm New Password</label>
-                    <input #passwordInput="ngModel" name="newpassword2" ngModel type="password" id="inputPassword" class="form-control" placeholder="Confirm New Password" required>
-                    <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Change</button>
-                </form>
-            </div>
+        <div *ngIf="emailResponse" class="col-md-6">
+            <h4 class="text-center">Email changed successfully.</h4>
+        </div>
+        <div *ngIf="emailFail" class="col-md-6">
+            <h4 class="text-center">Could not change email.</h4>
+        </div>
+        <div *ngIf="!passwordResponse" class="col-md-6">
+            <h4 class="text-center">{{ error }}</h4>
+            <form (submit)="changePassword(passwordForm)" #passwordForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
+                <h4 class="h4 mb-3 font-weight-normal">Change password</h4>
+                <label for="inputPassword" class="sr-only">Old Password</label>
+                <input #passwordInput="ngModel" name="oldpassword" ngModel type="password" id="inputPassword" class="form-control" placeholder="Old Password" required>
+                <label for="newPassword" class="sr-only">New Password</label>
+                <input #passwordInput="ngModel" name="newpassword" ngModel type="password" id="inputPassword" class="form-control mt-2" placeholder="New Password" required>
+                <label for="confirmPassword" class="sr-only">Confirm New Password</label>
+                <input #passwordInput="ngModel" name="newpassword2" ngModel type="password" id="inputPassword" class="form-control" placeholder="Confirm New Password" required>
+                <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Change</button>
+            </form>
+        </div>
+        <div *ngIf="passwordResponse" class="col-md-6">
+            <h4 class="text-center">Password changed successfully.</h4>
+        </div>
+        <div *ngIf="passwordFail" class="col-md-6">
+            <h4 class="text-center">Could not change password.</h4>
+        </div>
     </div>
 </div>

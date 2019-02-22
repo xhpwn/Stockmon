@@ -74,10 +74,12 @@ export class AuthService {
         let temp = this.getUserId();
         let body = { userid: temp, email: newEmail, password: password };
         console.log(body);
-        this.http.post("http://localhost:3000/api/user/updateemail", body)
-            .subscribe(response => {
-                console.log(response);
-            });
+        return this.http.post("http://localhost:3000/api/user/updateemail", body);
+    }
+
+    changePassword(oldPassword: string, newPassword: string) {
+        let body = { "userid": localStorage.getItem("userId"), "oldPassword": oldPassword, "newPassword": newPassword };
+        return this.http.post("http://localhost:3000/api/user/updatepassword", body);
     }
 
     getInfo() {
