@@ -70,6 +70,10 @@ export class StockService {
     return this.http.get("http://localhost:3000/api/stocks/getLogo?symbol=" + sym);
   }
 
+  searchBySymbol(sym: string) {
+    return this.http.get("http://localhost:3000/api/stocks/search?symbol=" + sym);
+  }
+
   updatePortfolio(sym: string, shares) {
     let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
     let query = "http://localhost:3000/api/stocks/updatePortfolio";

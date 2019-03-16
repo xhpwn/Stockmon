@@ -1,4 +1,5 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { NgForm, SelectMultipleControlValueAccessor } from '@angular/forms';
 import { AuthService } from '../authservice';
 import { StockService } from '../stockservice';
 
@@ -24,6 +25,7 @@ export class StocksComponent implements OnInit {
   losers;
   following;
   description;
+  searchResults;
   inFocusErrorMessage = "";
   gainerErrorMessage = "";
   loserErrorMessage = "";
@@ -114,7 +116,6 @@ export class StocksComponent implements OnInit {
 
     showSelector(num) {
       this.show = num;
-      console.log(this.following.length)
     }
 
     reloadStocks() {
@@ -122,11 +123,12 @@ export class StocksComponent implements OnInit {
         .subscribe(data => {
           this.following = data;
         this.following = JSON.parse(this.following._body);
-        if (this.following == undefined || this.following.length == 0) {
+        if (this.following == undefined) {
           this.following = new Array();
         }
         //console.log(this.following);
       });
+
       /*
       if (this.following.length === undefined) {
         this.followingErrorMessage = "You are not following anything.";
@@ -136,6 +138,15 @@ export class StocksComponent implements OnInit {
     unfollowStock(symbol: string) {
       this.stockService.removeFromFollowingList(symbol)
         .subscribe(data => {
+        });
+    }
+
+    search(form: NgForm) {
+      this.stockService.searchBySymbol(form.value.searchText)
+        .subscribe(data => { 
+          this.searchResults = data;
+          this.searchResults = JSON.parse(this.searchResults._body);
+          console.log(this.searchResults);
         });
     }
 

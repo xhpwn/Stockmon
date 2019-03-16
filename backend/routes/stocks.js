@@ -352,6 +352,7 @@ router.get("/getdescription", (req, res, next) => {
     });
 });
 
+
 router.get("/getLogo", (req, res, next) => {
   console.log(req.query.symbol)
   //https://api.iextrading.com/1.0/stock/aapl/logo
@@ -363,6 +364,26 @@ router.get("/getLogo", (req, res, next) => {
     })
     .catch(err => {
       res.status(404).send("Cannot display description of stock!");
+      console.log(err);
+    });
+});
+
+router.get("/search", (req, res, next) => {
+  console.log(req.query.symbol)
+  let searchResults = [];
+  let url = "https://api.iextrading.com/1.0/ref-data/symbols";
+  axios.get(url)
+    .then(response => {
+      response.data.forEach(element => {
+        if (element.symbol.toLowerCase().includes(req.query.symbol.toLowerCase())) {
+          let obj = element;
+          searchResults.push(obj)
+        }
+      });
+      res.status(200).send(json.stringify(searchResults));
+    })
+    .catch(err => {
+      res.status(404).send("Search error.");
       console.log(err);
     });
 });
