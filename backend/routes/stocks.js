@@ -74,7 +74,7 @@ router.post("/getportfolio", (req, res, next) => {
         .then(response => {
           // console.log(response.data);
 
-          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data, "shares": element.shares, "equity" : (element.shares * response.data).toFixed(2) };
+          let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data, "shares": element.shares, "equity": (element.shares * response.data).toFixed(2) };
           newData.push(temp);
           if (portfolioData.length === 1) {
             res.status(200).send(json.stringify(newData));
@@ -86,32 +86,43 @@ router.post("/getportfolio", (req, res, next) => {
         })
     })
   })
-
-  // User.findById(req.body.id, function (err, obj) {
-  //   console.log(obj);
-  //   let newData = [];
-
-  //   var stockData = obj.stocks;
-  //   console.log(stockData);
-  //   stockData.forEach(element => {
-  //     let url = "https://api.iextrading.com/1.0/stock/" + element.symbol + "/price";
-  //     axios.get(url)
-  //       .then(response => {
-  //         console.log(response.data);
-
-  //         let temp = { "symbol": element.symbol, "companyName": element.company, "delayedPrice": response.data };
-  //         newData.push(temp);
-  //         if (stockData.length === 1) {
-  //           res.status(200).send(json.stringify(newData));
-  //         }
-  //         stockData = stockData.filter(function (each) {
-  //           return each !== element
-  //         });
-  //         console.log(stockData);
-  //       })
-  //   })
-  // })
 });
+
+router.post("/addCryptPortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+
+    let currentCryptoData = obj.cryptPortfolio
+    var index = -1
+    console.log("length of array is " + currentCryptoData.length)
+    for (i = 0; i < currentCryptoData.length; i++) {
+      if (req.body.symbol === currentCryptoData[i].symbol) {
+        console.log("inside of if(): index = " + i)
+        index = i
+        break;
+      }
+    }
+    console.log("outside of if(): index = " + index)
+
+    if (index === -1) {
+      let url = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e"
+      axios.get(url)
+        .then(response => {
+          // res.send(json.stringify(response.data.USD))
+          var cryptData = obj.cryptPortfolio
+          let newEntry = {
+            "symbol": req.body.symbol,
+            "name": req.body.name,
+            "price": response.data.USD
+          }
+          cryptData.push(newEntry)
+          User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
+            .then(
+              res.send(cryptData)
+            )
+        })
+    }
+  })
+})
 
 router.post("/addportfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
@@ -390,11 +401,11 @@ router.get("/search", (req, res, next) => {
 
 router.get("/getchartdata", (req, res, next) => {
   let data = new Array();
-  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol +  "/chart/" + req.query.time;
+  let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/chart/" + req.query.time;
   axios.get(url)
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "label" : element.date, "value" : element.close }
+        let obj = { "label": element.date, "value": element.close }
         data.push(obj)
       });
       res.status(200).send(json.stringify(data));
@@ -406,14 +417,14 @@ router.get("/getchartdata", (req, res, next) => {
 
 router.get("/getPrice", (req, res, next) => {
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/price";
-      axios.get(url)
-        .then(response => {
-          res.status(200).send(json.stringify(response.data));
-        })
-      .catch(err => {
-        //console.log(err);
-        //res.status(404).send("Cannot display price of stock!");
-      });
+  axios.get(url)
+    .then(response => {
+      res.status(200).send(json.stringify(response.data));
+    })
+    .catch(err => {
+      //console.log(err);
+      //res.status(404).send("Cannot display price of stock!");
+    });
 });
 
 
