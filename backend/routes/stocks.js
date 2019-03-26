@@ -88,6 +88,42 @@ router.post("/getportfolio", (req, res, next) => {
   })
 });
 
+router.get("/getCryptocurrencies", (req, res, next) => {
+  let cryptData = [];
+  axios.get("https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e")
+    .then(response => {
+      // res.send(json.stringify(response.data.Data))
+      response.data.Data.forEach(element => {
+        let coinInfo = element.CoinInfo
+        let price = element.RAW.USD.PRICE
+        let obj = { "Symbol": coinInfo.Name, "Name": coinInfo.FullName, "Price": price };
+        cryptData.push(obj)
+      });
+      res.status(200).send(json.stringify(cryptData));
+    })
+    .catch(err => {
+      res.status(404).send("Cannot display the stock losers!");
+      console.log(err);
+    });
+});
+
+// router.get("/getlosers", (req, res, next) => {
+//   let losersData = [];
+//   axios.get("https://api.iextrading.com/1.0/stock/market/list/losers")
+//     .then(response => {
+//       response.data.forEach(element => {
+//         let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice };
+//         losersData.push(obj)
+//       });
+//       res.status(200).send(json.stringify(response.data));
+//     })
+//     .catch(err => {
+//       res.status(404).send("Cannot display the stock losers!");
+//       console.log(err);
+//     });
+// });
+
+
 router.post("/addCryptPortfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
 
@@ -148,6 +184,7 @@ router.post("/removeCryptPortfolio", (req, res, next) => {
     }
   })
 });
+
 
 router.post("/addportfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
