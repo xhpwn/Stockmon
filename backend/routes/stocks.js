@@ -124,6 +124,31 @@ router.post("/addCryptPortfolio", (req, res, next) => {
   })
 })
 
+router.post("/removeCryptPortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    if (err) {
+      res.send(err)
+    } else {
+      // console.log(obj.portfolio)
+      var cryptData = obj.cryptPortfolio;
+      var index = 0;
+      for (i = 0; i < cryptData.length; i++) {
+        var currentEntry = cryptData[i];
+        if (currentEntry.symbol === req.body.symbol) {
+          index = i;
+          break;
+        }
+      }
+
+      cryptData.splice(index, 1);
+      User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
+        .then(
+          res.status(200).send(cryptData)
+        )
+    }
+  })
+});
+
 router.post("/addportfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
     let currentPortfolioData = obj.portfolio
