@@ -16,4 +16,9 @@ export class DashboardService {
     getInfocus() {
         return this.http.get("http://localhost:3000/api/stocks/getinfocus");
     }
+
+    getCryptPortfolio(userid) {
+        const body = { 'id': userid };
+        return this.http.post("http://localhost:3000/api/stocks/getCryptPortfolio", body);
+    }
 }

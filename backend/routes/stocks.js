@@ -10,6 +10,31 @@ const router = express.Router();
 
 /////////////////// Cryptocurrency backend /////////////////////////
 
+router.post("/getCryptPortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    let newData = [];
+
+    var cryptData = obj.cryptPortfolio;
+    cryptData.forEach(element => {
+      let url = "https://min-api.cryptocompare.com/data/price?fsym=" + element.symbol + "&tsyms=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
+      axios.get(url)
+        .then(response => {
+          // console.log(response.data);
+
+          let temp = { "symbol": element.symbol, "Name": element.name, "Price": response.data.USD, "numCrypto": element.numCrypto, "totAmount": (element.numCrypto * response.data.USD).toFixed(2) };
+          newData.push(temp);
+          if (cryptData.length === 1) {
+            res.status(200).send(json.stringify(newData));
+          }
+          cryptData = cryptData.filter(function (each) {
+            return each !== element
+          });
+          // console.log(portfolioData);
+        })
+    })
+  })
+});
+
 router.get("/getCryptocurrencies", (req, res, next) => {
   let cryptData = [];
   axios.get("https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e")

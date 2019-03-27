@@ -15,15 +15,17 @@ export class DashboardComponent implements OnInit {
 
   selectedStock: Object;
   oldStock: Object;
+  selectedCrypto: Object;
+  oldCrypto: Object;
 
   dataSource = {
     "chart": {
       "caption": "Recommended Portfolio Split",
-      "subCaption" : "For a net-worth of $1M",
-      "showValues":"1",
-      "showPercentInTooltip" : "0",
-      "numberPrefix" : "$",
-      "enableMultiSlicing":"1",
+      "subCaption": "For a net-worth of $1M",
+      "showValues": "1",
+      "showPercentInTooltip": "0",
+      "numberPrefix": "$",
+      "enableMultiSlicing": "1",
       "theme": "fusion"
     },
     "data": [{
@@ -42,9 +44,9 @@ export class DashboardComponent implements OnInit {
       "label": "Insurance",
       "value": "20000"
     }]
-}
+  }
 
-  
+
   private nameSubs: Subscription;
   private loginSubs: Subscription;
   loggedIn: boolean;
@@ -52,6 +54,7 @@ export class DashboardComponent implements OnInit {
 
   inFocus;
   portfolioList;
+  cryptPortfolioList;
 
   constructor(private authService: AuthService, public dashboardService: DashboardService) {
 
@@ -78,17 +81,36 @@ export class DashboardComponent implements OnInit {
         this.portfolioList = JSON.parse(this.portfolioList._body);
         console.log(this.portfolioList[0]);
       });
+
+    this.dashboardService.getCryptPortfolio(this.authService.getUserId())
+      .subscribe(data => {
+        this.cryptPortfolioList = data;
+        this.cryptPortfolioList = JSON.parse(this.cryptPortfolioList._body);
+        console.log(this.cryptPortfolioList[0]);
+      });
   }
 
-  onSelect(stock: Object):void {
+  onSelect(stock: Object): void {
 
-    if(this.selectedStock != null){
+    if (this.selectedStock != null) {
       this.oldStock = stock;
       this.selectedStock = null;
     }
-    else{
-     this.selectedStock = stock;
-     this.oldStock = null;
+    else {
+      this.selectedStock = stock;
+      this.oldStock = null;
+    }
+  }
+
+  onSelectCrypto(crypto: Object): void {
+
+    if (this.selectedCrypto != null) {
+      this.oldCrypto = crypto;
+      this.selectedStock = null;
+    }
+    else {
+      this.selectedCrypto = crypto;
+      this.oldCrypto = null;
     }
   }
 }
