@@ -13,4 +13,11 @@ export class CryptoService {
     getCryptos() {
         return this.http.get("http://localhost:3000/api/stocks/getCryptocurrencies");
     }
+
+    addToPortfolio(userId, crypto, number) {
+        const body = { 'id': userId, 'symbol': crypto["Symbol"], 'numCrypto': number };
+        console.log(body);
+        return this.http.post("http://localhost:3000/api/stocks/addCryptPortfolio", body );
+    }
+
 }

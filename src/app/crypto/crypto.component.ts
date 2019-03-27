@@ -8,13 +8,14 @@ import { CryptoService } from '../cryptoservice';
   styleUrls: ['./crypto.component.css']
 })
 export class CryptoComponent implements OnInit {
-  constructor(public stockService: CryptoService, private authService: AuthService) { }
+  constructor(public cryptoService: CryptoService, private authService: AuthService) { }
 
   cryptoList;
   selected = false;
+  numC;
 
   ngOnInit() {
-    this.stockService.getCryptos()
+    this.cryptoService.getCryptos()
       .subscribe(data => {
         this.cryptoList = data;
         this.cryptoList = JSON.parse(this.cryptoList._body);
@@ -25,4 +26,12 @@ export class CryptoComponent implements OnInit {
   onSelected() {
     this.selected = true;
   }
+
+  addCryptoToPortfolio(crypto: Object) {
+    this.cryptoService.addToPortfolio(this.authService.getUserId(), crypto, this.numC)
+    .subscribe(result => {
+      console.log(result);
+    })
+  }
+
 }

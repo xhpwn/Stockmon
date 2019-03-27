@@ -56,9 +56,9 @@ router.get("/getCryptocurrencies", (req, res, next) => {
 
 router.post("/addCryptPortfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-
+    console.log(req.body);
     let currentCryptoData = obj.cryptPortfolio
-    var index = -1
+    var index = -1;
     console.log("length of array is " + currentCryptoData.length)
     for (i = 0; i < currentCryptoData.length; i++) {
       if (req.body.symbol === currentCryptoData[i].symbol) {

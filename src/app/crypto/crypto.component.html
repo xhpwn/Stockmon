@@ -10,6 +10,7 @@
             <th scope="col">Symbol</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
+            <th scopr="">Add to Portfolio</th>
           </tr>
         </thead>
         <tbody *ngFor="let each of cryptoList">
@@ -17,6 +18,7 @@
             <th scope="row">{{ each.Symbol }}</th>
             <td>{{ each.Name }}</td>
             <td>${{ each.Price}}</td>
+            <td><input type="text" [(ngModel)]="numC" id="numOfCrypto" name="numberOfCrypto"><button (click)="addCryptoToPortfolio(each)" class="btn btn-primary">Add</button></td>
           </tr>
         </tbody>
       </table>
