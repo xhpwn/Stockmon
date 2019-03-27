@@ -4,58 +4,99 @@
 </div>
 <div *ngIf="loggedIn">
     <h1 class="mt-4 text-center">Dashboard</h1>
-    <h3 style="color: red"  class="mt-4 text-center">Welcome, {{ name }}.</h3>
+    <h3 style="color: red" class="mt-4 text-center">Welcome, {{ name }}.</h3>
 
     <h2 class="mt-4 text-center">Stock Portfolio</h2>
     <div class="text-center">
-    <app-piechart [list]="portfolioList"></app-piechart>
+        <app-piechart [list]="portfolioList"></app-piechart>
     </div>
 
-<div class="container-fluid">
-<div class="row">
-<div class="col-md-5">
-        <table class="table table-dark mt-5">
-            <thead>
-                <tr class="text-center">
-                    <th>List of Stocks</th>
-                </tr>
-            </thead>
-        </table>
-        <div>
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Symbol</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Shares</th>
-                        <th scope="col">Equity</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let each of portfolioList"
-                [class.selected]="each === selectedStock"
-            (click)="onSelect(each)">
-                    <tr class="rows">
-                        <th scope="row">{{ each.symbol }}</th>
-                        <td>{{ each.companyName }}</td>
-                        <td>${{ each.delayedPrice }}</td>
-                        <td>{{ each.shares }}</td>
-                        <td>${{ each.equity }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <table class="table table-dark mt-5">
+                    <thead>
+                        <tr class="text-center">
+                            <th>List of Stocks</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Symbol</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Shares</th>
+                                <th scope="col">Equity</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let each of portfolioList" [class.selected]="each === selectedStock"
+                            (click)="onSelect(each)">
+                            <tr class="rows">
+                                <th scope="row">{{ each.symbol }}</th>
+                                <td>{{ each.companyName }}</td>
+                                <td>${{ each.delayedPrice }}</td>
+                                <td>{{ each.shares }}</td>
+                                <td>${{ each.equity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <div class="col-md-6 mt-5">
-            <div *ngIf="selectedStock != null">
+                <!-- Cryptocurrency table code-->
+                <table class="table table-dark mt-5">
+                    <thead>
+                        <tr class="text-center">
+                            <th>List of Cryptocurrencies</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Symbol</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Number of Cryptocurrency</th>
+                                <th scope="col">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let each of cryptPortfolioList" [class.selected]="each === selectedCrypto"
+                            (click)="onSelectCrypto(each)">
+                            <tr class="rows">
+                                <th scope="row">{{ each.symbol }}</th>
+                                <td>{{ each.Name }}</td>
+                                <td>${{ each.Price }}</td>
+                                <td>{{ each.numCrypto }}</td>
+                                <td>${{ each.totAmount }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End of cryptocurrency table code-->
+
+            </div>
+
+            <div class="col-md-6 mt-5">
+                <div *ngIf="selectedStock != null">
                     <app-dashboardchild [stock]="selectedStock"></app-dashboardchild>
-            </div>
+                </div>
 
-            <div *ngIf="oldStock != null">
+                <div *ngIf="oldStock != null">
                     <app-dashboardchild [stock]="oldStock"></app-dashboardchild>
+                </div>
+
+                <div *ngIf="selectedCrypto != null">
+                    <app-dashboardchild [crypto]="selectedCrypto"></app-dashboardchild>
+                </div>
+
+                <div *ngIf="oldCrypto != null">
+                    <app-dashboardchild [crypto]="oldCrypto"></app-dashboardchild>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -9,8 +9,10 @@ import { StockService } from '../stockservice';
 export class DashboardchildComponent implements OnInit {
 
   @Input() stock: Object;
+  @Input() crypto: Object;
   selected = false;
   shares;
+  numCrypto;
   portfolioResponse = false;
   followingResponse = false;
   removeResponse = false;
@@ -28,9 +30,9 @@ export class DashboardchildComponent implements OnInit {
   updatePortfolio() {
     console.log(this.shares);
     this.stockService.updatePortfolio(this.stock["symbol"], this.shares)
-    .subscribe(data => {
-      this.portfolioResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-    });
+      .subscribe(data => {
+        this.portfolioResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      });
   }
 
   addToFollowing() {
