@@ -74,6 +74,16 @@ export class StockService {
     return this.http.get("http://localhost:3000/api/stocks/search?symbol=" + sym);
   }
 
+  searchBySymbolTest(sym: string) {
+    return 'AAPL';
+    this.http.get("http://localhost:3000/api/stocks/search?symbol=" + sym).subscribe(
+      res => {
+        res = JSON.parse(JSON.stringify(res));
+        return res["body"]["symbol"].toString();
+      }
+    );
+  }
+
   updatePortfolio(sym: string, shares) {
     let body = { "symbol" : sym, "id" : localStorage.getItem("userId"), "shares": shares }
     let query = "http://localhost:3000/api/stocks/updatePortfolio";
