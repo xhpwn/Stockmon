@@ -29,7 +29,7 @@ export class SigninComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.authService.signin(form.value.email, form.value.password);
+    this.authService.signin(form.value.email, form.value.username, form.value.password);
     setTimeout(() => this.loginRedirect(), 1000);
   }
 

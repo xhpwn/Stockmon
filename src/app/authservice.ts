@@ -1,102 +1,108 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { AuthData } from "./auth-data.model";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { AuthData } from './auth-data.model';
+import { Subject, BehaviorSubject } from 'rxjs';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 
 export class AuthService {
 
-    private token: string;
-    private name: string;
-    private userId: string;
-    private authStatusListener = new Subject<boolean>();
-    private nameListener = new BehaviorSubject<String>(this.getName());
-    isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
+  private token: string;
+  private name: string;
+  private userId: string;
+  private authStatusListener = new Subject<boolean>();
+  private nameListener = new BehaviorSubject<String>(this.getName());
+  isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
 
-    getAuthStatusListener() {
-        return this.isLoginSubject.asObservable();
+  getAuthStatusListener() {
+    return this.isLoginSubject.asObservable();
+  }
+
+  getNameListener() {
+    return this.nameListener.asObservable();
+  }
+
+  getToken() {
+    return localStorage.token;
+  }
+
+  hasToken() {
+    if (localStorage.getItem('token') !== undefined) {
+      return true;
     }
+    return false;
+  }
 
-    getNameListener() {
-        return this.nameListener.asObservable();
-    }
+  getName() {
+    return localStorage.getItem('name');
+  }
 
-    getToken() {
-        return localStorage.token;
-    }
+  getUserId() {
+    return localStorage.getItem('userId');
+  }
 
-    hasToken() {
-        if (localStorage.getItem("token") != undefined)
-            return true;
-        return false;
-    }
+  constructor(private http: Http) {}
 
-    getName() {
-        return localStorage.getItem("name");
-    }
+  createUser(name: string, email: string, username: string, password: string) {
+    const authData: AuthData = { name: name, email: email, username: username, password: password };
+    console.log(authData);
+    return this.http.post('http://localhost:3000/api/user/register', authData);
+  }
 
-    getUserId() {
-        return localStorage.getItem("userId");
-    }
+  signin(email: string, username: string, password: string) {
+    const authData: AuthData = { name: 'Doesn\'t matter', email: email, username: username, password: password };
+    this.http.post('http://localhost:3000/api/user/signin', authData)
+      .subscribe(response => {
+        const data = JSON.stringify(response);
+        console.log(response);
+        this.isLoginSubject.next(true);
+        if (response.status === 200) {
+          this.name = (JSON.parse(JSON.parse(data)._body)).name;
+          this.token = (JSON.parse(JSON.parse(data)._body)).token;
+          this.userId = (JSON.parse(JSON.parse(data)._body)).userId;
+          localStorage.setItem('token', this.token);
+          localStorage.setItem('name', this.name);
+          localStorage.setItem('userId', this.userId);
+          this.nameListener.next(this.name);
+        }
+      });
+  }
 
-    constructor(private http: Http) {}
+  changeEmail(newEmail: string, password: string) {
+    const temp = this.getUserId();
+    const body = { userid: temp, email: newEmail, password: password };
+    console.log(body);
+    this.http.post('http://localhost:3000/api/user/updateemail', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/updateemail', body);
+  }
 
-    createUser(name: string, email: string, password: string) {
-        const authData: AuthData = { name: name, email: email, password: password };
-        console.log(authData);
-        return this.http.post("http://localhost:3000/api/user/register", authData);
-    }
+  changeUsername(oldUsername: string, newUsername: string) {
+    const body = { 'userid': localStorage.getItem('userId'), 'oldUsername': oldUsername, 'newUsername': newUsername };
+    return this.http.post('http://localhost:3000/api/user/updateusername', body);
+  }
 
-    signin(email: string, password: string) {
-        const authData: AuthData = { name: "Doesn't matter", email: email, password: password };
-        this.http.post("http://localhost:3000/api/user/signin", authData)
-            .subscribe(response => {
-                let data = JSON.stringify(response);
-                console.log(response);
-                this.isLoginSubject.next(true);
-                if (response.status == 200) {
-                    this.name = (JSON.parse(JSON.parse(data)._body)).name;
-                    this.token = (JSON.parse(JSON.parse(data)._body)).token;
-                    this.userId = (JSON.parse(JSON.parse(data)._body)).userId;
-                    localStorage.setItem("token", this.token);
-                    localStorage.setItem("name", this.name);
-                    localStorage.setItem("userId", this.userId);
-                    this.nameListener.next(this.name);
-                }
-            });
-    }
+  changePassword(oldPassword: string, newPassword: string) {
+    const body = { 'userid': localStorage.getItem('userId'), 'oldPassword': oldPassword, 'newPassword': newPassword };
+    return this.http.post('http://localhost:3000/api/user/updatepassword', body);
+  }
 
-    changeEmail(newEmail: string, password: string) {
-        let temp = this.getUserId();
-        let body = { userid: temp, email: newEmail, password: password };
-        console.log(body);
-        this.http.post("http://localhost:3000/api/user/updateemail", body)
-            .subscribe(response => {
-                console.log(response);
-            });
-        return this.http.post("http://localhost:3000/api/user/updateemail", body);
-    }
+  getInfo() {
+    const temp = this.getUserId();
+    const body = { userid: temp };
+    return this.http.post('http://localhost:3000/api/user/getinfo', body);
+  }
 
-    changePassword(oldPassword: string, newPassword: string) {
-        let body = { "userid": localStorage.getItem("userId"), "oldPassword": oldPassword, "newPassword": newPassword };
-        return this.http.post("http://localhost:3000/api/user/updatepassword", body);
-    }
-
-    getInfo() {
-        let temp = this.getUserId();
-        let body = { userid: temp };
-        return this.http.post("http://localhost:3000/api/user/getinfo", body);
-    }
-
-    logout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("name");
-        localStorage.removeItem("userId");
-        this.name = undefined;
-        this.token = undefined;
-        this.userId = undefined;
-        this.isLoginSubject.next(false);
-    }
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+    localStorage.removeItem('userId');
+    this.name = undefined;
+    this.token = undefined;
+    this.userId = undefined;
+    this.isLoginSubject.next(false);
+  }
 
 }

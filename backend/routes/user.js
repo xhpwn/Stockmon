@@ -11,6 +11,7 @@ router.post("/register", (req, res, next) => {
         .then(hash => {
             const user = new User({
                 name: req.body.name,
+                username: req.body.username,
                 email: req.body.email,
                 password: hash
             });
@@ -66,6 +67,28 @@ router.post("/updateemail", async (req, res, next) => {
     catch (err) {
         res.status(401).send("Auth Failed");
     }
+});
+
+router.post("/updateusername", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userid);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    const validPassword = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!validPassword) return res.status(401).send("Auth Failed 2");
+    bcrypt.hash(req.body.newPassword, 10)
+      .then(hash => {
+        User.findByIdAndUpdate(req.body.userid, { $set : { "username" : req.body.username  }}, {returnOriginal:false})
+          .then(
+            res.status(200).send("Username successfully changed.")
+          )
+          .catch(err => {
+            console.log(err);
+          });
+      });
+  }
+  catch (err) {
+    res.status(401).send("Auth Failed");
+  }
 });
 
 router.post("/updatepassword", async (req, res, next) => {
