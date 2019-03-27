@@ -1,3 +1,37 @@
-<p>
-  crypto works!
-</p>
+<h1 class="mt-4 text-center">Cryptocurrencies</h1>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-6">
+      <table class="table table-dark mt-2">
+        <thead>
+          <tr>
+            <th scope="col">Symbol</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let each of cryptoList">
+          <tr class="rows">
+            <th scope="row">{{ each.Symbol }}</th>
+            <td>{{ each.Name }}</td>
+            <td>${{ each.Price}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- <div class="col-md-6 text-center">
+      <div *ngIf="!selected">
+        <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
+      </div>
+
+      <div *ngIf="selected && !portfolioResponse">
+        <h6 class="mt-2">Number of cryptocurrencies owned</h6>
+        <input [(ngModel)]="numCrypt">
+        <button (click)="addToPortfolio()" class="btn btn-primary ml-4">Add</button>
+      </div>
+    </div> -->
+  </div>
+</div>

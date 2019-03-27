@@ -8,6 +8,110 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+/////////////////// Cryptocurrency backend /////////////////////////
+
+router.get("/getCryptocurrencies", (req, res, next) => {
+  let cryptData = [];
+  axios.get("https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e")
+    .then(response => {
+      // res.send(json.stringify(response.data.Data))
+      response.data.Data.forEach(element => {
+        let coinInfo = element.CoinInfo
+        let price = element.RAW.USD.PRICE
+        let obj = { "Symbol": coinInfo.Name, "Name": coinInfo.FullName, "Price": price };
+        cryptData.push(obj)
+      });
+      res.status(200).send(json.stringify(cryptData));
+    })
+    .catch(err => {
+      res.status(404).send("Cannot display the stock losers!");
+      console.log(err);
+    });
+});
+
+router.post("/addCryptPortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+
+    let currentCryptoData = obj.cryptPortfolio
+    var index = -1
+    console.log("length of array is " + currentCryptoData.length)
+    for (i = 0; i < currentCryptoData.length; i++) {
+      if (req.body.symbol === currentCryptoData[i].symbol) {
+        console.log("inside of if(): index = " + i)
+        index = i
+        break;
+      }
+    }
+    console.log("outside of if(): index = " + index)
+
+    if (index === -1) {
+      let url = "https://min-api.cryptocompare.com/data/coin/generalinfo?fsyms=" + req.body.symbol + "&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e"
+      axios.get(url)
+        .then(response => {
+          // res.send(json.stringify(response.data.USD))
+          var cryptData = obj.cryptPortfolio
+          var coinInfo = response.data.Data[0].CoinInfo
+          let newEntry = {
+            "symbol": coinInfo.Name,
+            "name": coinInfo.FullName,
+            "numCrypto": req.body.numCrypto
+          }
+          cryptData.push(newEntry)
+          User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
+            .then(
+              res.send(cryptData)
+            )
+        })
+    }
+  })
+})
+
+router.post("/removeCryptPortfolio", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    if (err) {
+      res.send(err)
+    } else {
+      // console.log(obj.portfolio)
+      var cryptData = obj.cryptPortfolio;
+      var index = 0;
+      for (i = 0; i < cryptData.length; i++) {
+        var currentEntry = cryptData[i];
+        if (currentEntry.symbol === req.body.symbol) {
+          index = i;
+          break;
+        }
+      }
+
+      cryptData.splice(index, 1);
+      User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
+        .then(
+          res.status(200).send(cryptData)
+        )
+    }
+  })
+});
+
+router.post("/updateCryptoNum", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    var cryptData = obj.cryptPortfolio
+    var index = 0
+    for (i = 0; i < cryptData.length; i++) {
+      if (cryptData[i].symbol === req.body.symbol) {
+        index = i;
+        break;
+      }
+    }
+
+    cryptData[index].numCrypto = req.body.numCrypto
+    User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
+      .then(
+        res.status(200).send(cryptData)
+      )
+  });
+});
+
+//////////////////////////// Stocks backend ///////////////////////////////
+
 router.post("/increaseshares", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
     var portfolioData = obj.portfolio;
@@ -85,103 +189,6 @@ router.post("/getportfolio", (req, res, next) => {
           // console.log(portfolioData);
         })
     })
-  })
-});
-
-router.get("/getCryptocurrencies", (req, res, next) => {
-  let cryptData = [];
-  axios.get("https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e")
-    .then(response => {
-      // res.send(json.stringify(response.data.Data))
-      response.data.Data.forEach(element => {
-        let coinInfo = element.CoinInfo
-        let price = element.RAW.USD.PRICE
-        let obj = { "Symbol": coinInfo.Name, "Name": coinInfo.FullName, "Price": price };
-        cryptData.push(obj)
-      });
-      res.status(200).send(json.stringify(cryptData));
-    })
-    .catch(err => {
-      res.status(404).send("Cannot display the stock losers!");
-      console.log(err);
-    });
-});
-
-// router.get("/getlosers", (req, res, next) => {
-//   let losersData = [];
-//   axios.get("https://api.iextrading.com/1.0/stock/market/list/losers")
-//     .then(response => {
-//       response.data.forEach(element => {
-//         let obj = { "Symbol": element.symbol, "Name": element.companyName, "Price": element.delayedPrice };
-//         losersData.push(obj)
-//       });
-//       res.status(200).send(json.stringify(response.data));
-//     })
-//     .catch(err => {
-//       res.status(404).send("Cannot display the stock losers!");
-//       console.log(err);
-//     });
-// });
-
-
-router.post("/addCryptPortfolio", (req, res, next) => {
-  User.findById(req.body.id, function (err, obj) {
-
-    let currentCryptoData = obj.cryptPortfolio
-    var index = -1
-    console.log("length of array is " + currentCryptoData.length)
-    for (i = 0; i < currentCryptoData.length; i++) {
-      if (req.body.symbol === currentCryptoData[i].symbol) {
-        console.log("inside of if(): index = " + i)
-        index = i
-        break;
-      }
-    }
-    console.log("outside of if(): index = " + index)
-
-    if (index === -1) {
-      let url = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e"
-      axios.get(url)
-        .then(response => {
-          // res.send(json.stringify(response.data.USD))
-          var cryptData = obj.cryptPortfolio
-          let newEntry = {
-            "symbol": req.body.symbol,
-            "name": req.body.name,
-            "price": response.data.USD
-          }
-          cryptData.push(newEntry)
-          User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
-            .then(
-              res.send(cryptData)
-            )
-        })
-    }
-  })
-})
-
-router.post("/removeCryptPortfolio", (req, res, next) => {
-  User.findById(req.body.id, function (err, obj) {
-    if (err) {
-      res.send(err)
-    } else {
-      // console.log(obj.portfolio)
-      var cryptData = obj.cryptPortfolio;
-      var index = 0;
-      for (i = 0; i < cryptData.length; i++) {
-        var currentEntry = cryptData[i];
-        if (currentEntry.symbol === req.body.symbol) {
-          index = i;
-          break;
-        }
-      }
-
-      cryptData.splice(index, 1);
-      User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
-        .then(
-          res.status(200).send(cryptData)
-        )
-    }
   })
 });
 
