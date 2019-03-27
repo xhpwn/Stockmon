@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StocksComponent } from './stocks.component';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { ChartComponent } from '../chart/chart.component';
+import { FusionChartsModule } from 'angular-fusioncharts';
 
 describe('StocksComponent', () => {
   let component: StocksComponent;
@@ -8,7 +12,8 @@ describe('StocksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StocksComponent ]
+      declarations: [ StocksComponent, ChartComponent ],
+      imports: [FormsModule, HttpModule, FusionChartsModule]
     })
     .compileComponents();
   }));

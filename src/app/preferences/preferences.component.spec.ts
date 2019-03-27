@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PreferencesComponent } from './preferences.component';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 describe('PreferencesComponent', () => {
   let component: PreferencesComponent;
@@ -8,7 +10,8 @@ describe('PreferencesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PreferencesComponent ]
+      declarations: [ PreferencesComponent ],
+      imports: [FormsModule, HttpModule]
     })
     .compileComponents();
   }));
