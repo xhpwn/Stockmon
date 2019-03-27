@@ -63,6 +63,7 @@ export class StocksComponent implements OnInit {
     if (this.losers.length === undefined) {
       this.loserErrorMessage = "The stock losers could not be displayed.";
     }*/
+    if (this.authService.getToken() != undefined) {
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
           this.following = data;
@@ -72,6 +73,7 @@ export class StocksComponent implements OnInit {
         }
         //console.log(this.following);
       });
+    }
       /*
       if (this.following.length === undefined) {
         this.followingErrorMessage = "You are not following anything.";
@@ -119,6 +121,7 @@ export class StocksComponent implements OnInit {
     }
 
     reloadStocks() {
+      if (this.authService.getUserId() != undefined) {
       this.stockService.getFollowingList(this.authService.getUserId())
         .subscribe(data => {
           this.following = data;
@@ -128,6 +131,7 @@ export class StocksComponent implements OnInit {
         }
         //console.log(this.following);
       });
+    }
 
       /*
       if (this.following.length === undefined) {
