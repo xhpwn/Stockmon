@@ -37,6 +37,8 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
 
+    if (this.stock != undefined) {
+
     this.stockService.getDescription(this.stock["symbol"])
       .subscribe(data => {
         this.description = data;
@@ -63,9 +65,12 @@ export class ChartComponent implements OnInit {
       this.price = data;
       this.price = JSON.parse(this.price._body);
     })
+  }
+  else {
 
+    console.log(this.cryptotime);
     
-    this.cryptoService.getCryptodata(this.crypto["symbol"].toString(), this.cryptotime)
+    this.cryptoService.getCryptodata(this.crypto["Symbol"].toString(), this.cryptotime)
     .subscribe(data => {
       this.iscrypto = true;
       this.test = data;
@@ -76,11 +81,14 @@ export class ChartComponent implements OnInit {
          "label": element.label, "value": element.value.toString()
        }
        this.newData.push(temp)
+       console.log(this.newData);
       })});
+    }
+    
   
 
 
-
+if (this.stock != undefined) {
    this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
    .subscribe(data => {
      this.test = data;
@@ -132,7 +140,7 @@ export class ChartComponent implements OnInit {
 
    setTimeout(() => this.loadData(), 500);
 
-   
+  }
 }
 
 

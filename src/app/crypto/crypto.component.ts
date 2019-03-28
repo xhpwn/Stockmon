@@ -16,6 +16,7 @@ export class CryptoComponent implements OnInit {
   dataSource: Object;
   selected = false;
   numC;
+  time: string;
 
   ngOnInit() {
     this.cryptoService.getCryptos()
@@ -28,7 +29,6 @@ export class CryptoComponent implements OnInit {
 
 
   onSelect(crypto: Object):void {
-
     if(this.selectedCrypto != null){
       this.oldCrypto = crypto;
       this.selectedCrypto = null;
@@ -39,7 +39,11 @@ export class CryptoComponent implements OnInit {
     }
    
     
- } 
+ }
+ 
+ setTime(time:string) {
+   this.time = time;
+ }
 
   onSelected() {
     this.selected = true;

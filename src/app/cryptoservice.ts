@@ -21,7 +21,8 @@ export class CryptoService {
     }
 
     getCryptodata(symbol: string, timeFrame: string) {
-        let query = "http://localhost:3000/api/stocks/getCryptodata?symbol=" + symbol + "&time=" + timeFrame;
+        let query = "http://localhost:3000/api/stocks/getcryptodata?symbol=" + symbol + "&time=" + timeFrame;
+        console.log(query);
         return this.http.get(query);
       }
 

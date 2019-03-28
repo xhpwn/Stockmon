@@ -12,10 +12,10 @@ const router = express.Router();
 
 router.get("/getcryptodata", (req, res, next) => {
   let data = new Array();
-  let url = "https://min-api.cryptocompare.com/data/" + req.query.time + "?fysm" + element.symbol + "&tsym=USD&limit=5&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
-  req.query.time
+  let url = "https://min-api.cryptocompare.com/data/" + req.query.time + "?fysm=" + req.query.symbol + "&tsym=USD&limit=5&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
   axios.get(url)
     .then(response => {
+      console.log(response);
       response.data.forEach(element => {
         let obj = { "label": element.time, "value": element.close }
         data.push(obj)
@@ -37,7 +37,7 @@ router.post("/getCryptPortfolio", (req, res, next) => {
       let url = "https://min-api.cryptocompare.com/data/price?fsym=" + element.symbol + "&tsyms=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
       axios.get(url)
         .then(response => {
-          // console.log(response.data);
+          console.log(response.data);
 
           let temp = { "symbol": element.symbol, "Name": element.name, "Price": response.data.USD, "numCrypto": element.numCrypto, "totAmount": (element.numCrypto * response.data.USD).toFixed(2) };
           newData.push(temp);

@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody *ngFor="let each of cryptoList">
-          <tr class="rows">
+          <tr class="rows" (click)="onSelect(each)">
             <th scope="row">{{ each.Symbol }}</th>
             <td>{{ each.Name }}</td>
             <td>${{ each.Price}}</td>
@@ -31,7 +31,9 @@
 
 
 <!--div *ngIf="selectedCrypto != null && selectedTime == 'histohour'"--->
-  <app-chart [crypto]="BTC" [time]="histohour"></app-chart>
+<div *ngIf="selectedCrypto != null">
+  <app-chart [crypto]="selectedCrypto" [cryptotime]="time"></app-chart>
+</div>
 <!--/div>
 
 <div *ngIf="selectedCrypto != null && selectedTime == 'histoday'">
