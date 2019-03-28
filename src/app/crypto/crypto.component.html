@@ -24,6 +24,11 @@
       </table>
     </div>
 
+<div>
+  <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1w')" >Hour</button>
+<button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1m')" >Day</button>
+<button class="btn btn-success mt-3 mr-2 mb-4" (click)="setTime('1y')">Year</button>
+</div>
     <!-- <div class="col-md-6 text-center">
       <div *ngIf="!selected">
         <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
