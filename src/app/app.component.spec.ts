@@ -50,19 +50,15 @@ describe('AppComponent', () => {
       });
     });
    
-    it('should be created', inject([StockService], (service: StockService) => {
+    it('Stock service availability', inject([StockService], (service: StockService) => {
       expect(service).toBeTruthy();
     }));
 
-    it('getinfocus returns a valid list', inject([StockService], (service: StockService) => {
-      expect(service.getInfocus()).toBeDefined();
-    }));
-
-    it('Search test 1 (AAPL)', inject([StockService], (service: StockService) => {
+    it('Search UI test 1 (AAPL)', inject([StockService], (service: StockService) => {
       expect(service.searchBySymbol('AAPL')).toBeTruthy();
     }));
 
-    it('Search test 2 (A)', inject([StockService], (service: StockService) => {
+    it('Search UI test 2 (A)', inject([StockService], (service: StockService) => {
       expect(service.searchBySymbol('A')).toBeTruthy();
     }));
 

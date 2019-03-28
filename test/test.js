@@ -10,6 +10,7 @@ chai.use(chaiHttp);
 
 describe('Angular server status and message', function () {
   it('status response should be equal 200', function (done) {
+    this.timeout(5000);
       http.get('http://localhost:4200', function (response) {
           assert.equal(response.statusCode, 200);
           done();
@@ -20,6 +21,7 @@ describe('Angular server status and message', function () {
   describe('Backend availability testing', function () {
 
     it('Get /infocus, status code 200', function (done) {
+      this.timeout(5000);
       http.get('http://localhost:3000/api/stocks/getinfocus', function (response) {
         assert.equal(response.statusCode, 200);
         done();
