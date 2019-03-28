@@ -30,6 +30,7 @@ export class ChartComponent implements OnInit {
   description;
   logoUrl;
   weekData = new Array();
+  iscrypto = false;
 
   constructor(public stockService: StockService, public cryptoService: CryptoService) {    
   }
@@ -66,6 +67,7 @@ export class ChartComponent implements OnInit {
     
     this.cryptoService.getCryptodata(this.crypto["symbol"].toString(), this.cryptotime)
     .subscribe(data => {
+      this.iscrypto = true;
       this.test = data;
       this.test = JSON.parse(this.test._body);
  
@@ -133,7 +135,27 @@ export class ChartComponent implements OnInit {
    
 }
 
+
+
+
   loadData() {
+if(this.crypto){
+
+  this.dataSource = {
+    chart: {
+      "caption": "Crypto data for " +this.stock["symbol"].toString(),
+      "subCaption": this.isWeek ? "1w" : this.time,
+      "xAxisName": "Time",
+      "yAxisName": "$(USD)",
+      "lineColor": "#346474",
+      "bgcolor": "white",
+      "showAlternateHGridColor": 0,
+      "numberPrefix": "$",
+      "theme": "gammel"
+    },
+}}
+
+else{
     this.dataSource = {
       chart: {
         "caption": "Stock data for " +this.stock["symbol"].toString(),
@@ -149,7 +171,7 @@ export class ChartComponent implements OnInit {
       // Chart Data
       "data": this.isWeek ? this.weekData : this.newData
    
-  };
+  };}
   }
 
   addToFollowing() {
