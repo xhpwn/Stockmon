@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StockService } from '../stockservice';
+import {CryptoService} from '../cryptoservice';
 
 @Component({
   selector: 'app-chart',
@@ -11,6 +12,9 @@ export class ChartComponent implements OnInit {
   @Input() stock: Object;
   @Input() time: string;
   @Input() isWeek: boolean;
+
+  @Input() crypto: Object;
+  @Input() cryptotime: string;
 
   portfolioFail = false;
   dataSource;
@@ -27,7 +31,7 @@ export class ChartComponent implements OnInit {
   logoUrl;
   weekData = new Array();
 
-  constructor(public stockService: StockService) {    
+  constructor(public stockService: StockService, public cryptoService: CryptoService) {    
   }
 
   ngOnInit() {
@@ -58,6 +62,22 @@ export class ChartComponent implements OnInit {
       this.price = data;
       this.price = JSON.parse(this.price._body);
     })
+
+    
+    this.cryptoService.getCryptodata(this.crypto["symbol"].toString(), this.cryptotime)
+    .subscribe(data => {
+      this.test = data;
+      this.test = JSON.parse(this.test._body);
+ 
+     this.test.forEach(element => {
+       let temp = {
+         "label": element.label, "value": element.value.toString()
+       }
+       this.newData.push(temp)
+      })});
+  
+
+
 
    this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
    .subscribe(data => {

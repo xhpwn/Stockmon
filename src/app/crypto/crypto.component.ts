@@ -10,7 +10,10 @@ import { CryptoService } from '../cryptoservice';
 export class CryptoComponent implements OnInit {
   constructor(public cryptoService: CryptoService, private authService: AuthService) { }
 
+  selectedCrypto: Object;
+  oldCrypto: Object;
   cryptoList;
+  dataSource: Object;
   selected = false;
   numC;
 
@@ -22,6 +25,21 @@ export class CryptoComponent implements OnInit {
         console.log(this.cryptoList);
       });
   }
+
+
+  onSelect(crypto: Object):void {
+
+    if(this.selectedCrypto != null){
+      this.oldCrypto = crypto;
+      this.selectedCrypto = null;
+    }
+    else{
+     this.selectedCrypto = crypto;
+     this.oldCrypto = null;
+    }
+   
+    
+ } 
 
   onSelected() {
     this.selected = true;

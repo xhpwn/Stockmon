@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { CryptoComponent } from './crypto.component';
+import { ChartComponent } from '../chart/chart.component';
+import { FusionChartsModule } from 'angular-fusioncharts';
 
 describe('CryptoComponent', () => {
   let component: CryptoComponent;
@@ -8,7 +11,9 @@ describe('CryptoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CryptoComponent ]
+      declarations: [ CryptoComponent,ChartComponent ],
+      imports: [FormsModule, HttpModule, FusionChartsModule]
+
     })
     .compileComponents();
   }));
