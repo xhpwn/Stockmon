@@ -25,9 +25,20 @@
     </div>
 
 <div>
-  <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1w')" >Hour</button>
-<button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('1m')" >Day</button>
+  <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histohour')" >Hour</button>
+<button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histoday')" >Day</button>
 <button class="btn btn-success mt-3 mr-2 mb-4" (click)="setTime('1y')">Year</button>
+
+
+<div *ngIf="selectedCrypto != null && selectedTime == 'histohour'">
+  <app-chart [stock]="selectedCrypto" [time]="selectedTime"></app-chart>
+</div>
+
+<div *ngIf="selectedCrypto != null && selectedTime == 'histoday'">
+  <app-chart [stock]="selectedCrypto" [time]="selectedTime"></app-chart>
+</div>
+
+
 </div>
     <!-- <div class="col-md-6 text-center">
       <div *ngIf="!selected">
