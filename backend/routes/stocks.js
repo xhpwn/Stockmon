@@ -81,6 +81,7 @@ router.post("/addCryptPortfolio", (req, res, next) => {
             "name": coinInfo.FullName,
             "numCrypto": req.body.numCrypto
           }
+          console.log("HIIII" + cryptData);
           cryptData.push(newEntry)
           User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
             .then(
@@ -474,7 +475,6 @@ router.get("/getLogo", (req, res, next) => {
 });
 
 router.get("/search", (req, res, next) => {
-  console.log(req.query.symbol)
   let searchResults = [];
   let url = "https://api.iextrading.com/1.0/ref-data/symbols";
   axios.get(url)
@@ -485,6 +485,8 @@ router.get("/search", (req, res, next) => {
           searchResults.push(obj)
         }
       });
+
+  console.log(searchResults);
       res.status(200).send(json.stringify(searchResults));
     })
     .catch(err => {
