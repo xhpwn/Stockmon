@@ -20,4 +20,17 @@ export class CryptoService {
         return this.http.post("http://localhost:3000/api/stocks/addCryptPortfolio", body );
     }
 
+    removeFromPortfolio(userId, crypto) {
+        const body = { 'id': userId, 'symbol': crypto["symbol"] };
+        console.log(body);
+        return this.http.post("http://localhost:3000/api/stocks/removeCryptPortfolio", body );
+    }
+
+    updatePortfolio(userId, crypto, number) {
+        console.log(number);
+        const body = { 'id': userId, 'symbol': crypto["symbol"], 'numCrypto': number };
+        console.log(body);
+        return this.http.post("http://localhost:3000/api/stocks/updateCryptoNum", body );
+    }
+
 }

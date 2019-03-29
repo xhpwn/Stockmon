@@ -33,6 +33,7 @@ export class PreferencesComponent implements OnInit {
   ngOnInit() {
 
     this.isAdmin = this.authService.isAdmin();
+    console.log("ADMIN _" +  this.isAdmin);
 
     if (this.isAdmin) {
 

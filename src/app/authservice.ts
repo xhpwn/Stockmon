@@ -112,7 +112,7 @@ export class AuthService {
   }
 
   isAdmin() {
-    if (this.getName() == 'Root Man') return true;
+    if (this.getName() == 'Mr. Root') return true;
     return false;
   }
 

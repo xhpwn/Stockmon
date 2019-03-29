@@ -103,7 +103,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onSelectCrypto(crypto: Object): void {
-
     if (this.selectedCrypto != null) {
       this.oldCrypto = crypto;
       this.selectedStock = null;
