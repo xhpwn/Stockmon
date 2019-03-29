@@ -9,7 +9,9 @@ import { DashboardService } from '../dashboardservice';
 export class PiechartComponent implements OnInit {
   dataSource;
   data;
+  cdata;
   eee;
+  fff;
   piedata = new Array();
   @Input() list:Object[];
   constructor(private dashboardService: DashboardService) {}
@@ -26,14 +28,30 @@ export class PiechartComponent implements OnInit {
 )
   }
 
+  portfolioHandler2(){
+    this.dashboardService.getCryptPortfolio(localStorage.getItem("userId")
+).subscribe(
+    res => {
+        this.cdata = res;
+        this.cdata = JSON.parse(this.cdata._body);
+        this.fff = this.cdata;
+       // console.log("!!!!")
+
+        return this.cdata;
+    }
+)
+  }
+  
+
   ngOnInit() {
   this.eee = this.portfolioHandler();
- setTimeout(()=> this.loadChart(),500);
- console.log(this.eee);
+  this.fff = this.portfolioHandler2();
 
-
-
+ setTimeout(()=> this.loadChart(),1000);
+ 
   }
+
+
 loadChart(){
 
     this.eee.forEach(element => {
@@ -42,6 +60,19 @@ loadChart(){
         }
         this.piedata.push(temp)
     });
+
+  this.fff.forEach(element => {
+    console.log("!!!!")
+
+      let temp = {
+        "label": element.symbol, "value": element.totAmount
+      }
+
+      this.piedata.push(temp)
+  });
+
+
+//this.piedata.push({"label":"ETH", "value": 141.63})
     
     this.dataSource = {
     
