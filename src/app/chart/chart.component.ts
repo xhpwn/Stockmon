@@ -20,6 +20,7 @@ export class ChartComponent implements OnInit {
   dataSource;
   test;
   newData = new Array();
+  newCRYPTOData = new Array();
   counter = 0;
   price;
   selected = false;
@@ -31,12 +32,13 @@ export class ChartComponent implements OnInit {
   logoUrl;
   weekData = new Array();
   iscrypto = false;
+  sempleData = new Array();
 
   constructor(public stockService: StockService, public cryptoService: CryptoService) {    
   }
 
   ngOnInit() {
-
+    
     if (this.stock != undefined) {
 
     this.stockService.getDescription(this.stock["symbol"])
@@ -66,9 +68,13 @@ export class ChartComponent implements OnInit {
       this.price = JSON.parse(this.price._body);
     })
   }
+
+
   else {
+    this.sempleData = {"label":1553803200,"value":138},{"label":1553806800,"value":138.17},{"label":1553810400,"value":138.15},{"label":1553814000,"value":138.39},{"label":1553817600,"value":138.57},{"label":1553821200,"value":138.79};
 
     console.log(this.cryptotime);
+    console.log(this.crypto);
     
     this.cryptoService.getCryptodata(this.crypto["Symbol"].toString(), this.cryptotime)
     .subscribe(data => {
@@ -80,8 +86,8 @@ export class ChartComponent implements OnInit {
        let temp = {
          "label": element.label, "value": element.value.toString()
        }
-       this.newData.push(temp)
-       console.log(this.newData);
+       this.newCRYPTOData.push(temp)
+       console.log(this.newCRYPTOData);
       })});
     }
     
@@ -98,14 +104,7 @@ if (this.stock != undefined) {
       let temp = {
         "label": element.label, "value": element.value.toString()
       }
-/*
-      if(this.time == "1d"){
-      //  if(this.counter % 2 ==0 ){         // <------------------------ LIVE goes to end
-          this.newData.push(this.price)
-       // }
-        this.counter++;
-      }
-*/
+
       if(this.time == "1m"){
         if(this.counter % 2 ==0 ){         // <------------------------ Change 1m skips
           this.newData.push(temp)
@@ -129,7 +128,6 @@ if (this.stock != undefined) {
     }
 
    
-    
     });
     if (this.isWeek) {
       this.weekData = this.newData.slice(this.newData.length - 7, this.newData.length);
@@ -147,12 +145,11 @@ if (this.stock != undefined) {
 
 
   loadData() {
-if(this.crypto){
-
+if(this.iscrypto == true){
   this.dataSource = {
     chart: {
-      "caption": "Crypto data for " +this.stock["symbol"].toString(),
-      "subCaption": this.isWeek ? "1w" : this.time,
+      "caption": "Crypto data for " +this.crypto["symbol"].toString(),
+      "subCaption":  this.cryptotime,
       "xAxisName": "Time",
       "yAxisName": "$(USD)",
       "lineColor": "#346474",
@@ -161,9 +158,13 @@ if(this.crypto){
       "numberPrefix": "$",
       "theme": "gammel"
     },
+
+    //Chart data
+    "data": this.sempleData
 }}
 
 else{
+
     this.dataSource = {
       chart: {
         "caption": "Stock data for " +this.stock["symbol"].toString(),

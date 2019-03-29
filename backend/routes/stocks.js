@@ -12,11 +12,11 @@ const router = express.Router();
 
 router.get("/getcryptodata", (req, res, next) => {
   let data = new Array();
-  let url = "https://min-api.cryptocompare.com/data/" + req.query.time + "?fysm=" + req.query.symbol + "&tsym=USD&limit=5&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
+  let url = "https://min-api.cryptocompare.com/data/" + req.query.time + "?fsym=" + req.query.symbol + "&tsym=USD&limit=5&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
   axios.get(url)
     .then(response => {
       console.log(response);
-      response.data.forEach(element => {
+      response.data.Data.forEach(element => {
         let obj = { "label": element.time, "value": element.close }
         data.push(obj)
       });

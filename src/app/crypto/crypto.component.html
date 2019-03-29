@@ -25,14 +25,15 @@
     </div>
 
 <div>
+    <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histominute')" >Minute</button>
   <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histohour')" >Hour</button>
 <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histoday')" >Day</button>
 
 
 
 <!--div *ngIf="selectedCrypto != null && selectedTime == 'histohour'"--->
-<div *ngIf="selectedCrypto != null">
-  <app-chart [crypto]="selectedCrypto" [cryptotime]="time"></app-chart>
+<div *ngIf="selectedCrypto != null"> 
+   <app-chart [crypto]="selectedCrypto" [cryptotime]="time"></app-chart>
 </div>
 <!--/div>
 
