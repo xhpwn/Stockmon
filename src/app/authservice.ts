@@ -79,9 +79,15 @@ export class AuthService {
     return this.http.post('http://localhost:3000/api/user/updateemail', body);
   }
 
-  changeUsername(oldUsername: string, newUsername: string) {
-    const body = { 'userid': localStorage.getItem('userId'), 'oldUsername': oldUsername, 'newUsername': newUsername };
-    return this.http.post('http://localhost:3000/api/user/updateusername', body);
+  changeUsername(newUsername: string, password: string) {
+    const temp = this.getUserId();
+    const body = { userid: temp, username: newUsername, password: password };
+    console.log(body);
+    this.http.post('http://localhost:3000/api/user/updateusername', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/updateemail', body);
   }
 
   changePassword(oldPassword: string, newPassword: string) {

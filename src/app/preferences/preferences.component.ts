@@ -47,6 +47,7 @@ export class PreferencesComponent implements OnInit {
         this.userData = JSON.parse(JSON.stringify(data));
         this.userData = JSON.parse(this.userData._body);
         this.email = this.userData.email;
+        this.username = this.userData.username;
         console.log(this.userData);
       });
 

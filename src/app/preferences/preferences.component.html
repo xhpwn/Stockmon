@@ -25,6 +25,8 @@
       <div *ngIf="emailFail" class="col-md-6">
         <h4 class="text-center">Could not change email.</h4>
       </div>
+
+      <div class="col-md-6" *ngIf="!usernameResponse">
       <form (submit)="changeUsername(usernameForm)" #usernameForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
         <h4 class="h4 mb-3 font-weight-normal">Change username</h4>
         <label for="newUsername" class="sr-only">New username</label>
@@ -40,6 +42,7 @@
     <div *ngIf="usernameFail" class="col-md-6">
       <h4 class="text-center">Could not change username.</h4>
     </div>
+
     <div *ngIf="!passwordResponse" class="col-md-6">
       <h4 class="text-center">{{ error }}</h4>
       <form (submit)="changePassword(passwordForm)" #passwordForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
