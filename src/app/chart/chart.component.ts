@@ -89,6 +89,7 @@ export class ChartComponent implements OnInit {
        this.newCRYPTOData.push(temp)
        console.log(this.newCRYPTOData);
       })});
+      this.iscrypto = true;
     }
     
   
@@ -135,12 +136,13 @@ if (this.stock != undefined) {
       console.log(this.weekData);
     }
    });
+  }
+  else {
+    this.iscrypto = true;
+  }
 
    setTimeout(() => this.loadData(), 500);
-
-  }
 }
-
 
 
 
@@ -148,7 +150,7 @@ if (this.stock != undefined) {
 if(this.iscrypto == true){
   this.dataSource = {
     chart: {
-      "caption": "Crypto data for " +this.crypto["symbol"].toString(),
+      "caption": "Crypto data for " + this.crypto["Symbol"],
       "subCaption":  this.cryptotime,
       "xAxisName": "Time",
       "yAxisName": "$(USD)",
@@ -161,7 +163,8 @@ if(this.iscrypto == true){
 
     //Chart data
     "data": this.newCRYPTOData
-}}
+}
+}
 
 else{
 
@@ -181,6 +184,7 @@ else{
       "data": this.isWeek ? this.weekData : this.newData
    
   };}
+  console.log(this.dataSource);
   }
 
   addToFollowing() {
