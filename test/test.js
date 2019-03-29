@@ -41,7 +41,7 @@ describe('User story #4', function () {
 
     it('Username login test 1 (saxena20)', function (done) {
       let body = {
-        email: 'saxena20@purdue.edu',
+        email: 'root',
         password: 'hello123'
       }
       chai.request('http://localhost:3000/api/user/')
@@ -66,6 +66,41 @@ describe('User story #4', function () {
               done();
             });
     });
+
+});
+
+describe('User story #6', function () {
+
+  it('Creating unique user id', function (done) {
+    let body = {
+      name: 'new account',
+      email: 'new@account.com',
+      username: 'newaccount',
+      password: 'hello123',
+      admin: false
+    }
+    chai.request('http://localhost:3000/api/user/')
+          .post('/register')
+          .send(body)
+          .end((err, res) => {
+                res.should.have.status(200);
+            done();
+          });
+  });
+
+  it('Post-test cleanup', function (done) {
+    let body = {
+      userId: '5c9d40a4f7d2f3a902327a4c',
+      targetUserEmail: 'new@account.com'
+    }
+    chai.request('http://localhost:3000/api/user/')
+          .post('/deleteuser')
+          .send(body)
+          .end((err, res) => {
+                res.should.have.status(200);
+            done();
+          });
+  });
 
 });
 
@@ -157,4 +192,39 @@ describe('User story #33 + #34', function () {
             done();
           });
   });
+});
+
+describe('User story #35', function () {
+
+  it('Creating unique user id', function (done) {
+    let body = {
+      name: 'new account',
+      email: 'new@account.com',
+      username: 'newaccount',
+      password: 'hello123',
+      admin: false
+    }
+    chai.request('http://localhost:3000/api/user/')
+          .post('/register')
+          .send(body)
+          .end((err, res) => {
+                res.should.have.status(200);
+            done();
+          });
+  });
+
+  it('Post-test cleanup', function (done) {
+    let body = {
+      userId: '5c9d40a4f7d2f3a902327a4c',
+      targetUserEmail: 'new@account.com'
+    }
+    chai.request('http://localhost:3000/api/user/')
+          .post('/deleteuser')
+          .send(body)
+          .end((err, res) => {
+                res.should.have.status(200);
+            done();
+          });
+  });
+
 });
