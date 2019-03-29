@@ -59,15 +59,15 @@ router.get("/getCryptocurrencies", (req, res, next) => {
     .then(response => {
       // res.send(json.stringify(response.data.Data))
       response.data.Data.forEach(element => {
-        let coinInfo = element.CoinInfo
-        let price = element.RAW.USD.PRICE
+        let coinInfo = element.CoinInfo;
+        let price = element.RAW.USD.PRICE;
         let obj = { "Symbol": coinInfo.Name, "Name": coinInfo.FullName, "Price": price };
         cryptData.push(obj)
       });
       res.status(200).send(json.stringify(cryptData));
     })
     .catch(err => {
-      res.status(404).send("Cannot display the stock losers!");
+      res.status(404).send("Cannot display the cryptocurrencies!");
       console.log(err);
     });
 });
@@ -75,31 +75,32 @@ router.get("/getCryptocurrencies", (req, res, next) => {
 router.post("/addCryptPortfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
     console.log(req.body);
-    let currentCryptoData = obj.cryptPortfolio
+    let currentCryptoData = obj.cryptPortfolio;
     var index = -1;
-    console.log("length of array is " + currentCryptoData.length)
+    console.log("length of array is " + currentCryptoData.length);
     for (i = 0; i < currentCryptoData.length; i++) {
       if (req.body.symbol === currentCryptoData[i].symbol) {
-        console.log("inside of if(): index = " + i)
-        index = i
+        console.log("inside of if(): index = " + i);
+        index = i;
         break;
       }
     }
-    console.log("outside of if(): index = " + index)
+    console.log("outside of if(): index = " + index);
 
     if (index === -1) {
-      let url = "https://min-api.cryptocompare.com/data/coin/generalinfo?fsyms=" + req.body.symbol + "&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e"
+      let url = "https://min-api.cryptocompare.com/data/coin/generalinfo?fsyms=" + req.body.symbol + "&tsym=USD&api_key=70e0677660c6d62a72896f47363843d2cc001f0545607cf089d4fd63645f868e";
       axios.get(url)
         .then(response => {
           // res.send(json.stringify(response.data.USD))
-          var cryptData = obj.cryptPortfolio
-          var coinInfo = response.data.Data[0].CoinInfo
+          var cryptData = obj.cryptPortfolio;
+          var coinInfo = response.data.Data[0].CoinInfo;
           let newEntry = {
             "symbol": coinInfo.Name,
             "name": coinInfo.FullName,
             "numCrypto": req.body.numCrypto
-          }
-          cryptData.push(newEntry)
+          };
+          console.log("HIIII" + cryptData);
+          cryptData.push(newEntry);
           User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
             .then(
               res.send(cryptData)
@@ -107,7 +108,7 @@ router.post("/addCryptPortfolio", (req, res, next) => {
         })
     }
   })
-})
+});
 
 router.post("/removeCryptPortfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
@@ -136,8 +137,8 @@ router.post("/removeCryptPortfolio", (req, res, next) => {
 
 router.post("/updateCryptoNum", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    var cryptData = obj.cryptPortfolio
-    var index = 0
+    var cryptData = obj.cryptPortfolio;
+    var index = 0;
     for (i = 0; i < cryptData.length; i++) {
       if (cryptData[i].symbol === req.body.symbol) {
         index = i;
@@ -145,7 +146,7 @@ router.post("/updateCryptoNum", (req, res, next) => {
       }
     }
 
-    cryptData[index].numCrypto = req.body.numCrypto
+    cryptData[index].numCrypto = req.body.numCrypto;
     User.findByIdAndUpdate(req.body.id, { $set: { "cryptPortfolio": cryptData } })
       .then(
         res.status(200).send(cryptData)
@@ -238,23 +239,23 @@ router.post("/getportfolio", (req, res, next) => {
 
 router.post("/addportfolio", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    let currentPortfolioData = obj.portfolio
+    let currentPortfolioData = obj.portfolio;
     // res.send(currentPortfolioData)
-    var index = -1
+    var index = -1;
     for (i = 0; i < currentPortfolioData.length; i++) {
       if (req.body.symbol === currentPortfolioData[i].symbol) {
-        index = i
+        index = i;
         break;
       }
     }
-    console.log("index = " + index)
+    console.log("index = " + index);
 
     if (index === -1) {
-      console.log("went inside")
+      console.log("went inside");
       let url = "https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company";
       axios.get(url)
         .then(response => {
-          console.log("got response")
+          console.log("got response");
           // User.findById(req.body.id, function (err, obj) {
           var portfolioData = obj.portfolio;
           // res.send(portfolioData)
@@ -325,16 +326,16 @@ router.post("/getfollowing", (req, res, next) => {
 
 router.post("/addFollowingStock", (req, res, next) => {
   User.findById(req.body.id, function (err, obj) {
-    let currentFollowingData = obj.stocks
+    let currentFollowingData = obj.stocks;
     // res.send(currentPortfolioData)
-    var index = -1
+    var index = -1;
     for (i = 0; i < currentFollowingData.length; i++) {
       if (req.body.symbol === currentFollowingData[i].symbol) {
-        index = i
+        index = i;
         break;
       }
     }
-    console.log("index = " + index)
+    console.log("index = " + index);
 
     if (index === -1) {
       axios.get("https://api.iextrading.com/1.0/stock/" + req.body.symbol + "/company")
@@ -380,7 +381,7 @@ router.post("/removeFollowingStock", (req, res, next) => {
         }
       }
       if (index == 0) {
-        stockData = new Array();
+        stockData = [];
       }
       else {
         stockData.splice(index, 1);
@@ -461,7 +462,7 @@ router.get("/getchartdata", (req, res, next) => {
 });
 
 router.get("/getdescription", (req, res, next) => {
-  console.log(req.query.symbol)
+  console.log(req.query.symbol);
   //https://api.iextrading.com/1.0/stock/aapl/company
   let descriptionData = [];
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/company/";
@@ -477,7 +478,7 @@ router.get("/getdescription", (req, res, next) => {
 
 
 router.get("/getLogo", (req, res, next) => {
-  console.log(req.query.symbol)
+  console.log(req.query.symbol);
   //https://api.iextrading.com/1.0/stock/aapl/logo
   let descriptionData = [];
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/logo/";
@@ -492,7 +493,6 @@ router.get("/getLogo", (req, res, next) => {
 });
 
 router.get("/search", (req, res, next) => {
-  console.log(req.query.symbol)
   let searchResults = [];
   let url = "https://api.iextrading.com/1.0/ref-data/symbols";
   axios.get(url)
@@ -503,6 +503,8 @@ router.get("/search", (req, res, next) => {
           searchResults.push(obj)
         }
       });
+
+  console.log(searchResults);
       res.status(200).send(json.stringify(searchResults));
     })
     .catch(err => {
@@ -512,12 +514,12 @@ router.get("/search", (req, res, next) => {
 });
 
 router.get("/getchartdata", (req, res, next) => {
-  let data = new Array();
+  let data = [];
   let url = "https://api.iextrading.com/1.0/stock/" + req.query.symbol + "/chart/" + req.query.time;
   axios.get(url)
     .then(response => {
       response.data.forEach(element => {
-        let obj = { "label": element.date, "value": element.close }
+        let obj = { "label": element.date, "value": element.close };
         data.push(obj)
       });
       res.status(200).send(json.stringify(data));

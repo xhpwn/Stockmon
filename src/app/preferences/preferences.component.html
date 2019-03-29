@@ -25,21 +25,6 @@
       <div *ngIf="emailFail" class="col-md-6">
         <h4 class="text-center">Could not change email.</h4>
       </div>
-      <form (submit)="changeUsername(usernameForm)" #usernameForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
-        <h4 class="h4 mb-3 font-weight-normal">Change username</h4>
-        <label for="newUsername" class="sr-only">New username</label>
-        <input #usernameInput="ngModel" name="newusername" ngModel type="username" id="inputUsername" class="form-control" placeholder="New username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input #passwordInput="ngModel" name="password" ngModel type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Change</button>
-      </form>
-    </div>
-    <div *ngIf="usernameResponse" class="col-md-6">
-      <h4 class="text-center">Username changed successfully.</h4>
-    </div>
-    <div *ngIf="usernameFail" class="col-md-6">
-      <h4 class="text-center">Could not change username.</h4>
-    </div>
     <div *ngIf="!passwordResponse" class="col-md-6">
       <h4 class="text-center">{{ error }}</h4>
       <form (submit)="changePassword(passwordForm)" #passwordForm="ngForm" class="form-signin" style="text-align: center; margin-top: 2%">
@@ -60,4 +45,24 @@
       <h4 class="text-center">Could not change password.</h4>
     </div>
   </div>
+</div>
+<div *ngIf="isAdmin" class="col-md-6 ml-4">
+  <h3>User List</h3>
+  <table class="table table-dark mt-2">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Account</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let each of array"
+           (click)="deleteUser(each[0].email)" >
+        <tr class="rows">
+            <th scope="row">{{ each[0].name }}</th>
+            <td>{{ each[0].email }}</td>
+            <td><button class="btn btn-danger">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
 </div>

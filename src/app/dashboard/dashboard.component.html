@@ -47,7 +47,11 @@
                             </tr>
                         </tbody>
                     </table>
+                  <div *ngIf="(portfolioList == undefined)">
+                      <h2 class="text-center">You do not have any stocks in your portfolio!</h2>
+                    </div>
                 </div>
+
 
                 <!-- Cryptocurrency table code-->
                 <table class="table table-dark mt-5">
@@ -79,6 +83,9 @@
                             </tr>
                         </tbody>
                     </table>
+                  <div *ngIf="(cryptPortfolioList == undefined)">
+                    <h2 class="text-center">You do not have any cryptocurrencies in your portfolio!</h2>
+                  </div>
                 </div>
                 <!-- End of cryptocurrency table code-->
 

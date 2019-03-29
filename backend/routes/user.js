@@ -13,6 +13,7 @@ router.post("/register", (req, res, next) => {
                 name: req.body.name,
                 username: req.body.username,
                 email: req.body.email,
+                admin: false,
                 password: hash
             });
             user.save()
@@ -32,18 +33,40 @@ router.post("/register", (req, res, next) => {
 
 router.post("/signin", async (req, res, next) => {
     try {
-        let user = await User.findOne({ email: req.body.email });
+        let user;
+        let counter = 0;
+        if (req.body.email.indexOf('@') !== -1) {
+          user = await User.findOne({email: req.body.email});
+          //console.log("USING @: " + req.body.email);
+        } else {
+          user = await User.findOne({username: req.body.email});
+          //console.log("NOT USING @: " + req.body.email);
+          counter = 1;
+        }
+        //console.log("WHAT I ENTERED IN: " + req.body.email);
         if (!user) return res.status(401).send("Auth Failed");
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) return res.status(401).send("Auth Failed");
-        const token = jwt.sign({ email: user.email, userId: user._id },
+        let token;
+        if (counter === 1) {
+          token = jwt.sign({username: user.username, userId: user._id},
             "Z{D-_$mk:m#WAlywFR?'TR*09s'5a`Czz$pG&#oo#x%d4|f&GNi2+,zN3?~ zL80,)pdu:Wy\{Ntm%Jk[6nQcM-fYe/.C9@6k!iig5I'B-WYh^xtybS;b;Nv#H$tw_?Q",
-            { expiresIn: "1h" });
-        res.status(200).json({
+            {expiresIn: "1h"});
+          res.status(200).json({
             token: token,
             name: user.name,
             userId: user._id
-        });
+          });
+        } else {
+          token = jwt.sign({email: user.email, userId: user._id},
+            "Z{D-_$mk:m#WAlywFR?'TR*09s'5a`Czz$pG&#oo#x%d4|f&GNi2+,zN3?~ zL80,)pdu:Wy\{Ntm%Jk[6nQcM-fYe/.C9@6k!iig5I'B-WYh^xtybS;b;Nv#H$tw_?Q",
+            {expiresIn: "1h"});
+          res.status(200).json({
+            token: token,
+            name: user.name,
+            userId: user._id
+          });
+        }
     }
     catch (err) {
         res.status(401).send("Auth Failed");
@@ -123,6 +146,47 @@ router.post("/getinfo", async (req, res, next) => {
     catch (err) {
         res.status(401).send("Auth Failed");
     }
+});
+
+router.post("/deleteuser", async (req, res, next) => {
+    try {
+        let user = await User.findById(req.body.userId);
+        if (!user) return res.status(401).send("Auth Failed 1");
+        if (!user.admin) return res.status(401).send("Auth Failed 2");
+        User.deleteOne({ email: req.body.targetUserEmail }).then(
+            res.status(200).send("Account deleted")
+          )
+          .catch(err => {
+              console.log(err);
+          });;
+    }
+    catch (err) {
+        return res.status(401).send("Auth Failed");
+    }
+});
+
+router.post("/getUsers", async (req, res, next) => {
+    try {
+        let user = await User.findById(req.body.userid);
+        if (!user) return res.status(401).send("Auth Failed 1");
+        if (!user.admin) return res.status(401).send("Unauthorized");
+        User.find({}, function(err, users) {
+            var userMap = [];
+        
+            users.forEach(function(user) {
+                let obj = [{
+                    name: user.name,
+                    username: user.username,
+                    email: user.email
+                }]
+                userMap.push(obj);
+            });        
+            return res.send(JSON.stringify(userMap));
+        });
+    }
+    catch(err) {
+        return res.status(401).send("Error");
+    };
 });
 
 module.exports = router;

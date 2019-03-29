@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     console.log(form.value);
     this.authService.createUser(form.value.name, form.value.email, form.value.username, form.value.password)
     .subscribe(data => {
-      this.registerResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      this.registerResponse = (JSON.parse(JSON.stringify(data)).statusText === "OK");
       console.log(this.registerResponse)
     })
   }

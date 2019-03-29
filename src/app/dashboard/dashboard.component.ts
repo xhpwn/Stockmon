@@ -79,6 +79,9 @@ export class DashboardComponent implements OnInit {
         // console.log(data)
         this.portfolioList = data;
         this.portfolioList = JSON.parse(this.portfolioList._body);
+        if (this.portfolioList == undefined || this.portfolioList.length == 0) {
+          this.portfolioList = new Array();
+        }
         console.log(this.portfolioList[0]);
       });
 
@@ -86,6 +89,9 @@ export class DashboardComponent implements OnInit {
       .subscribe(data => {
         this.cryptPortfolioList = data;
         this.cryptPortfolioList = JSON.parse(this.cryptPortfolioList._body);
+        if (this.cryptPortfolioList == undefined || this.cryptPortfolioList.length == 0) {
+          this.cryptPortfolioList = new Array();
+        }
         console.log(this.cryptPortfolioList[0]);
       });
   }
@@ -103,7 +109,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onSelectCrypto(crypto: Object): void {
-
     if (this.selectedCrypto != null) {
       this.oldCrypto = crypto;
       this.selectedStock = null;
