@@ -13,6 +13,7 @@ router.post("/register", (req, res, next) => {
                 name: req.body.name,
                 username: req.body.username,
                 email: req.body.email,
+                admin: false,
                 password: hash
             });
             user.save()
@@ -123,6 +124,47 @@ router.post("/getinfo", async (req, res, next) => {
     catch (err) {
         res.status(401).send("Auth Failed");
     }
+});
+
+router.post("/deleteuser", async (req, res, next) => {
+    try {
+        let user = await User.findById(req.body.userId);
+        if (!user) return res.status(401).send("Auth Failed 1");
+        if (!user.admin) return res.status(401).send("Auth Failed 2");
+        User.deleteOne({ email: req.body.targetUserEmail }).then(
+            res.status(200).send("Account deleted")
+          )
+          .catch(err => {
+              console.log(err);
+          });;
+    }
+    catch (err) {
+        return res.status(401).send("Auth Failed");
+    }
+});
+
+router.post("/getUsers", async (req, res, next) => {
+    try {
+        let user = await User.findById(req.body.userid);
+        if (!user) return res.status(401).send("Auth Failed 1");
+        if (!user.admin) return res.status(401).send("Unauthorized");
+        User.find({}, function(err, users) {
+            var userMap = [];
+        
+            users.forEach(function(user) {
+                let obj = [{
+                    name: user.name,
+                    username: user.username,
+                    email: user.email
+                }]
+                userMap.push(obj);
+            });        
+            return res.send(JSON.stringify(userMap));
+        });
+    }
+    catch(err) {
+        return res.status(401).send("Error");
+    };
 });
 
 module.exports = router;

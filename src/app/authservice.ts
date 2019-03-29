@@ -105,4 +105,21 @@ export class AuthService {
     this.isLoginSubject.next(false);
   }
 
+  getUsers() {
+    const temp = this.getUserId();
+    const body = { userid: temp };
+    return this.http.post('http://localhost:3000/api/user/getUsers', body);
+  }
+
+  isAdmin() {
+    if (this.getName() == 'Root Man') return true;
+    return false;
+  }
+
+  deleteAccount(target: string) {
+    if (!this.isAdmin()) return
+    let body = { userId: this.getUserId(), targetUserEmail: target }
+    return this.http.post('http://localhost:3000/api/user/deleteuser', body);
+  }
+
 }
