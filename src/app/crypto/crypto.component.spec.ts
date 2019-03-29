@@ -2,8 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CryptoComponent } from './crypto.component';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 describe('CryptoComponent', () => {
   let component: CryptoComponent;
