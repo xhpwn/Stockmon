@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody *ngFor="let each of cryptoList">
-          <tr class="rows">
+          <tr class="rows" (click)="onSelect(each)">
             <th scope="row">{{ each.Symbol }}</th>
             <td>{{ each.Name }}</td>
             <td>${{ each.Price}}</td>
@@ -24,6 +24,25 @@
       </table>
     </div>
 
+<div>
+    <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histominute')" >Minute</button>
+  <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histohour')" >Hour</button>
+<button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histoday')" >Day</button>
+
+
+
+<!--div *ngIf="selectedCrypto != null && selectedTime == 'histohour'"--->
+<div *ngIf="selectedCrypto != null"> 
+   <app-chart [crypto]="selectedCrypto" [cryptotime]="time"></app-chart>
+</div>
+<!--/div>
+
+<div *ngIf="selectedCrypto != null && selectedTime == 'histoday'">
+  <app-chart [stock]="selectedCrypto" [time]="selectedTime"></app-chart>
+</div>
+
+
+</div>
     <!-- <div class="col-md-6 text-center">
       <div *ngIf="!selected">
         <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
@@ -36,4 +55,5 @@
       </div>
     </div> -->
   </div>
+</div>
 </div>

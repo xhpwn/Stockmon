@@ -20,6 +20,11 @@ export class CryptoService {
         return this.http.post("http://localhost:3000/api/stocks/addCryptPortfolio", body );
     }
 
+    getCryptodata(symbol: string, timeFrame: string) {
+        let query = "http://localhost:3000/api/stocks/getcryptodata?symbol=" + symbol + "&time=" + timeFrame;
+        console.log(query);
+        return this.http.get(query);
+      }
     removeFromPortfolio(userId, crypto) {
         const body = { 'id': userId, 'symbol': crypto["symbol"] };
         console.log(body);

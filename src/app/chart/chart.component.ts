@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StockService } from '../stockservice';
+import {CryptoService} from '../cryptoservice';
 
 @Component({
   selector: 'app-chart',
@@ -12,10 +13,14 @@ export class ChartComponent implements OnInit {
   @Input() time: string;
   @Input() isWeek: boolean;
 
+  @Input() crypto: Object;
+  @Input() cryptotime: string;
+
   portfolioFail = false;
   dataSource;
   test;
   newData = new Array();
+  newCRYPTOData = new Array();
   counter = 0;
   price;
   selected = false;
@@ -26,11 +31,15 @@ export class ChartComponent implements OnInit {
   description;
   logoUrl;
   weekData = new Array();
+  iscrypto = false;
+  sempleData = new Array();
 
-  constructor(public stockService: StockService) {    
+  constructor(public stockService: StockService, public cryptoService: CryptoService) {    
   }
 
   ngOnInit() {
+    
+    if (this.stock != undefined) {
 
     this.stockService.getDescription(this.stock["symbol"])
       .subscribe(data => {
@@ -58,7 +67,35 @@ export class ChartComponent implements OnInit {
       this.price = data;
       this.price = JSON.parse(this.price._body);
     })
+  }
 
+
+  else {
+    //this.sempleData = {"label":1553803200,"value":138},{"label":1553806800,"value":138.17},{"label":1553810400,"value":138.15},{"label":1553814000,"value":138.39},{"label":1553817600,"value":138.57},{"label":1553821200,"value":138.79};
+
+    console.log(this.cryptotime);
+    console.log(this.crypto);
+    
+    this.cryptoService.getCryptodata(this.crypto["Symbol"].toString(), this.cryptotime)
+    .subscribe(data => {
+      this.iscrypto = true;
+      this.test = data;
+      this.test = JSON.parse(this.test._body);
+ 
+     this.test.forEach(element => {
+       let temp = {
+         "label": element.label, "value": element.value.toString()
+       }
+       this.newCRYPTOData.push(temp)
+       console.log(this.newCRYPTOData);
+      })});
+      this.iscrypto = true;
+    }
+    
+  
+
+
+if (this.stock != undefined) {
    this.stockService.getChartData(this.stock["symbol"].toString(), this.time)
    .subscribe(data => {
      this.test = data;
@@ -68,14 +105,7 @@ export class ChartComponent implements OnInit {
       let temp = {
         "label": element.label, "value": element.value.toString()
       }
-/*
-      if(this.time == "1d"){
-      //  if(this.counter % 2 ==0 ){         // <------------------------ LIVE goes to end
-          this.newData.push(this.price)
-       // }
-        this.counter++;
-      }
-*/
+
       if(this.time == "1m"){
         if(this.counter % 2 ==0 ){         // <------------------------ Change 1m skips
           this.newData.push(temp)
@@ -99,7 +129,6 @@ export class ChartComponent implements OnInit {
     }
 
    
-    
     });
     if (this.isWeek) {
       this.weekData = this.newData.slice(this.newData.length - 7, this.newData.length);
@@ -107,13 +136,38 @@ export class ChartComponent implements OnInit {
       console.log(this.weekData);
     }
    });
+  }
+  else {
+    this.iscrypto = true;
+  }
 
    setTimeout(() => this.loadData(), 500);
-
-   
 }
 
+
+
   loadData() {
+if(this.iscrypto == true){
+  this.dataSource = {
+    chart: {
+      "caption": "Crypto data for " + this.crypto["Symbol"],
+      "subCaption":  this.cryptotime,
+      "xAxisName": "Time",
+      "yAxisName": "$(USD)",
+      "lineColor": "#346474",
+      "bgcolor": "white",
+      "showAlternateHGridColor": 0,
+      "numberPrefix": "$",
+      "theme": "gammel"
+    },
+
+    //Chart data
+    "data": this.newCRYPTOData
+}
+}
+
+else{
+
     this.dataSource = {
       chart: {
         "caption": "Stock data for " +this.stock["symbol"].toString(),
@@ -129,7 +183,8 @@ export class ChartComponent implements OnInit {
       // Chart Data
       "data": this.isWeek ? this.weekData : this.newData
    
-  };
+  };}
+  console.log(this.dataSource);
   }
 
   addToFollowing() {
