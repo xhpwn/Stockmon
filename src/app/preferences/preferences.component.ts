@@ -24,11 +24,29 @@ export class PreferencesComponent implements OnInit {
   passwordResponse = false;
   passwordFail = false;
   error;
+  array;
+  isAdmin = false;
 
   constructor(private authService : AuthService) {
   }
 
   ngOnInit() {
+
+    this.isAdmin = this.authService.isAdmin();
+
+    if (this.isAdmin) {
+
+    this.authService.getUsers().subscribe(result => {
+      result = JSON.parse(JSON.stringify(result));
+      result = JSON.parse(JSON.stringify(result["_body"]));
+      this.array = JSON.parse(JSON.stringify(result));
+      this.array = JSON.parse(this.array);
+      console.log(this.array);
+      // result.forEach(element => {
+      //   console.log(element.name);
+      // });
+    })
+    }
 
     this.loginSubs = this.authService.getAuthStatusListener().subscribe(
       loggedin => {
@@ -47,10 +65,24 @@ export class PreferencesComponent implements OnInit {
         this.userData = JSON.parse(JSON.stringify(data));
         this.userData = JSON.parse(this.userData._body);
         this.email = this.userData.email;
-        this.username = this.userData.username;
-        console.log(this.userData);
       });
 
+  }
+
+  deleteUser(email: string) {
+    this.authService.deleteAccount(email).subscribe(res => {
+      console.log(res)
+    });
+    this.authService.getUsers().subscribe(result => {
+      result = JSON.parse(JSON.stringify(result));
+      result = JSON.parse(JSON.stringify(result["_body"]));
+      this.array = JSON.parse(JSON.stringify(result));
+      this.array = JSON.parse(this.array);
+      console.log(this.array);
+      // result.forEach(element => {
+      //   console.log(element.name);
+      // });
+    })
   }
 
   changeEmail(form: NgForm) {

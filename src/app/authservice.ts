@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   signin(email: string, username: string, password: string) {
-    const authData: AuthData = { name: 'Doesn\'t matter', email: email, username: username, password: password };
+    const authData: AuthData = { name: 'Doesn\'t matter', email: email, username: username, password: password};
     this.http.post('http://localhost:3000/api/user/signin', authData)
       .subscribe(response => {
         const data = JSON.stringify(response);
@@ -109,6 +109,23 @@ export class AuthService {
     this.token = undefined;
     this.userId = undefined;
     this.isLoginSubject.next(false);
+  }
+
+  getUsers() {
+    const temp = this.getUserId();
+    const body = { userid: temp };
+    return this.http.post('http://localhost:3000/api/user/getUsers', body);
+  }
+
+  isAdmin() {
+    if (this.getName() == 'Root Man') return true;
+    return false;
+  }
+
+  deleteAccount(target: string) {
+    if (!this.isAdmin()) return
+    let body = { userId: this.getUserId(), targetUserEmail: target }
+    return this.http.post('http://localhost:3000/api/user/deleteuser', body);
   }
 
 }
