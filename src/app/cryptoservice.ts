@@ -38,4 +38,6 @@ export class CryptoService {
         return this.http.post("http://localhost:3000/api/stocks/updateCryptoNum", body );
     }
 
+   
+
 }

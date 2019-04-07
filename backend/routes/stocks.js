@@ -8,6 +8,25 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+/////////////////// Forex backend /////////////////////
+router.get("/getforexdata", (req, res, next) => {
+  let data = new Array();
+  let url = "http://data.fixer.io/api/latest?access_key=6f0f0ea306e6468569e9c17a4d292a3c";
+  axios.get(url)
+    .then(response => {
+      console.log(response);
+      response.data.Data.forEach(element => {
+        let obj = { "label": element.rates }
+        data.push(obj)
+      });
+      res.status(200).send(json.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+
 /////////////////// Cryptocurrency backend /////////////////////////
 
 router.get("/getcryptodata", (req, res, next) => {
