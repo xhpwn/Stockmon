@@ -9,19 +9,22 @@ const User = require('../models/user');
 const router = express.Router();
 
 /////////////////// Forex backend /////////////////////
-router.get("/getforexdata", (req, res, next) => {
+router.get("/getforexdata", (req,res) => {
   let data = new Array();
-  let url = "http://data.fixer.io/api/latest?access_key=6f0f0ea306e6468569e9c17a4d292a3c";
+  let url = "https://forex.1forge.com/1.0.3/convert?from="+ req.query.fromCurr +"&to=" +req.query.toCurr + "&quantity=100&api_key=RkYCnNtqQCFIrQMNjKorvlj7yElkYfLh";
+  // let url = "https://forex.1forge.com/1.0.3/convert?from=USD&to=EUR&quantity=100&api_key=RkYCnNtqQCFIrQMNjKorvlj7yElkYfLh";
+
   axios.get(url)
     .then(response => {
       console.log(response);
-      response.data.Data.forEach(element => {
-        let obj = { "label": element.rates }
-        data.push(obj)
+      response.data.forEach(element => {
+      let obj = { "value": element.value , "text" : element.text, "timestamp":element.timestamp}
+       data.push(obj)
       });
       res.status(200).send(json.stringify(data));
     })
     .catch(err => {
+      res.status(404).send("Cannot display the forex!");
       console.log(err);
     });
 });

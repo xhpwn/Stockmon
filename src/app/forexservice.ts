@@ -11,9 +11,4 @@ export class ForexService {
   }
 
 
-  getForexdata() {
-    let query = "http://localhost:3000/api/stocks/getforexdata";
-    console.log(query);
-    return this.http.get(query);
-  }
 }
