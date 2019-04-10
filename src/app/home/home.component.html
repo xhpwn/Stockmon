@@ -1,6 +1,15 @@
 <div style="margin-top: 3vh; text-align: center">
   <img src="assets/images/logo_transparent.png" height="450px" style="margin-bottom: -50px"/>
   <h5 style="color: #306576; margin-bottom: 4%">All your finance, in one place.</h5>
+
+  <div *ngIf="marketStatus == 'open'" style="color:green; font-size: 40px">
+    Forex Market is Open
+  </div>
+
+  <div *ngIf="marketStatus == 'closed'" style="color:red; font-size: 40px">
+      Forex Market is Closed
+  </div>
+
   <a routerLink="/signin"><button class="btn btn-outline-primary" style="margin: 1%" >Sign in</button></a>
   <a routerLink="/register"><button class="btn btn-outline-danger" style="margin: 1%">Register</button></a>
   <a routerLink="/news"><button class="btn btn-outline-warning" style="margin: 1%">Markets</button></a>
