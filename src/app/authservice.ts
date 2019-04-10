@@ -87,7 +87,7 @@ export class AuthService {
       .subscribe(response => {
         console.log(response);
       });
-    return this.http.post('http://localhost:3000/api/user/updateemail', body);
+    return this.http.post('http://localhost:3000/api/user/updateusername', body);
   }
 
   changePassword(oldPassword: string, newPassword: string) {
