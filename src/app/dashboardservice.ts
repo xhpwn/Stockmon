@@ -21,4 +21,15 @@ export class DashboardService {
         const body = { 'id': userid };
         return this.http.post("http://localhost:3000/api/stocks/getCryptPortfolio", body);
     }
+
+    getCurrencyList() {
+        return this.http.get("http://localhost:3000/api/user/getCurrencies");
+    }
+
+    changeDefaultCurrency(userid, newdefault: string) {
+        let body = { 'userid': userid, 'newdefault': newdefault };
+        console.log(body);
+        return this.http.post("http://localhost:3000/api/user/changeDefaultCurrency", body);
+    }
+
 }

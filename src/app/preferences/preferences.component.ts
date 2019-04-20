@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authservice';
 import { Subscription } from 'rxjs';
 import { Form, NgForm } from '@angular/forms';
+import { DashboardService } from '../dashboardservice';
 
 @Component({
   selector: 'app-preferences',
@@ -17,8 +18,10 @@ export class PreferencesComponent implements OnInit {
   name: String;
   email: string;
   emailResponse = false;
+  defaultCurrency;
   emailFail = false;
   username: string;
+  currencyList;
   usernameResponse = false;
   usernameFail = false;
   passwordResponse = false;
@@ -26,11 +29,22 @@ export class PreferencesComponent implements OnInit {
   error;
   array;
   isAdmin = false;
+  currencyResponse;
+  currencyFail;
 
-  constructor(private authService : AuthService) {
+  constructor(private authService : AuthService, private dashboardService: DashboardService) {
   }
 
   ngOnInit() {
+
+    this.dashboardService.getCurrencyList().subscribe(
+      response => {
+        response = JSON.parse(response["_body"]);
+        //response = JSON.parse(response["data"]);
+        console.log(response);
+        this.currencyList = Object.keys(response);
+      }
+    );
 
     this.isAdmin = this.authService.isAdmin();
     console.log("ADMIN _" +  this.isAdmin);
@@ -65,9 +79,24 @@ export class PreferencesComponent implements OnInit {
       .subscribe(data => {
         this.userData = JSON.parse(JSON.stringify(data));
         this.userData = JSON.parse(this.userData._body);
+        console.log(this.userData);
         this.email = this.userData.email;
+        this.defaultCurrency = (!this.userData.defaultCurrency) ? "None" : this.userData.defaultCurrency;
+        
       });
 
+      console.log(this.defaultCurrency);
+
+  }
+
+  changeCurrency(form: NgForm) {
+    this.dashboardService.changeDefaultCurrency(this.authService.getUserId(), form.value.selectedcurr)
+    .subscribe(data => {
+      console.log(JSON.parse(JSON.stringify(data)))
+      this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+      this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+    });
+    console.log("Changed")
   }
 
   deleteUser(email: string) {

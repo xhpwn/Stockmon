@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const json = require('circular-json');
 
 const User = require('../models/user');
 
@@ -14,7 +16,8 @@ router.post("/register", (req, res, next) => {
         username: req.body.username,
         email: req.body.email,
         admin: false,
-        password: hash
+        password: hash,
+        defaultCurrency: ""
       });
       user.save()
         .then(result => {
@@ -184,6 +187,37 @@ router.post("/getUsers", async (req, res, next) => {
   catch(err) {
     return res.status(401).send("Error");
   };
+});
+
+router.get("/getCurrencies", (req, res, err) => {
+  try {
+    let data = new Array();
+    let url = "http://data.fixer.io/api/symbols?access_key=1e55684d4e0387207d6e4164c89e4a9f"
+    axios.get(url)
+      .then(response => {
+        res.status(200).send(json.stringify(response.data.symbols));
+    });
+  }
+  catch(err) {
+    console.log(err);
+  }
+});
+
+router.post("/changeDefaultCurrency", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userid);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    User.findByIdAndUpdate(req.body.userid, { $set : { "defaultCurrency" : req.body.newdefault  }})
+      .then(
+        res.status(200).send("Default currency successfully changed.")
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  catch (err) {
+    res.status(401).send("Auth Failed");
+  }
 });
 
 module.exports = router;
