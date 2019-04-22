@@ -9,6 +9,7 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { ReportFeedbackComponent } from './reportfeedback/reportfeedback.component';
 import { LoggedhomeComponent } from './loggedhome/loggedhome.component';
 import { CryptoComponent } from './crypto/crypto.component';
+import { ForexComponent } from './forex/forex.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'preferences', component: PreferencesComponent },
   { path: 'reportfeedback', component: ReportFeedbackComponent},
   { path: 'loggedhome', component: LoggedhomeComponent },
-  { path: 'crypto', component: CryptoComponent }
+  { path: 'crypto', component: CryptoComponent },
+  { path: 'forex', component: ForexComponent }
 ];
 
 export const routing = RouterModule.forRoot(routes);
