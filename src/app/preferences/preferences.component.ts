@@ -31,6 +31,7 @@ export class PreferencesComponent implements OnInit {
   isAdmin = false;
   currencyResponse;
   currencyFail;
+  currencyNames;
 
   constructor(private authService : AuthService, private dashboardService: DashboardService) {
   }
@@ -43,6 +44,7 @@ export class PreferencesComponent implements OnInit {
         //response = JSON.parse(response["data"]);
         console.log(response);
         this.currencyList = Object.keys(response);
+        this.currencyNames = Object.values(response);
       }
     );
 

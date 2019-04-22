@@ -191,11 +191,12 @@ router.post("/getUsers", async (req, res, next) => {
 
 router.get("/getCurrencies", (req, res, err) => {
   try {
-    let data = new Array();
-    let url = "http://data.fixer.io/api/symbols?access_key=1e55684d4e0387207d6e4164c89e4a9f"
+    //let url = "http://data.fixer.io/api/symbols?access_key=1e55684d4e0387207d6e4164c89e4a9f"
+    let url = "https://free.currconv.com/api/v7/currencies?apiKey=eeb09eeddc865b68c22b"
     axios.get(url)
       .then(response => {
-        res.status(200).send(json.stringify(response.data.symbols));
+        console.log(response.data.results["AED"])
+        res.status(200).send(json.stringify(response.data.results));
     });
   }
   catch(err) {
@@ -217,6 +218,19 @@ router.post("/changeDefaultCurrency", async (req, res, next) => {
   }
   catch (err) {
     res.status(401).send("Auth Failed");
+  }
+});
+
+router.post("/convertCurrency", async (req, res, next) => {
+  try {
+    let url = "https://free.currconv.com/api/v7/convert?q=" + req.body.to + "_" + req.body.from + "&apiKey=eeb09eeddc865b68c22b"
+    axios.get(url)
+      .then(response => {
+        res.status(200).send(json.stringify(response.data.results));
+    });
+  }
+  catch(err) {
+    console.log(err);
   }
 });
 

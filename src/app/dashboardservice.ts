@@ -32,4 +32,9 @@ export class DashboardService {
         return this.http.post("http://localhost:3000/api/user/changeDefaultCurrency", body);
     }
 
+    convert(from, to) {
+        let body = { 'from': from, 'to': to };
+        return this.http.post("http://localhost:3000/api/user/convertCurrency", body);
+    }
+
 }

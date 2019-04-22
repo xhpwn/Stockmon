@@ -1,0 +1,11 @@
+<div class="container-fluid mt-4 text-center">
+  <h2 class="mb-5">Currency Exchange</h2>
+  <h2>
+    {{ currency }}
+  </h2>
+  <h6>
+    {{ name }}
+  </h6>
+  <h5 class="mt-5">Valued at </h5>
+  <h4 *ngIf="ready">1 {{currency}} = {{ converted }} {{ defaultC }}</h4>
+</div>
