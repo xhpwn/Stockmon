@@ -13,6 +13,7 @@ import { StocksComponent } from './stocks/stocks.component';
 import { CryptoComponent } from './crypto/crypto.component';
 import { ForexComponent } from './forex/forex.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { ReportFeedbackComponent } from './reportfeedback/reportfeedback.component';
 import { NewsComponent } from './news/news.component';
 import { HttpModule } from '@angular/http';
 import { ChartComponent } from './chart/chart.component';
@@ -48,6 +49,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     CryptoComponent,
     ForexComponent,
     PreferencesComponent,
+    ReportFeedbackComponent,
     NewsComponent,
     ChartComponent,
     PiechartComponent,

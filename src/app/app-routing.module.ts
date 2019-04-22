@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StocksComponent } from './stocks/stocks.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { ReportFeedbackComponent } from './reportfeedback/reportfeedback.component';
 import { LoggedhomeComponent } from './loggedhome/loggedhome.component';
 import { CryptoComponent } from './crypto/crypto.component';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'stocks', component: StocksComponent },
   { path: 'preferences', component: PreferencesComponent },
+  { path: 'reportfeedback', component: ReportFeedbackComponent},
   { path: 'loggedhome', component: LoggedhomeComponent },
   { path: 'crypto', component: CryptoComponent }
 ];
