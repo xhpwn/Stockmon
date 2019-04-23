@@ -8,6 +8,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+
 /////////////////// Cryptocurrency backend /////////////////////////
 
 router.get("/getcryptodata", (req, res, next) => {
@@ -504,7 +505,7 @@ router.get("/search", (req, res, next) => {
         }
       });
 
-  console.log(searchResults);
+      console.log(searchResults);
       res.status(200).send(json.stringify(searchResults));
     })
     .catch(err => {

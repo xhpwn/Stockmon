@@ -158,7 +158,7 @@ router.post("/deleteuser", async (req, res, next) => {
     )
       .catch(err => {
         console.log(err);
-      });;
+      });
   }
   catch (err) {
     return res.status(401).send("Auth Failed");
@@ -167,7 +167,7 @@ router.post("/deleteuser", async (req, res, next) => {
 
 router.post("/getUsers", async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.userid);
+    let user = await User.findById(req.body.userId);
     if (!user) return res.status(401).send("Auth Failed 1");
     if (!user.admin) return res.status(401).send("Unauthorized");
     User.find({}, function(err, users) {
@@ -178,7 +178,7 @@ router.post("/getUsers", async (req, res, next) => {
           name: user.name,
           username: user.username,
           email: user.email
-        }]
+        }];
         userMap.push(obj);
       });
       return res.send(JSON.stringify(userMap));
@@ -186,18 +186,18 @@ router.post("/getUsers", async (req, res, next) => {
   }
   catch(err) {
     return res.status(401).send("Error");
-  };
+  }
 });
 
 router.get("/getCurrencies", (req, res, err) => {
   try {
     //let url = "http://data.fixer.io/api/symbols?access_key=1e55684d4e0387207d6e4164c89e4a9f"
-    let url = "https://free.currconv.com/api/v7/currencies?apiKey=eeb09eeddc865b68c22b"
+    let url = "https://free.currconv.com/api/v7/currencies?apiKey=eeb09eeddc865b68c22b";
     axios.get(url)
       .then(response => {
-        console.log(response.data.results["AED"])
+        console.log(response.data.results["AED"]);
         res.status(200).send(json.stringify(response.data.results));
-    });
+      });
   }
   catch(err) {
     console.log(err);
@@ -223,14 +223,108 @@ router.post("/changeDefaultCurrency", async (req, res, next) => {
 
 router.post("/convertCurrency", async (req, res, next) => {
   try {
-    let url = "https://free.currconv.com/api/v7/convert?q=" + req.body.to + "_" + req.body.from + "&apiKey=eeb09eeddc865b68c22b"
+    let url = "https://free.currconv.com/api/v7/convert?q=" + req.body.to + "_" + req.body.from + "&apiKey=eeb09eeddc865b68c22b";
     axios.get(url)
       .then(response => {
         res.status(200).send(json.stringify(response.data.results));
-    });
+      });
   }
   catch(err) {
     console.log(err);
+  }
+});
+
+/////////////////// Reports/Feedback backend ///////////////////////
+
+router.post("/submitreport", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    let currentReports = obj.reports;
+    // res.send(currentReports)
+    let newReport = {
+      "username": req.body.id,
+      "report": req.body.report
+    };
+    currentReports.push(newReport);
+    // res.send(portfolioData)
+    User.findByIdAndUpdate(req.body.id, { $set: { "reports": currentReports } })
+      .then(
+        res.status(200).send(currentReports)
+      )
+    // })
+  })
+});
+
+router.post("/submitfeedback", (req, res, next) => {
+  User.findById(req.body.id, function (err, obj) {
+    let currentFeedback = obj.feedback;
+    // res.send(currentFeedback)
+    let newFeedback = {
+      "username": req.body.id,
+      "feedback": req.body.feedback
+    };
+    currentFeedback.push(newFeedback);
+    // res.send(portfolioData)
+    User.findByIdAndUpdate(req.body.id, { $set: { "feedback": currentFeedback } })
+      .then(
+        res.status(200).send(currentFeedback)
+      )
+    // })
+  })
+});
+
+router.post("/getReports", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userId);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    if (!user.admin) return res.status(401).send("Unauthorized");
+    User.find({}, function(err, users) {
+      var userMap = [];
+      var userReports = "";
+      users.forEach(function(user) {
+
+        for (let i = 0; i < user.reports.length; i++) {
+          userReports += user.reports[i] + "\n";
+        }
+
+        let obj = [{
+          username: user.username,
+          report: userReports
+        }];
+        userMap.push(obj);
+      });
+      return res.send(JSON.stringify(userMap));
+    });
+  }
+  catch(err) {
+    return res.status(401).send("Error");
+  }
+});
+
+router.post("/getFeedback", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userId);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    if (!user.admin) return res.status(401).send("Unauthorized");
+    User.find({}, function(err, users) {
+      var userMap = [];
+      var userFeedback = "";
+      users.forEach(function(user) {
+
+        for (let i = 0; i < user.feedback.length; i++) {
+          userFeedback += user.feedback[i] + "\n";
+        }
+
+        let obj = [{
+          username: user.username,
+          report: userFeedback
+        }];
+        userMap.push(obj);
+      });
+      return res.send(JSON.stringify(userMap));
+    });
+  }
+  catch(err) {
+    return res.status(401).send("Error");
   }
 });
 

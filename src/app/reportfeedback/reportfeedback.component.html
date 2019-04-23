@@ -9,23 +9,41 @@
       <img class="mb-4" src="../../assets/images/logocut.png" alt="" width="100" height="100">
     </div>
     <br><br><br><br><br>
-    <div class="row">
-      <form (submit)="submitReport(reportForm)" #reportForm="ngForm" style="text-align: center; margin-top: 2%">
-        <h4 class="h4 mb-3 font-weight-normal">Submit a Report</h4>
-        <textarea id="reportComments" name="reportComments" placeholder="Write your report"
-                  maxlength="500"></textarea>
-        <br>
-        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Submit</button>
-      </form>
 
-      <form (submit)="submitFeedback(feedbackForm)" #feedbackForm="ngForm" style="text-align: center; margin-top: 2%">
-        <h4 class="h4 mb-3 font-weight-normal">Submit Feedback</h4>
-        <textarea id="feedbackComments" name="feedbackComments" placeholder="Write your feedback"
-                  maxlength="500"></textarea>
-        <br>
-        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Submit</button>
-      </form>
+    <div style="text-align: center">
+      <h3 class="h3 mb-3 font-weight-normal">Submit a Report</h3>
+      <br>
+      <label>
+        <input type="text" class="DivMessage" placeholder="Write your report..." [(ngModel)]="report">
+      </label>
+      <br><br><br><br>
+      <button (click)="submitReport()" class="btn btn-primary ml-4">Submit</button>
+      <br><br><br><br>
     </div>
+    <div *ngIf="reportResponse" class="col-md-6">
+      <h4 class="text-center">Report submitted.</h4>
+    </div>
+    <div *ngIf="reportFail" class="col-md-6">
+      <h4 class="text-center">Could not submit report.</h4>
+    </div>
+
+    <div style="text-align: center">
+      <h3 class="h3 mb-3 font-weight-normal">Submit Feedback</h3>
+      <br>
+      <label>
+        <input type="text" class="DivMessage" placeholder="Write your feedback..." [(ngModel)]="feedback">
+      </label>
+      <br><br><br><br>
+      <button (click)="submitFeedback()" class="btn btn-primary ml-4">Submit</button>
+      <br><br><br><br>
+    </div>
+    <div *ngIf="feedbackResponse" class="col-md-6">
+      <h4 class="text-center">Feedback submitted.</h4>
+    </div>
+    <div *ngIf="feedbackFail" class="col-md-6">
+      <h4 class="text-center">Could not submit feedback.</h4>
+    </div>
+
   </div>
   <div *ngIf="isAdmin" >
     <h1 class="mt-4 text-center">List of Reports and Feedback Submissions</h1>
@@ -33,9 +51,38 @@
     <div class="text-center mt-4">
       <img class="mb-4" src="../../assets/images/logocut.png" alt="" width="100" height="100">
     </div>
-    <div class="row">
-
-    </div>
+    <table class="table table-dark mt-2">
+      <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Report</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let each of reportsArray">
+      <tr class="rows">
+        <th scope="row">{{ each.username }}</th>
+        <td>{{ each.report }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+  <div *ngIf="isAdmin">
+    <table class="table table-dark mt-2">
+      <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Feedback</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let each of feedbackArray">
+      <tr class="rows">
+        <th scope="row">{{ each.username }}</th>
+        <td>{{ each.feedback }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
 

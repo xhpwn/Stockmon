@@ -58,6 +58,18 @@ body {
   border-top-right-radius: 0;
 }
 
+.DivMessage {
+  position: inherit;
+  top: 460px;
+  left: 290px;
+  font-family: times, serif;
+  font-size: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #cce4ff;
+  width: 645px;
+  padding: 0 0 115px;
+}
+
 a {
   color: red;
 }

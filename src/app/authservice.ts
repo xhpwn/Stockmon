@@ -150,4 +150,30 @@ export class AuthService {
     return this.http.post('http://localhost:3000/api/user/deleteuser', body);
   }
 
+  addToReports(report: string) {
+    let body = { "id" : localStorage.getItem("userId"), "report": report };
+    let query = "http://localhost:3000/api/user/submitreport";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  addToFeedback(feedback: string) {
+    let body = { "id" : localStorage.getItem("userId"), "feedback": feedback };
+    let query = "http://localhost:3000/api/user/submitfeedback";
+    console.log(body);
+    return this.http.post(query, body);
+  }
+
+  getReports() {
+    const temp = this.getUserId();
+    const body = { userid: temp };
+    return this.http.post('http://localhost:3000/api/user/getReports', body);
+  }
+
+  getFeedback() {
+    const temp = this.getUserId();
+    const body = { userid: temp };
+    return this.http.post('http://localhost:3000/api/user/getFeedback', body);
+  }
+
 }

@@ -53,16 +53,16 @@ export class PreferencesComponent implements OnInit {
 
     if (this.isAdmin) {
 
-    this.authService.getUsers().subscribe(result => {
-      result = JSON.parse(JSON.stringify(result));
-      result = JSON.parse(JSON.stringify(result["_body"]));
-      this.array = JSON.parse(JSON.stringify(result));
-      this.array = JSON.parse(this.array);
-      console.log(this.array);
-      // result.forEach(element => {
-      //   console.log(element.name);
-      // });
-    })
+      this.authService.getUsers().subscribe(result => {
+        result = JSON.parse(JSON.stringify(result));
+        result = JSON.parse(JSON.stringify(result["_body"]));
+        this.array = JSON.parse(JSON.stringify(result));
+        this.array = JSON.parse(this.array);
+        console.log(this.array);
+        // result.forEach(element => {
+        //   console.log(element.name);
+        // });
+      })
     }
 
     this.loginSubs = this.authService.getAuthStatusListener().subscribe(
@@ -84,20 +84,20 @@ export class PreferencesComponent implements OnInit {
         console.log(this.userData);
         this.email = this.userData.email;
         this.defaultCurrency = (!this.userData.defaultCurrency) ? "None" : this.userData.defaultCurrency;
-        
+
       });
 
-      console.log(this.defaultCurrency);
+    console.log(this.defaultCurrency);
 
   }
 
   changeCurrency(form: NgForm) {
     this.dashboardService.changeDefaultCurrency(this.authService.getUserId(), form.value.selectedcurr)
-    .subscribe(data => {
-      console.log(JSON.parse(JSON.stringify(data)))
-      this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-      this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
-    });
+      .subscribe(data => {
+        console.log(JSON.parse(JSON.stringify(data)))
+        this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+      });
     console.log("Changed")
   }
 

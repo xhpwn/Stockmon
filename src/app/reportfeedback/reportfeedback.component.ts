@@ -27,10 +27,17 @@ export class ReportFeedbackComponent implements OnInit {
   passwordResponse = false;
   passwordFail = false;
   error;
-  array;
+  reportsArray;
+  feedbackArray;
   isAdmin = false;
   currencyResponse;
   currencyFail;
+  report: string;
+  reportResponse;
+  reportFail;
+  feedback: string;
+  feedbackResponse;
+  feedbackFail;
 
   constructor(private authService : AuthService, private dashboardService: DashboardService) {
   }
@@ -51,16 +58,27 @@ export class ReportFeedbackComponent implements OnInit {
 
     if (this.isAdmin) {
 
-    this.authService.getUsers().subscribe(result => {
-      result = JSON.parse(JSON.stringify(result));
-      result = JSON.parse(JSON.stringify(result["_body"]));
-      this.array = JSON.parse(JSON.stringify(result));
-      this.array = JSON.parse(this.array);
-      console.log(this.array);
-      // result.forEach(element => {
-      //   console.log(element.name);
-      // });
-    })
+      this.authService.getReports().subscribe(result => {
+        result = JSON.parse(JSON.stringify(result));
+        result = JSON.parse(JSON.stringify(result["_body"]));
+        this.reportsArray = JSON.parse(JSON.stringify(result));
+        this.reportsArray = JSON.parse(this.reportsArray);
+        console.log(this.reportsArray);
+        // result.forEach(element => {
+        //   console.log(element.name);
+        // });
+      })
+
+      this.authService.getFeedback().subscribe(result => {
+        result = JSON.parse(JSON.stringify(result));
+        result = JSON.parse(JSON.stringify(result["_body"]));
+        this.feedbackArray = JSON.parse(JSON.stringify(result));
+        this.feedbackArray = JSON.parse(this.feedbackArray);
+        console.log(this.feedbackArray);
+        // result.forEach(element => {
+        //   console.log(element.name);
+        // });
+      })
     }
 
     this.loginSubs = this.authService.getAuthStatusListener().subscribe(
@@ -82,20 +100,20 @@ export class ReportFeedbackComponent implements OnInit {
         console.log(this.userData);
         this.email = this.userData.email;
         this.defaultCurrency = (!this.userData.defaultCurrency) ? "None" : this.userData.defaultCurrency;
-        
+
       });
 
-      console.log(this.defaultCurrency);
+    console.log(this.defaultCurrency);
 
   }
 
   changeCurrency(form: NgForm) {
     this.dashboardService.changeDefaultCurrency(this.authService.getUserId(), form.value.selectedcurr)
-    .subscribe(data => {
-      console.log(JSON.parse(JSON.stringify(data)))
-      this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-      this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
-    });
+      .subscribe(data => {
+        console.log(JSON.parse(JSON.stringify(data)))
+        this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+      });
     console.log("Changed")
   }
 
@@ -111,26 +129,46 @@ export class ReportFeedbackComponent implements OnInit {
       });
   }
 
-  submitReport(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    this.authService.changeEmail(form.value.newemail, form.value.password)
+  submitReport() {
+    this.authService.addToReports(this.report)
       .subscribe(data => {
-        this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.reportResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.reportFail = (JSON.parse(JSON.stringify(data)).statusText != "OK");
       });
   }
 
-  submitFeedback(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    this.authService.changeEmail(form.value.newemail, form.value.password)
+  viewReports() {
+    this.authService.getReports().subscribe(result => {
+      result = JSON.parse(JSON.stringify(result));
+      result = JSON.parse(JSON.stringify(result["_body"]));
+      this.reportsArray = JSON.parse(JSON.stringify(result));
+      this.reportsArray = JSON.parse(this.reportsArray);
+      console.log(this.reportsArray);
+      // result.forEach(element => {
+      //   console.log(element.name);
+      // });
+    })
+  }
+
+  submitFeedback() {
+    this.authService.addToFeedback(this.feedback)
       .subscribe(data => {
-        this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.feedbackResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.feedbackFail = (JSON.parse(JSON.stringify(data)).statusText != "OK");
       });
+  }
+
+  viewFeedback() {
+    this.authService.getFeedback().subscribe(result => {
+      result = JSON.parse(JSON.stringify(result));
+      result = JSON.parse(JSON.stringify(result["_body"]));
+      this.feedbackArray = JSON.parse(JSON.stringify(result));
+      this.feedbackArray = JSON.parse(this.feedbackArray);
+      console.log(this.feedbackArray);
+      // result.forEach(element => {
+      //   console.log(element.name);
+      // });
+    })
   }
 
 }
