@@ -10,9 +10,7 @@ const userSchema = mongoose.Schema({
     stocks: { type: [], required: false },
     portfolio: { type: [], required: false },
     cryptPortfolio: { type: [], required: false },
-    defaultCurrency: { type: String, required: false },
-    reports: { type: [], required: false},
-    feedback: { type: [], required: false}
+    defaultCurrency: { type: String, required: false }
 });
 
 userSchema.plugin(uniqueValidator);
