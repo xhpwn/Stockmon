@@ -23,7 +23,20 @@ export class ForexComponent implements OnInit {
   selectedName;
   oldName;
 
+
+  n =  new Date();
+  dayofWeek = this.n.getDay(); // 0 -6 0 = SUnday 1 = Monday 2 = Tuesday...
+  hourofDay = this.n.getHours(); // 24 hour format
+  marketStatus = "open";
+
   ngOnInit() {
+
+    console.log(this.dayofWeek);
+    if((this.dayofWeek == 0 && this.hourofDay < 17) || (this.dayofWeek == 5 && this.hourofDay >= 16) || (this.dayofWeek == 6)){
+      this.marketStatus == "closed";
+    }
+  
+
     this.authService.getInfo()
       .subscribe(data => {
         this.userData = JSON.parse(JSON.stringify(data));
