@@ -79,6 +79,28 @@ export class AuthService {
     return this.http.post('http://localhost:3000/api/user/updateemail', body);
   }
 
+  submitReport(newEmail: string, password: string) {
+    const temp = this.getUserId();
+    const body = { userid: temp, email: newEmail, password: password };
+    console.log(body);
+    this.http.post('http://localhost:3000/api/user/updateemail', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/updateemail', body);
+  }
+
+  submitFeedback(newEmail: string, password: string) {
+    const temp = this.getUserId();
+    const body = { userid: temp, email: newEmail, password: password };
+    console.log(body);
+    this.http.post('http://localhost:3000/api/user/updateemail', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/updateemail', body);
+  }
+
   changeUsername(newUsername: string, password: string) {
     const temp = this.getUserId();
     const body = { userid: temp, username: newUsername, password: password };

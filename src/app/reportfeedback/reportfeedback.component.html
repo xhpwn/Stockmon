@@ -10,18 +10,20 @@
     </div>
     <br><br><br><br><br>
     <div class="row">
-      <form id="formReport">
-        <textarea id="txtComments" name="txtComments" placeholder="Write your report"
+      <form (submit)="submitReport(reportForm)" #reportForm="ngForm" style="text-align: center; margin-top: 2%">
+        <h4 class="h4 mb-3 font-weight-normal">Submit a Report</h4>
+        <textarea id="reportComments" name="reportComments" placeholder="Write your report"
                   maxlength="500"></textarea>
         <br>
-        <input type="submit">
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Submit</button>
       </form>
 
-      <form id="formFeedback">
-        <textarea id="txtComments" name="txtComments" placeholder="Write your feedback"
+      <form (submit)="submitFeedback(feedbackForm)" #feedbackForm="ngForm" style="text-align: center; margin-top: 2%">
+        <h4 class="h4 mb-3 font-weight-normal">Submit Feedback</h4>
+        <textarea id="feedbackComments" name="feedbackComments" placeholder="Write your feedback"
                   maxlength="500"></textarea>
         <br>
-        <input type="submit">
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Submit</button>
       </form>
     </div>
   </div>

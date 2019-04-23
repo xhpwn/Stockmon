@@ -99,21 +99,6 @@ export class ReportFeedbackComponent implements OnInit {
     console.log("Changed")
   }
 
-  deleteUser(email: string) {
-    this.authService.deleteAccount(email).subscribe(res => {
-      console.log(res)
-    });
-    this.authService.getUsers().subscribe(result => {
-      result = JSON.parse(JSON.stringify(result));
-      result = JSON.parse(JSON.stringify(result["_body"]));
-      this.array = JSON.parse(JSON.stringify(result));
-      this.array = JSON.parse(this.array);
-      console.log(this.array);
-      // result.forEach(element => {
-      //   console.log(element.name);
-      // });
-    })
-  }
 
   changeEmail(form: NgForm) {
     if (form.invalid) {
@@ -126,31 +111,25 @@ export class ReportFeedbackComponent implements OnInit {
       });
   }
 
-  changeUsername(form: NgForm) {
+  submitReport(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.authService.changeUsername(form.value.newusername, form.value.password)
+    this.authService.changeEmail(form.value.newemail, form.value.password)
       .subscribe(data => {
-        this.usernameResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.usernameFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
       });
   }
 
-  changePassword(form: NgForm) {
+  submitFeedback(form: NgForm) {
     if (form.invalid) {
-      this.error = "Incorrect information, please re-enter";
       return;
     }
-    if (form.value.newpassword !== form.value.newpassword2) {
-      this.error = "Incorrect information, please re-enter";
-      return;
-    }
-    this.error = "";
-    this.authService.changePassword(form.value.oldpassword, form.value.newpassword)
+    this.authService.changeEmail(form.value.newemail, form.value.password)
       .subscribe(data => {
-        this.passwordResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.passwordFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
+        this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
       });
   }
 
