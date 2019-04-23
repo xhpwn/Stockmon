@@ -223,7 +223,10 @@ router.post("/changeDefaultCurrency", async (req, res, next) => {
 
 router.post("/convertCurrency", async (req, res, next) => {
   try {
-    let url = "https://free.currconv.com/api/v7/convert?q=" + req.body.to + "_" + req.body.from + "&apiKey=eeb09eeddc865b68c22b";
+    //API Key Sets:
+    //65a4055528c7df0cee45
+    //eeb09eeddc865b68c22b
+    let url = "https://free.currconv.com/api/v7/convert?q=" + req.body.to + "_" + req.body.from + "&apiKey=65a4055528c7df0cee45";
     axios.get(url)
       .then(response => {
         res.status(200).send(json.stringify(response.data.results));
