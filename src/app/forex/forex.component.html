@@ -1,7 +1,18 @@
 <h1 class="mt-4 text-center">Foreign Exchange</h1>
+
+<div *ngIf="marketStatus == 'open'" style="color:green; font-size: 20px" class="text-center mt-4">
+    The forex market is currently open
+      </div>
+    
+      <div *ngIf="marketStatus == 'closed'" style="color:red; font-size: 40px">
+          The forex market is currently closed
+        </div>
 <div class="text-center mt-4" *ngIf="loaded == 1">
+    
   Your default currency is {{ defaultCurrency }}
 </div>
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-1"></div>
