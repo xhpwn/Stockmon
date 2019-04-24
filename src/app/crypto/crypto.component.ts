@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authservice';
 import { CryptoService } from '../cryptoservice';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-crypto',
@@ -54,6 +55,23 @@ export class CryptoComponent implements OnInit {
     .subscribe(result => {
       console.log(result);
     })
+  }
+
+  search(ngform: NgForm) {
+    this.cryptoService.getCryptos()
+      .subscribe(data => {
+        this.cryptoList = data;
+        this.cryptoList = JSON.parse(this.cryptoList._body);
+        console.log(this.cryptoList);
+      }, (err) => console.log(err), 
+      () => {console.log(ngform.value.searchText);
+        let newList = Array();
+        console.log(this.cryptoList);
+        this.cryptoList.forEach(element => {
+          if (element.Symbol.includes(ngform.value.searchText))
+            newList.push(element);
+        });
+        this.cryptoList = newList;});
   }
 
 }

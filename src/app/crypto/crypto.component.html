@@ -1,9 +1,26 @@
-<h1 class="mt-4 text-center">Cryptocurrencies</h1>
+<h1 class="mt-4 text-center pb-4">Cryptocurrencies</h1>
+
+<div class="container-fluid">
+  <div class="row text-center">
+    <div class="col-md-2"></div>
+<div class="col-md-6">
+  <div class="input-group">
+    <form style="position:relative" (submit)="search(searchBox)" #searchBox="ngForm">
+      <input name style="float: right" class="form-control py-2" type="search" name="searchText" ngModel placeholder="Example: BTC" id="search-input">
+          <button style="position: absolute; margin-left: 18em" class="btn btn-outline-dark" type="submit">
+              <i class="fa fa-search"></i>
+          </button>
+    </form>
+  </div>
+</div>
+
+</div>
+</div>
 
 <div class="container">
   <div class="row">
 
-    <div class="col-md-6">
+    <div style="height: 65vh; overflow-y: auto" class="col-md-6">
       <table class="table table-dark mt-2">
         <thead>
           <tr>
