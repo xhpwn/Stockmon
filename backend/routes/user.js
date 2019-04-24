@@ -150,7 +150,7 @@ router.post("/getinfo", async (req, res, next) => {
 
 router.post("/deleteuser", async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.userId);
+    let user = await User.findById(req.body.userid);
     if (!user) return res.status(401).send("Auth Failed 1");
     if (!user.admin) return res.status(401).send("Auth Failed 2");
     User.deleteOne({ email: req.body.targetUserEmail }).then(
@@ -167,7 +167,7 @@ router.post("/deleteuser", async (req, res, next) => {
 
 router.post("/getUsers", async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.userId);
+    let user = await User.findById(req.body.userid);
     if (!user) return res.status(401).send("Auth Failed 1");
     if (!user.admin) return res.status(401).send("Unauthorized");
     User.find({}, function(err, users) {
@@ -277,7 +277,7 @@ router.post("/submitfeedback", (req, res, next) => {
 
 router.post("/getReports", async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.userId);
+    let user = await User.findById(req.body.userid);
     if (!user) return res.status(401).send("Auth Failed 1");
     if (!user.admin) return res.status(401).send("Unauthorized");
     User.find({}, function(err, users) {
@@ -305,7 +305,7 @@ router.post("/getReports", async (req, res, next) => {
 
 router.post("/getFeedback", async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.userId);
+    let user = await User.findById(req.body.userid);
     if (!user) return res.status(401).send("Auth Failed 1");
     if (!user.admin) return res.status(401).send("Unauthorized");
     User.find({}, function(err, users) {
