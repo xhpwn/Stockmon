@@ -64,7 +64,13 @@ export class ForexComponent implements OnInit {
 
   onClickSubmit(data) {
 
+   // if(data.toCurr.length == 0){
+
+
+    
 this.format = (data.toCurr).toUpperCase() + "_" + (data.fromCurr).toUpperCase(); 
+
+if(data.toCurr.length != 0 && data.fromCurr.length != 0){
 
 this.dashboardService.convert((data.fromCurr).toUpperCase(), (data.toCurr).toUpperCase()).subscribe(
     res => {
@@ -77,6 +83,24 @@ this.dashboardService.convert((data.fromCurr).toUpperCase(), (data.toCurr).toUpp
 
   }, (err) => console.log(err),
   () => { this.readyy = true})
+}
+
+if(data.toCurr.length == 0 && data.fromCurr.length == 0){
+  this.answerString = "Please enter From and To values";
+}
+
+if(data.toCurr.length == 0 && data.fromCurr.length == 0){
+  this.answerString = "Please enter From and To values";
+}
+
+if(data.toCurr.length == 0 && data.fromCurr.length != 0){
+  this.answerString = "Please enter To value";
+}
+
+if(data.toCurr.length != 0 && data.fromCurr.length == 0){
+  this.answerString = "Please enter From value";
+}
+
 
   }
 

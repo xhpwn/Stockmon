@@ -47,7 +47,7 @@ export class PiechartComponent implements OnInit {
   this.eee = this.portfolioHandler();
   this.fff = this.portfolioHandler2();
 
- setTimeout(()=> this.loadChart(),1000);
+  setTimeout(()=> this.loadChart(),1000);
  
   }
 

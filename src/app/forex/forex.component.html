@@ -17,7 +17,8 @@
 <form #converter = "ngForm" (ngSubmit) = "onClickSubmit(converter.value)" >
   Get exchange rate between <input type = "text" name = "fromCurr" placeholder = "Convert From" ngModel>
   & <input type = "text" name = "toCurr" placeholder = "Convert To" ngModel>
-  <input type = "submit" value = "submit">
+     
+  <input type = "submit" class="btn btn-primary" value = "Convert">
 </form>
 </div>
 
