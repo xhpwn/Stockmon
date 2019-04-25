@@ -64,16 +64,16 @@ export class ForexComponent implements OnInit {
 
   onClickSubmit(data) {
 
-this.format = data.toCurr + "_" + data.fromCurr; 
+this.format = (data.toCurr).toUpperCase() + "_" + (data.fromCurr).toUpperCase(); 
 
-this.dashboardService.convert(data.fromCurr, data.toCurr).subscribe(
+this.dashboardService.convert((data.fromCurr).toUpperCase(), (data.toCurr).toUpperCase()).subscribe(
     res => {
     this.converted = JSON.parse(JSON.stringify(res["_body"]));
     this.converted = JSON.parse(this.converted);
     this.converted = this.converted[this.format].val;
 
     this.reciprocal =(Math.round((1.0 / this.converted) * 100) / 100);
-    this.answerString = "1 " + data.fromCurr + " = " + this.reciprocal+ data.toCurr;
+    this.answerString = "1 " + (data.fromCurr).toUpperCase() + " = " + this.reciprocal+ (data.toCurr).toUpperCase();
 
   }, (err) => console.log(err),
   () => { this.readyy = true})
