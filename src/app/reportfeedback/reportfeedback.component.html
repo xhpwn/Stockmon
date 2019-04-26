@@ -26,7 +26,6 @@
     <div *ngIf="reportFail" class="col-md-6">
       <h4 class="text-center">Could not submit report.</h4>
     </div>
-
     <div style="text-align: center">
       <h3 class="h3 mb-3 font-weight-normal">Submit Feedback</h3>
       <br>
@@ -45,12 +44,15 @@
     </div>
 
   </div>
-    <h1 class="mt-4 text-center">List of Reports and Feedback Submissions</h1>
-    <h3 class="mt-4 text-center">Welcome, {{ name }}.</h3>
-    <div class="text-center mt-4">
-      <img class="mb-4" src="../../assets/images/logocut.png" alt="" width="100" height="100">
-    </div>
-    <table class="table table-dark mt-2">
+</div>
+<div *ngIf="isAdmin" >
+  <h1 class="mt-4 text-center">List of Reports and Feedback Submissions</h1>
+  <h3 class="mt-4 text-center">Welcome, {{ name }}.</h3>
+  <div class="text-center mt-4">
+    <img class="mb-4" src="../../assets/images/logocut.png" alt="" width="100" height="100">
+  </div>
+  <div >
+    <table class="table table-dark table-striped">
       <thead>
       <tr>
         <th scope="col">Username</th>
@@ -59,12 +61,12 @@
       </thead>
       <tbody *ngFor="let each of reportsArray">
       <tr class="rows">
-        <th scope="row">{{ each.username }}</th>
-        <td>{{ each.report }}</td>
+        <th scope="row">{{ each[0].username }}</th>
+        <td>{{ each[0].report }}</td>
       </tr>
       </tbody>
     </table>
-    <table class="table table-dark mt-2">
+    <table class="table table-dark table-striped">
       <thead>
       <tr>
         <th scope="col">Username</th>
@@ -73,11 +75,12 @@
       </thead>
       <tbody *ngFor="let each of feedbackArray">
       <tr class="rows">
-        <th scope="row">{{ each.username }}</th>
-        <td>{{ each.feedback }}</td>
+        <th scope="row">{{ each[0].username }}</th>
+        <td>{{ each[0].feedback }}</td>
       </tr>
       </tbody>
     </table>
+  </div>
 </div>
 
 

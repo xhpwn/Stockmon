@@ -151,17 +151,25 @@ export class AuthService {
   }
 
   addToReports(report: string) {
-    let body = { "id" : localStorage.getItem("userId"), "report": report };
-    let query = "http://localhost:3000/api/user/submitreport";
+    const temp = this.getUserId();
+    const body = { userid: temp, report: report };
     console.log(body);
-    return this.http.post(query, body);
+    this.http.post('http://localhost:3000/api/user/submitreport', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/submitreport', body);
   }
 
   addToFeedback(feedback: string) {
-    let body = { "id" : localStorage.getItem("userId"), "feedback": feedback };
-    let query = "http://localhost:3000/api/user/submitfeedback";
+    const temp = this.getUserId();
+    const body = { userid: temp, feedback: feedback };
     console.log(body);
-    return this.http.post(query, body);
+    this.http.post('http://localhost:3000/api/user/submitfeedback', body)
+      .subscribe(response => {
+        console.log(response);
+      });
+    return this.http.post('http://localhost:3000/api/user/submitfeedback', body);
   }
 
   getReports() {

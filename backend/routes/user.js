@@ -239,40 +239,57 @@ router.post("/convertCurrency", async (req, res, next) => {
 
 /////////////////// Reports/Feedback backend ///////////////////////
 
-router.post("/submitreport", (req, res, next) => {
-  User.findById(req.body.id, function (err, obj) {
-    let currentReports = obj.reports;
-    // res.send(currentReports)
-    let newReport = {
-      "username": req.body.id,
-      "report": req.body.report
-    };
-    currentReports.push(newReport);
-    // res.send(portfolioData)
-    User.findByIdAndUpdate(req.body.id, { $set: { "reports": currentReports } })
+/*
+router.post("/updateusername", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userid);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    User.findByIdAndUpdate(req.body.userid, { $set : { "username" : req.body.username  }}, {returnOriginal:false})
       .then(
-        res.status(200).send(currentReports)
+        res.status(200).send("Username successfully changed.")
       )
-    // })
-  })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  catch (err) {
+    res.status(401).send("Auth Failed");
+  }
 });
 
-router.post("/submitfeedback", (req, res, next) => {
-  User.findById(req.body.id, function (err, obj) {
-    let currentFeedback = obj.feedback;
-    // res.send(currentFeedback)
-    let newFeedback = {
-      "username": req.body.id,
-      "feedback": req.body.feedback
-    };
-    currentFeedback.push(newFeedback);
-    // res.send(portfolioData)
-    User.findByIdAndUpdate(req.body.id, { $set: { "feedback": currentFeedback } })
+ */
+
+
+router.post("/submitreport", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userid);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    User.findByIdAndUpdate(req.body.userid, {$set: {"report": req.body.report}}, {returnOriginal: false})
       .then(
-        res.status(200).send(currentFeedback)
+        res.status(200).send("Report successfully submitted.")
       )
-    // })
-  })
+      .catch(err => {
+        console.log(err);
+      });
+  } catch (err) {
+    res.status(401).send("Auth Failed");
+  }
+});
+
+router.post("/submitfeedback", async (req, res, next) => {
+  try {
+    let user = await User.findById(req.body.userid);
+    if (!user) return res.status(401).send("Auth Failed 1");
+    User.findByIdAndUpdate(req.body.userid, {$set: {"feedback": req.body.feedback}}, {returnOriginal: false})
+      .then(
+        res.status(200).send("Feedback successfully submitted.")
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  } catch (err) {
+    res.status(401).send("Auth Failed");
+  }
 });
 
 router.post("/getReports", async (req, res, next) => {
@@ -282,18 +299,14 @@ router.post("/getReports", async (req, res, next) => {
     if (!user.admin) return res.status(401).send("Unauthorized");
     User.find({}, function(err, users) {
       var userMap = [];
-      var userReports = "";
+
       users.forEach(function(user) {
-
-        for (let i = 0; i < user.reports.length; i++) {
-          userReports += user.reports[i] + "\n";
-        }
-
         let obj = [{
           username: user.username,
-          report: userReports
+          report: user.report
         }];
         userMap.push(obj);
+
       });
       return res.send(JSON.stringify(userMap));
     });
@@ -302,6 +315,7 @@ router.post("/getReports", async (req, res, next) => {
     return res.status(401).send("Error");
   }
 });
+
 
 router.post("/getFeedback", async (req, res, next) => {
   try {
@@ -312,16 +326,12 @@ router.post("/getFeedback", async (req, res, next) => {
       var userMap = [];
       var userFeedback = "";
       users.forEach(function(user) {
-
-        for (let i = 0; i < user.feedback.length; i++) {
-          userFeedback += user.feedback[i] + "\n";
-        }
-
         let obj = [{
           username: user.username,
-          report: userFeedback
+          feedback: user.feedback
         }];
         userMap.push(obj);
+
       });
       return res.send(JSON.stringify(userMap));
     });

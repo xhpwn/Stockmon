@@ -73,3 +73,10 @@ body {
 a {
   color: red;
 }
+
+table {
+  float: left;
+  width: 700px;
+  margin-left: 170px;
+}
+

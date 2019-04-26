@@ -44,15 +44,6 @@ export class ReportFeedbackComponent implements OnInit {
 
   ngOnInit() {
 
-    this.dashboardService.getCurrencyList().subscribe(
-      response => {
-        response = JSON.parse(response["_body"]);
-        //response = JSON.parse(response["data"]);
-        console.log(response);
-        this.currencyList = Object.keys(response);
-      }
-    );
-
     this.isAdmin = this.authService.isAdmin();
     console.log("ADMIN _" +  this.isAdmin);
 
@@ -63,11 +54,13 @@ export class ReportFeedbackComponent implements OnInit {
         result = JSON.parse(JSON.stringify(result["_body"]));
         this.reportsArray = JSON.parse(JSON.stringify(result));
         this.reportsArray = JSON.parse(this.reportsArray);
+
         console.log(this.reportsArray);
         // result.forEach(element => {
         //   console.log(element.name);
         // });
-      })
+      });
+
 
       this.authService.getFeedback().subscribe(result => {
         result = JSON.parse(JSON.stringify(result));
@@ -99,6 +92,7 @@ export class ReportFeedbackComponent implements OnInit {
         this.userData = JSON.parse(this.userData._body);
         console.log(this.userData);
         this.email = this.userData.email;
+        this.report = this.userData.report;
         this.defaultCurrency = (!this.userData.defaultCurrency) ? "None" : this.userData.defaultCurrency;
 
       });
@@ -107,27 +101,6 @@ export class ReportFeedbackComponent implements OnInit {
 
   }
 
-  changeCurrency(form: NgForm) {
-    this.dashboardService.changeDefaultCurrency(this.authService.getUserId(), form.value.selectedcurr)
-      .subscribe(data => {
-        console.log(JSON.parse(JSON.stringify(data)))
-        this.currencyResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.currencyFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
-      });
-    console.log("Changed")
-  }
-
-
-  changeEmail(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    this.authService.changeEmail(form.value.newemail, form.value.password)
-      .subscribe(data => {
-        this.emailResponse = (JSON.parse(JSON.stringify(data)).statusText == "OK");
-        this.emailFail = !(JSON.parse(JSON.stringify(data)).statusText == "OK");
-      });
-  }
 
   submitReport() {
     this.authService.addToReports(this.report)
