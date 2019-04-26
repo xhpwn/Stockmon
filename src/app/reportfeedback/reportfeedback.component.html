@@ -8,7 +8,7 @@
     <div class="text-center mt-4">
       <img class="mb-4" src="../../assets/images/logocut.png" alt="" width="100" height="100">
     </div>
-    <br><br><br><br><br>
+    <br><br>
 
     <div style="text-align: center">
       <h3 class="h3 mb-3 font-weight-normal">Submit a Report</h3>
@@ -16,30 +16,31 @@
       <label>
         <input type="text" class="DivMessage" placeholder="Write your report..." [(ngModel)]="report">
       </label>
-      <br><br><br><br>
+      <br><br><br>
       <button (click)="submitReport()" class="btn btn-primary ml-4">Submit</button>
-      <br><br><br><br>
+      <br><br>
     </div>
-    <div *ngIf="reportResponse" class="col-md-6">
+    <div *ngIf="reportResponse">
       <h4 class="text-center">Report submitted.</h4>
     </div>
-    <div *ngIf="reportFail" class="col-md-6">
+    <div *ngIf="reportFail">
       <h4 class="text-center">Could not submit report.</h4>
     </div>
+    <br><br>
     <div style="text-align: center">
       <h3 class="h3 mb-3 font-weight-normal">Submit Feedback</h3>
       <br>
       <label>
         <input type="text" class="DivMessage" placeholder="Write your feedback..." [(ngModel)]="feedback">
       </label>
-      <br><br><br><br>
+      <br><br><br>
       <button (click)="submitFeedback()" class="btn btn-primary ml-4">Submit</button>
-      <br><br><br><br>
+      <br><br>
     </div>
-    <div *ngIf="feedbackResponse" class="col-md-6">
+    <div *ngIf="feedbackResponse">
       <h4 class="text-center">Feedback submitted.</h4>
     </div>
-    <div *ngIf="feedbackFail" class="col-md-6">
+    <div *ngIf="feedbackFail">
       <h4 class="text-center">Could not submit feedback.</h4>
     </div>
 
