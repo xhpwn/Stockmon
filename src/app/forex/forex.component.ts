@@ -17,6 +17,7 @@ export class ForexComponent implements OnInit {
   defaultCurrency;
   currencySymbols;
   currencyNames;
+  checker = 0;
 
   selectedSymbol;
   oldSymbol;
@@ -58,6 +59,7 @@ export class ForexComponent implements OnInit {
           response = JSON.parse(response["_body"]);
           this.currencySymbols = Object.keys(response);
           this.currencyNames = Object.values(response);
+          this.checker = 1;
         }
       );
   }
