@@ -7,7 +7,7 @@
   <div class="input-group">
     <form style="position:relative" (submit)="search(searchBox)" #searchBox="ngForm">
       <input name style="float: right" class="form-control py-2" type="search" name="searchText" ngModel placeholder="Example: BTC" id="search-input">
-          <button style="position: absolute; margin-left: 18em" class="btn btn-outline-dark" type="submit">
+          <button style="position: absolute; margin-left: 13em" class="btn btn-outline-dark" type="submit">
               <i class="fa fa-search"></i>
           </button>
     </form>
@@ -30,18 +30,18 @@
             <th scopr="">Add to Portfolio</th>
           </tr>
         </thead>
-        <tbody *ngFor="let each of cryptoList">
+        <tbody *ngFor="let each of cryptoList; let i = index;">
           <tr class="rows" (click)="onSelect(each)">
             <th scope="row">{{ each.Symbol }}</th>
             <td>{{ each.Name }}</td>
             <td>${{ each.Price}}</td>
-            <td><input type="text" [(ngModel)]="numC" id="numOfCrypto" name="numberOfCrypto"><button (click)="addCryptoToPortfolio(each)" class="btn btn-primary">Add</button></td>
+            <td><p *ngIf="addSuccess[i] == 'Success'">Success</p><p *ngIf="addSuccess[i] == 'Already'">Already added</p><input *ngIf="addSuccess[i] == 'None'" type="text" [(ngModel)]="numC[i]" style="width: 5em; margin-right: 1em" id="{{numOfCrypto + i}}" name="numberOfCrypto"><button *ngIf="addSuccess[i] == 'None'" (click)="addCryptoToPortfolio(each, i)" class="btn btn-primary">Add</button></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-<div>
+<div class="col-md-6 text-center">
     <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histominute')" >Minute</button>
   <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histohour')" >Hour</button>
 <button class="btn btn-primary mt-3 mr-2 mb-4" (click)="setTime('histoday')" >Day</button>

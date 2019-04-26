@@ -32,11 +32,11 @@ type="line"
 ${{price}}
     </div>
 
-<button (click)="addToFollowing()" class="btn btn-warning mt-4 ml-4">Add to Following List</button>
+<button *ngIf="!crypto" (click)="addToFollowing()" class="btn btn-warning mt-4 ml-4">Add to Following List</button>
 <h5 class="text-center ml-3 mt-3" *ngIf="followingResponse">Stock followed successfully.</h5>
 
 <div *ngIf="!selected">
-    <button (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
+    <button *ngIf="!crypto" (click)="onSelected()" class="btn btn-primary mt-4 mb-5 ml-4">Add to portfolio</button>
 </div>
 
 <div *ngIf="selected && !portfolioResponse">

@@ -16,8 +16,9 @@ export class CryptoComponent implements OnInit {
   cryptoList;
   dataSource: Object;
   selected = false;
-  numC;
+  numC = Array();
   time: string;
+  addSuccess = Array();
 
   ngOnInit() {
     this.cryptoService.getCryptos()
@@ -25,6 +26,9 @@ export class CryptoComponent implements OnInit {
         this.cryptoList = data;
         this.cryptoList = JSON.parse(this.cryptoList._body);
         console.log(this.cryptoList);
+        for (let a = 0; a < this.cryptoList.length; a++) {
+          this.addSuccess[a] = "None";
+        }
       });
   }
 
@@ -50,11 +54,20 @@ export class CryptoComponent implements OnInit {
     this.selected = true;
   }
 
-  addCryptoToPortfolio(crypto: Object) {
-    this.cryptoService.addToPortfolio(this.authService.getUserId(), crypto, this.numC)
+  addCryptoToPortfolio(crypto: Object, index) {
+    console.log(index);
+    this.cryptoService.addToPortfolio(this.authService.getUserId(), crypto, this.numC[index])
     .subscribe(result => {
       console.log(result);
+      if (result.status == 200) {
+        this.addSuccess[index] = "Success";
+        console.log(this.addSuccess)
+      }
+      if (this.addSuccess[index] != "Success") {
+        this.addSuccess[index] = "Already";
+      }
     })
+    console.log(this.addSuccess)
   }
 
   search(ngform: NgForm) {

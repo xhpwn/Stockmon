@@ -74,6 +74,9 @@ export class ChartComponent implements OnInit {
     //this.sempleData = {"label":1553803200,"value":138},{"label":1553806800,"value":138.17},{"label":1553810400,"value":138.15},{"label":1553814000,"value":138.39},{"label":1553817600,"value":138.57},{"label":1553821200,"value":138.79};
 
     console.log(this.cryptotime);
+    if (!this.cryptotime) {
+      this.cryptotime = "histominute";
+    }
     console.log(this.crypto);
     
     this.cryptoService.getCryptodata(this.crypto["Symbol"].toString(), this.cryptotime)

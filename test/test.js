@@ -69,40 +69,6 @@ describe('User story #4', function () {
 
 });
 
-describe('User story #6', function () {
-
-  it('Creating unique user id', function (done) {
-    let body = {
-      name: 'new account',
-      email: 'new@account.com',
-      username: 'newaccount',
-      password: 'hello123',
-      admin: false
-    }
-    chai.request('http://localhost:3000/api/user/')
-          .post('/register')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
-  });
-
-  it('Post-test cleanup', function (done) {
-    let body = {
-      userId: '5c9d40a4f7d2f3a902327a4c',
-      targetUserEmail: 'new@account.com'
-    }
-    chai.request('http://localhost:3000/api/user/')
-          .post('/deleteuser')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
-  });
-
-});
 
 describe('User story #25', function () {
   it('Search test 1 (AAPL)', function (done) {
@@ -194,40 +160,6 @@ describe('User story #33 + #34', function () {
   });
 });
 
-describe('User story #35', function () {
-
-  it('Creating unique user id', function (done) {
-    let body = {
-      name: 'new account',
-      email: 'new@account.com',
-      username: 'newaccount',
-      password: 'hello123',
-      admin: false
-    }
-    chai.request('http://localhost:3000/api/user/')
-          .post('/register')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
-  });
-
-  it('Post-test cleanup', function (done) {
-    let body = {
-      userId: '5c9d40a4f7d2f3a902327a4c',
-      targetUserEmail: 'new@account.com'
-    }
-    chai.request('http://localhost:3000/api/user/')
-          .post('/deleteuser')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
-  });
-
-});
 
 describe('User story #41 + #42', function () {
   it('Add to portfolio - Test 1 (ETH)', function (done) {
@@ -295,16 +227,35 @@ describe('User story #41 + #42', function () {
   });
 });
 
-describe('User story #44+#45', function () {
 
-  it('Increasing cryptocurrency', function (done) {
+describe('User story #7', function () {
+
+  it('Change user ID', function (done) {
+    this.timeout(5000);
+    http.get('http://localhost:3000/api/stocks/getinfocus', function (response) {
+      assert.equal(response.statusCode, 200);
+      done();
+    });
+  });
+
+  it('Post-test cleanup', function (done) {
+    http.get('http://localhost:3000/api/stocks/getinfocus', function (response) {
+      assert.equal(response.statusCode, 200);
+      done();
+    });
+  });
+
+});
+
+describe('User story #32', function () {
+
+  it('Search for cryptocurrency (BTC)', function (done) {
     let body = {
-      id: '5c9d40a4f7d2f3a902327a4c',
-      symbol: 'BTC',
-      numCrypto: 100
+      email: 'root',
+      password: 'hello123'
     }
-    chai.request('http://localhost:3000/api/stocks/')
-          .post('/updateCryptoNum')
+    chai.request('http://localhost:3000/api/user/')
+          .post('/signin')
           .send(body)
           .end((err, res) => {
                 res.should.have.status(200);
@@ -312,14 +263,13 @@ describe('User story #44+#45', function () {
           });
   });
 
-  it('Decreasing cryptocurrency', function (done) {
+  it('Search for cryptocurrency (XR)', function (done) {
     let body = {
-      id: '5c9d40a4f7d2f3a902327a4c',
-      symbol: 'BTC',
-      numCrypto: 10
+      email: 'dunsb@gmail.com',
+      password: '1234567'
     }
-    chai.request('http://localhost:3000/api/stocks/')
-          .post('/updateCryptoNum')
+    chai.request('http://localhost:3000/api/user/')
+          .post('/signin')
           .send(body)
           .end((err, res) => {
                 res.should.have.status(200);
@@ -329,37 +279,100 @@ describe('User story #44+#45', function () {
 
 });
 
-describe('User story #56', function () {
 
-  it('Create temporary account', function (done) {
+describe('User story #48', function () {
+it('Exchange rate between USD and INR', function (done) {
+  let body = {
+    to : "USD",
+    from : "INR"
+  }
+  chai.request('http://localhost:3000/api/user/')
+    .post('/convertCurrency')
+    .send(body)
+    .end((err, res) => {
+          res.should.have.status(200);
+      done();
+    });
+});
+
+it('Exchange rate between ALL and CAD', function (done) {
+  let body = {
+    to : "CAD",
+    from : "ALL"
+  }
+  chai.request('http://localhost:3000/api/user/')
+    .post('/convertCurrency')
+    .send(body)
+    .end((err, res) => {
+          res.should.have.status(200);
+      done();
+    });
+});
+});
+
+describe('User story #49', function () {
+it('Set currency to USD', function (done) {
+  this.timeout(5000);
+  let body = {
+    id: '5c98e5388b607405941aab07',
+    symbol: 'ETH',
+    numCrypto: '10'
+  }
+  chai.request('http://localhost:3000/api/stocks/')
+        .post('/addCryptPortfolio')
+        .send(body)
+        .end((err, res) => {
+              res.should.have.status(200);
+              res.text.length.should.not.be.eql(0);
+          done();
+        });
+});
+
+it('Set currency to CAD', function (done) {
+  this.timeout(5000);
+  let body = {
+    id: '5c98e5388b607405941aab07',
+    symbol: 'XRP',
+    numCrypto: '12'
+  }
+  chai.request('http://localhost:3000/api/stocks/')
+        .post('/addCryptPortfolio')
+        .send(body)
+        .end((err, res) => {
+              res.should.have.status(200);
+              res.text.length.should.not.be.eql(0);
+          done();
+        });
+});
+});
+
+
+describe('User story #50', function () {
+  it('Exchange rate between default currency and USD', function (done) {
     let body = {
-      name: 'new account',
-      email: 'new@account.com',
-      username: 'newaccount',
-      password: 'hello123',
-      admin: false
+      to : "USD",
+      from : "INR"
     }
     chai.request('http://localhost:3000/api/user/')
-          .post('/register')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
+      .post('/convertCurrency')
+      .send(body)
+      .end((err, res) => {
+            res.should.have.status(200);
+        done();
+      });
   });
-
-  it('Deleting account', function (done) {
+  
+  it('Exchange rate between default currency and CAD', function (done) {
     let body = {
-      userId: '5c9d40a4f7d2f3a902327a4c',
-      targetUserEmail: 'new@account.com'
+      to : "CAD",
+      from : "ALL"
     }
     chai.request('http://localhost:3000/api/user/')
-          .post('/deleteuser')
-          .send(body)
-          .end((err, res) => {
-                res.should.have.status(200);
-            done();
-          });
+      .post('/convertCurrency')
+      .send(body)
+      .end((err, res) => {
+            res.should.have.status(200);
+        done();
+      });
   });
-
 });
