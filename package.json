@@ -28,7 +28,7 @@
     "chart.js": "^2.7.3",
     "circular-json": "^0.5.9",
     "core-js": "^2.5.4",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fusioncharts": "^3.13.3-sr.1",
     "grunt": "^1.0.4",
     "jsonwebtoken": "^8.4.0",
